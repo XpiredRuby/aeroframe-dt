@@ -1,0 +1,11 @@
+{
+  "classification": "SYNTHETIC_TEST_ONLY",
+  "parameters": [
+    {"name": "lug_width", "value": 100.0, "units": "mm", "minimum": 60.0, "maximum": 160.0, "description": "Representative lug net-section width"},
+    {"name": "hole_diameter", "value": 40.0, "units": "mm", "minimum": 20.0, "maximum": 70.0, "description": "Representative pin-hole diameter"},
+    {"name": "lug_thickness", "value": 20.0, "units": "mm", "minimum": 10.0, "maximum": 45.0, "description": "Representative lug thickness"},
+    {"name": "edge_distance", "value": 55.0, "units": "mm", "minimum": 35.0, "maximum": 100.0, "description": "Hole center to free edge"},
+    {"name": "flange_thickness", "value": 16.0, "units": "mm", "minimum": 8.0, "maximum": 35.0, "description": "Representative flange thickness"},
+    {"name": "blend_radius", "value": 12.0, "units": "mm", "minimum": 5.0, "maximum": 30.0, "description": "Representative transition radius"}
+  ]
+}

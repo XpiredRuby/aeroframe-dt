@@ -1,0 +1,18 @@
+{
+  "classification": "SYNTHETIC_TEST_ONLY",
+  "sigma_f_prime_Pa": 1000000000.0,
+  "basquin_b": -0.1,
+  "ultimate_Pa": 500000000.0,
+  "fracture_toughness_Pa_sqrt_m": 30000000.0,
+  "max_stress_Pa": 150000000.0,
+  "delta_sigma_Pa": 80000000.0,
+  "width_m": 0.05,
+  "initial_crack_m": 0.001,
+  "final_crack_m": 0.005,
+  "paris_C": 1e-28,
+  "paris_m": 3.0,
+  "spectrum": [
+    {"cycles": 1000, "stress_max_Pa": 120000000.0, "stress_min_Pa": 20000000.0},
+    {"cycles": 100, "stress_max_Pa": 180000000.0, "stress_min_Pa": -20000000.0}
+  ]
+}

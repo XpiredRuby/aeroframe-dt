@@ -1,0 +1,33 @@
+{
+  "classification": "SYNTHETIC_TEST_ONLY",
+  "load_cases": [
+    {
+      "case_id": "SYNTH-LC-001",
+      "title": "Synthetic vertical and side load",
+      "level": "SYNTHETIC",
+      "coordinate_frame": "AFDT_X_FWD_Y_RIGHT_Z_UP",
+      "revision": "A",
+      "source_id": "SYNTHETIC-UNIT-TEST",
+      "source_class": "TUNED_SYNTHETIC",
+      "scale_factor": 1.0,
+      "tags": ["static", "combined"],
+      "loads": [
+        {"load_id": "ENGINE_RESULTANT", "position_m": [1.2, 0.0, -0.4], "force_N": [10000.0, 5000.0, -80000.0], "free_moment_Nm": [2000.0, 0.0, 1000.0], "source": "SYNTHETIC-UNIT-TEST"}
+      ]
+    },
+    {
+      "case_id": "SYNTH-LC-002",
+      "title": "Synthetic axial and torsion case",
+      "level": "SYNTHETIC",
+      "coordinate_frame": "AFDT_X_FWD_Y_RIGHT_Z_UP",
+      "revision": "A",
+      "source_id": "SYNTHETIC-UNIT-TEST",
+      "source_class": "TUNED_SYNTHETIC",
+      "scale_factor": 1.0,
+      "tags": ["static", "torsion"],
+      "loads": [
+        {"load_id": "ENGINE_RESULTANT", "position_m": [0.8, 0.0, -0.3], "force_N": [-50000.0, 0.0, -20000.0], "free_moment_Nm": [6000.0, 3000.0, 0.0], "source": "SYNTHETIC-UNIT-TEST"}
+      ]
+    }
+  ]
+}

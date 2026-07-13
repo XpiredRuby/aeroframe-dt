@@ -1,0 +1,8 @@
+{
+  "part_id": "AFDT-FITTING-SYNTH",
+  "revision": "A",
+  "characteristics": [
+    {"id": "CHAR-001", "feature_id": "HOLE-001", "requirement_id": "AFDT-REQ-008", "nominal": 40.0, "lower": 39.95, "upper": 40.05, "units": "mm", "method": "CMM diameter"},
+    {"id": "CHAR-002", "feature_id": "FLANGE-001", "requirement_id": "AFDT-REQ-008", "nominal": 16.0, "lower": 15.8, "upper": 16.2, "units": "mm", "method": "CMM thickness map"}
+  ]
+}

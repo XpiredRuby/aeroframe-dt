@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='utf-8'?>
+<AeroFrameQIFSidecar partId="AFDT-FITTING-SYNTH" revision="A" claimLevel="OPEN_EQUIVALENT_NOT_SCHEMA_VALID_QIF">
+  <Characteristics>
+    <Characteristic id="CHAR-001" featureId="HOLE-001" requirementId="AFDT-REQ-008" units="mm">
+      <Nominal>40.0</Nominal>
+      <LowerLimit>39.95</LowerLimit>
+      <UpperLimit>40.05</UpperLimit>
+      <InspectionMethod>CMM diameter</InspectionMethod>
+    </Characteristic>
+    <Characteristic id="CHAR-002" featureId="FLANGE-001" requirementId="AFDT-REQ-008" units="mm">
+      <Nominal>16.0</Nominal>
+      <LowerLimit>15.8</LowerLimit>
+      <UpperLimit>16.2</UpperLimit>
+      <InspectionMethod>CMM thickness map</InspectionMethod>
+    </Characteristic>
+  </Characteristics>
+</AeroFrameQIFSidecar>

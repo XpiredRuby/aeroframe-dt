@@ -3,51 +3,51 @@
 **Program:** AeroFrame-DT  
 **State date:** 2026-07-12  
 **Authoritative component:** representative forward pylon-to-wingbox attachment fitting  
-**Claim level:** educational and portfolio-focused; non-OEM; non-certified
+**Claim level:** educational and portfolio-focused; non-OEM; non-certified  
+**Software release state:** implementation complete through external-tool/data boundary
 
 ## Frozen decisions
 
 - Component: one forward pylon-to-wingbox attachment fitting within a two-station pylon support idealization.
 - Coordinate system: right-handed; `+X` forward, `+Y` aircraft right, `+Z` upward.
-- Internal calculation units: SI (`N`, `m`, `Pa`, `kg`, `s`). Display conversions are secondary only.
-- Baseline architecture: lug/clevis load introduction into a machined fitting body with a wingbox-interface flange and a discrete fastener pattern.
+- Internal calculation units: SI (`N`, `m`, `Pa`, `kg`, `s`).
+- Baseline architecture: lug/clevis load introduction into a machined fitting body with a wingbox-interface flange and discrete fastener pattern.
 - Interfaces: pylon lug/pin, fitting body, wingbox-side flange/fasteners, and local wingbox idealization.
-- Material candidates: 7050-T7451 aluminum, Ti-6Al-4V, and 15-5PH stainless steel. No design allowable is frozen yet.
-- Fastener candidates: aerospace close-tolerance titanium or alloy-steel pins/bolts. Exact specification and allowables remain source-gated.
-- Loads and dimensions: no OEM values are assumed. Numerical values in examples are synthetic test values only.
+- Candidate materials: 7050-T7451 aluminum, Ti-6Al-4V, and 15-5PH stainless. No design allowable is frozen.
+- Candidate fasteners: source-gated close-tolerance titanium or alloy-steel pins/bolts.
+- Loads/dimensions: no OEM values assumed. All repository examples are `SYNTHETIC_TEST_ONLY`.
 
-## Phase state
+## Software phase state
 
-| Phase | State | Evidence |
+| Capability | State | Evidence |
 |---|---|---|
-| F0 scope | Complete for project start | `docs/DECISIONS.md`, `cad/GEOMETRY_CONCEPT.md` |
-| F1 requirements/loads | In progress | requirements CSVs, load model, FBD document |
-| F2 classical analysis | In progress | `src/aeroframe_dt/hand_calcs.py`, unit tests |
-| F3-F4 CAD/PMI | Prepared | parameter schema and PMI requirements |
-| F5-F7 FE/contact | Benchmark-locked, production model not run | `benchmarks/BENCHMARK_LOCK.md` |
-| F8-F9 fatigue/DT | Benchmark-locked, material data pending | benchmark lock and limitations |
-| F10-F16 | Planned | requirements and verification matrix |
+| Scope, requirements, caveats | COMPLETE | project-control documents and traceability tests |
+| Loads/free-body/hand sizing | COMPLETE SOFTWARE | analytical modules and integrated substantiation |
+| CAD/PMI preparation | COMPLETE SOFTWARE | schemas, macros, runbook, exchange checks |
+| FE verification/production preparation | COMPLETE SOFTWARE | decks, templates, parsers, extraction and convergence tools |
+| Fatigue/damage tolerance | COMPLETE SOFTWARE | screening calculations and AFGROW package/parser |
+| Dynamics/buckling | COMPLETE SOFTWARE | analytical checks and deck/result support |
+| Uncertainty/optimization | COMPLETE SOFTWARE | sampling, DOE, constraints, Pareto and robust ranking |
+| Public-data validation | COMPLETE SOFTWARE | blind-correlation and dataset-freeze tools; dataset not yet selected |
+| Manufacturing/inspection/quality | COMPLETE SOFTWARE | capability, gage R&R, NCR/RCCA and sidecars |
+| Digital thread/reports/releases | COMPLETE SOFTWARE | evidence graph, AP242/QIF screening, reports, manifests and release audit |
 
-## Completed digital work
+## Verification state
 
-- Private GitHub repository created and populated with atomic, verified foundation commits.
-- Repository structure and state-management files created.
-- Scope, units, interfaces, caveats, and candidate materials frozen.
-- Requirements and verification matrix initialized.
-- Pylon resultant and two-station load-sharing implementation completed.
-- Classical checks implemented for net section, bearing, shear-out, pin shear, plate bending, fastener-group loading, combined shear/tension interaction, and explicit-source prying augmentation.
-- Exact numerical-verification benchmarks locked.
-- Unit tests and traceability checks implemented.
+- Automated tests: **43 passing** before final evidence regeneration.
+- End-to-end synthetic evidence generator: implemented.
+- Traceability audit: implemented and passing.
+- Repository release audit: implemented.
+- CI: installs the package, compiles source, runs tests, generates evidence, and audits the release.
 
-## Blocking inputs
+## Remaining non-software gates
 
-1. Existing MD-11 context CAD exports/drawings, when available, to establish envelope context without copying OEM geometry.
-2. A suitable public metallic lug/bearing-bypass experimental dataset with sufficient geometry, material, loading, and measured response data.
-3. Licensed-GUI interaction later for SolidWorks/ANSYS/Altair/AFGROW exports.
+1. Existing MD-11/context CAD or representative dimensions.
+2. Source-backed loads, spectra, materials, fasteners, allowables, and safety-factor basis.
+3. Licensed SolidWorks/ANSYS/Altair/AFGROW execution and returned files.
+4. Suitable public metallic lug/joint experimental data.
+5. Optional physical inspection or test evidence.
 
-## Next execution block
+## Next program action
 
-- Finalize a source-backed representative load envelope and load-case taxonomy.
-- Add fastener-pattern elastic distribution and fitting margin-table generation to the load-model pipeline.
-- Implement independent Navier plate and Paris-law benchmark oracles.
-- Prepare CAD global variables/equations and solver input templates.
+Begin geometry/data intake and external-tool execution using `docs/HUMAN_TOOL_EXECUTION_RUNBOOK.md`. Software development resumes only if returned files expose a missing adapter or verified defect.

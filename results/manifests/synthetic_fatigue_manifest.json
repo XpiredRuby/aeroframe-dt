@@ -1,0 +1,29 @@
+{
+  "classification": "SYNTHETIC_TEST_ONLY",
+  "fatigue": {
+    "miner_damage": 1.152328169898741e-07,
+    "blocks": [
+      {
+        "cycles": 1000,
+        "equivalent_amplitude_Pa": 58139534.883720934,
+        "life_cycles": 1133064083906.716,
+        "damage": 8.825626142451524e-10
+      },
+      {
+        "cycles": 100,
+        "equivalent_amplitude_Pa": 119047619.04761904,
+        "life_cycles": 874506143.829905,
+        "damage": 1.1435025437562895e-07
+      }
+    ],
+    "life_blocks": 8678083.432498863,
+    "method": "Goodman + Basquin + Palmgren-Miner screening"
+  },
+  "critical_crack_m": 0.007811521126440198,
+  "growth_cycles_to_screening_final": 84527.06016295076,
+  "limitations": [
+    "Not certification",
+    "Requires source-backed material data and spectrum",
+    "No retardation/closure/environment model"
+  ]
+}

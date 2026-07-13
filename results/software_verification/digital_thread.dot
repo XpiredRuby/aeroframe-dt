@@ -1,0 +1,12 @@
+digraph AeroFrameDT {
+  rankdir=LR;
+  "AN-HAND" [label="AN-HAND\nanalysis rev A\nCURRENT"];
+  "CAD-FITTING" [label="CAD-FITTING\ncad rev A\nCURRENT"];
+  "INSP-PLAN" [label="INSP-PLAN\ninspection rev A\nCURRENT"];
+  "PMI-SIDECAR" [label="PMI-SIDECAR\npmi rev A\nCURRENT"];
+  "REQ-STATIC" [label="REQ-STATIC\nrequirement rev A\nCURRENT"];
+  "CAD-FITTING" -> "AN-HAND" [label="analyzed_by"];
+  "CAD-FITTING" -> "PMI-SIDECAR" [label="defines"];
+  "PMI-SIDECAR" -> "INSP-PLAN" [label="verified_by"];
+  "REQ-STATIC" -> "CAD-FITTING" [label="allocated_to"];
+}

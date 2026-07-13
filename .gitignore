@@ -31,3 +31,4 @@ dist/
 # Generated result trees: commit compact manifests/plots deliberately
 results/raw/
 reports/generated/
+*.FCStd

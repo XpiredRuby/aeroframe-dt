@@ -1,7 +1,0 @@
-Run the verified one-shot software completion installation from a same-repository pull request.
-Retry: split remote package, unit-test, traceability, and audit gates.
-Diagnostics: upload the exact remote unit-test log.
-Payload repair: corrected chunk_006 blob hash and removed transient diagnostic logs before audit.
-Publication repair: publish the verified tree to software-complete-generated for authenticated fast-forward.
-Workflow protection repair: preserve the bootstrap workflow until connector cleanup.
-Final publication repair: restore all workflow files before Actions pushes the verified content branch.

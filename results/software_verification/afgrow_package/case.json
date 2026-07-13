@@ -1,0 +1,12 @@
+{
+  "case_id": "AFGROW-SYNTH-001",
+  "final_crack_m": 0.005,
+  "geometry_revision": "A",
+  "initial_crack_m": 0.001,
+  "material_source": "SYNTHETIC_TEST_ONLY",
+  "model_type": "finite-width edge crack screening",
+  "notes": "Neutral package only; enter source-backed material data in AFGROW.",
+  "spectrum_source": "examples/synthetic_fatigue_case.json",
+  "stress_scale_Pa": 80000000.0,
+  "width_m": 0.05
+}
