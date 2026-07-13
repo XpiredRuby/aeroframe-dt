@@ -4,6 +4,9 @@ on:
   push:
   pull_request:
 
+permissions:
+  contents: read
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -12,7 +15,21 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: python -m unittest discover -s tests -v
-      - run: python tools/check_traceability.py
-      - run: python tools/run_load_model.py examples/synthetic_load_case.json > /tmp/load_manifest.json
-      - run: python tools/run_hand_calcs.py examples/synthetic_hand_calc_case.json > /tmp/hand_manifest.json
+      - name: Install editable package
+        run: python -m pip install -e .
+      - name: Compile source
+        run: python -m compileall -q src tools tests
+      - name: Unit and integration tests
+        run: python -m unittest discover -s tests -v
+      - name: Requirements traceability
+        run: python tools/check_traceability.py
+      - name: Generate complete synthetic evidence
+        run: python tools/generate_all_software_evidence.py
+      - name: Release audit
+        run: |
+          find . -type d -name __pycache__ -prune -exec rm -rf {} +
+          aeroframe-dt audit .
+      - name: Legacy analytical smoke cases
+        run: |
+          python tools/run_load_model.py examples/synthetic_load_case.json > /tmp/load_manifest.json
+          python tools/run_hand_calcs.py examples/synthetic_hand_calc_case.json > /tmp/hand_manifest.json
