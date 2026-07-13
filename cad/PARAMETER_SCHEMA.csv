@@ -1,0 +1,11 @@
+parameter_id,name,symbol,unit,status,description,source_id
+GEO-001,lug_hole_diameter,d_pin,m,TBD,Primary pin/hole nominal diameter,TBD
+GEO-002,lug_thickness,t_lug,m,TBD,Load-direction projected bearing thickness,TBD
+GEO-003,lug_width,w_lug,m,TBD,Net-section width normal to primary load,TBD
+GEO-004,edge_distance_center,e_center,m,TBD,Hole-center to free-edge distance,TBD
+GEO-005,flange_thickness,t_flange,m,TBD,Wingbox-interface flange thickness,TBD
+GEO-006,web_thickness,t_web,m,TBD,Primary transition web thickness,TBD
+GEO-007,blend_radius,r_blend,m,TBD,Minimum structural blend radius,TBD
+GEO-008,fastener_gauge_y,g_y,m,TBD,Left/right fastener-pattern gauge,TBD
+GEO-009,fastener_pitch_x,p_x,m,TBD,Longitudinal fastener pitch,TBD
+GEO-010,station_spacing,L_station,m,TBD,Forward-to-aft support-station spacing,TBD
