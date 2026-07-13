@@ -45,10 +45,10 @@ jobs:
         run: python tools/check_traceability.py
       - name: Audit release
         run: python tools/audit_release.py .
-      - name: Commit verified software completion
+      - name: Publish verified software completion branch
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
           git commit -m "Complete AeroFrame-DT software platform"
-          git push origin HEAD:main
+          git push --force origin HEAD:refs/heads/software-complete-generated
