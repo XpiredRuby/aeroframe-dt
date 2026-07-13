@@ -1,0 +1,26 @@
+{
+  "case_id": "SYNTH-HAND-001",
+  "classification": "SYNTHETIC_TEST_ONLY",
+  "checks": [
+    {
+      "function": "lug_net_section",
+      "arguments": {"load_N": 100000.0, "width_m": 0.10, "hole_diameter_m": 0.04, "thickness_m": 0.02}
+    },
+    {
+      "function": "projected_bearing",
+      "arguments": {"load_N": 100000.0, "diameter_m": 0.04, "thickness_m": 0.02}
+    },
+    {
+      "function": "two_plane_shear_out",
+      "arguments": {"load_N": 100000.0, "edge_distance_center_m": 0.05, "hole_diameter_m": 0.04, "thickness_m": 0.02}
+    },
+    {
+      "function": "pin_shear",
+      "arguments": {"load_N": 100000.0, "diameter_m": 0.04, "shear_planes": 2}
+    },
+    {
+      "function": "rectangular_plate_bending",
+      "arguments": {"moment_Nm": 5000.0, "section_width_m": 0.12, "thickness_m": 0.02}
+    }
+  ]
+}

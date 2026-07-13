@@ -1,0 +1,56 @@
+{
+  "case_id": "SYNTH-HAND-001",
+  "classification": "SYNTHETIC_TEST_ONLY",
+  "results": [
+    {
+      "check_id": "lug_net_section",
+      "demand": 83333333.33333333,
+      "allowable": null,
+      "safety_factor": 1.0,
+      "margin": null,
+      "units": "Pa",
+      "method": "P/[(w-d)t]",
+      "notes": ""
+    },
+    {
+      "check_id": "projected_bearing",
+      "demand": 125000000.0,
+      "allowable": null,
+      "safety_factor": 1.0,
+      "margin": null,
+      "units": "Pa",
+      "method": "P/(dt)",
+      "notes": ""
+    },
+    {
+      "check_id": "two_plane_shear_out",
+      "demand": 83333333.33333333,
+      "allowable": null,
+      "safety_factor": 1.0,
+      "margin": null,
+      "units": "Pa",
+      "method": "P/[2(e-d/2)t]",
+      "notes": ""
+    },
+    {
+      "check_id": "pin_shear",
+      "demand": 39788735.772973835,
+      "allowable": null,
+      "safety_factor": 1.0,
+      "margin": null,
+      "units": "Pa",
+      "method": "P/(n*pi*d^2/4)",
+      "notes": ""
+    },
+    {
+      "check_id": "rectangular_plate_bending",
+      "demand": 625000000.0,
+      "allowable": null,
+      "safety_factor": 1.0,
+      "margin": null,
+      "units": "Pa",
+      "method": "6M/(bt^2)",
+      "notes": ""
+    }
+  ]
+}

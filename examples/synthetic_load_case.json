@@ -1,0 +1,29 @@
+{
+  "case_id": "SYNTH-LOAD-001",
+  "classification": "SYNTHETIC_TEST_ONLY",
+  "reference_m": [0.0, 0.0, 0.0],
+  "loads": [
+    {
+      "load_id": "SYNTH-THRUST",
+      "point_m": [1.5, 0.0, -0.4],
+      "force_N": [250000.0, 0.0, 0.0],
+      "provenance": "SYNTHETIC_TEST_ONLY"
+    },
+    {
+      "load_id": "SYNTH-INERTIA",
+      "point_m": [1.0, 0.0, -0.6],
+      "force_N": [0.0, 80000.0, -300000.0],
+      "free_moment_Nm": [20000.0, 0.0, 0.0],
+      "provenance": "SYNTHETIC_TEST_ONLY"
+    }
+  ],
+  "support_model": {
+    "station_spacing_m": 2.0,
+    "axial_forward_share": 0.6,
+    "roll_forward_share": 0.5,
+    "forward_fitting_count": 2,
+    "aft_fitting_count": 2,
+    "fitting_gauge_m": 1.2,
+    "selected_side_sign": 1
+  }
+}

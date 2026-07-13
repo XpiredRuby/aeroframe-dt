@@ -1,0 +1,53 @@
+{
+  "case_id": "SYNTH-LOAD-001",
+  "classification": "SYNTHETIC_TEST_ONLY",
+  "equilibrium": {
+    "force_residual_norm_N": 0.0,
+    "moment_residual_norm_Nm": 0.0
+  },
+  "resultant": {
+    "force_N": [
+      250000.0,
+      80000.0,
+      -300000.0
+    ],
+    "moment_Nm": [
+      68000.0,
+      200000.0,
+      80000.0
+    ],
+    "reference_m": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  "support_solution": {
+    "aft_station_reaction_N": [
+      -100000.0,
+      -40000.0,
+      100000.0
+    ],
+    "forward_roll_couple_force_N": -28333.333333333336,
+    "forward_station_reaction_N": [
+      -150000.0,
+      -40000.0,
+      200000.0
+    ],
+    "residual_force_N": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "residual_moment_Nm": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "selected_forward_fitting_reaction_N": [
+      -75000.0,
+      -20000.0,
+      71666.66666666666
+    ]
+  }
+}
