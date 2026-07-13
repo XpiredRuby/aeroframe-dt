@@ -1,3 +1,4 @@
 Run the verified one-shot software completion installation from a same-repository pull request.
 Retry: split remote package, unit-test, traceability, and audit gates.
 Diagnostics: upload the exact remote unit-test log.
+Payload repair: corrected chunk_006 blob hash and removed transient diagnostic logs before audit.
