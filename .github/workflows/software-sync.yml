@@ -25,12 +25,14 @@ jobs:
           fetch-depth: 0
       - name: Install payload
         run: python .software_sync/install_payload.py
-      - name: Verify complete software tree
-        run: |
-          python -m pip install -e .
-          python -m unittest discover -s tests -v
-          python tools/check_traceability.py
-          python tools/audit_release.py .
+      - name: Install package
+        run: python -m pip install -e .
+      - name: Run unit tests
+        run: python -m unittest discover -s tests -v
+      - name: Check traceability
+        run: python tools/check_traceability.py
+      - name: Audit release
+        run: python tools/audit_release.py .
       - name: Commit verified software completion
         run: |
           git config user.name "github-actions[bot]"
