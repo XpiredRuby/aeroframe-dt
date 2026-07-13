@@ -6,6 +6,7 @@ import base64
 import io
 from pathlib import Path
 import shutil
+import subprocess
 import tarfile
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -26,6 +27,11 @@ def main() -> int:
         raise RuntimeError("software payload chunks are missing")
     encoded = b"".join(p.read_bytes() for p in parts)
     safe_extract(base64.b64decode(encoded, validate=True))
+    subprocess.run(
+        ["git", "checkout", "HEAD", "--", ".github/workflows"],
+        cwd=ROOT,
+        check=True,
+    )
     shutil.rmtree(ROOT / ".software_sync")
     print(f"installed {len(parts)} verified payload chunks")
     return 0
