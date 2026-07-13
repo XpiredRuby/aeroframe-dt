@@ -30,6 +30,7 @@
 
 ## Completed digital work
 
+- Private GitHub repository created and populated with atomic, verified foundation commits.
 - Repository structure and state-management files created.
 - Scope, units, interfaces, caveats, and candidate materials frozen.
 - Requirements and verification matrix initialized.
@@ -41,7 +42,7 @@
 ## Blocking inputs
 
 1. Existing MD-11 context CAD exports/drawings, when available, to establish envelope context without copying OEM geometry.
-2. A new private GitHub repository named `aeroframe-dt`, because the connected GitHub tool can write to repositories but does not expose repository creation.
+2. A suitable public metallic lug/bearing-bypass experimental dataset with sufficient geometry, material, loading, and measured response data.
 3. Licensed-GUI interaction later for SolidWorks/ANSYS/Altair/AFGROW exports.
 
 ## Next execution block
