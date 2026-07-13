@@ -1,2 +1,3 @@
 Run the verified one-shot software completion installation from a same-repository pull request.
 Retry: split remote package, unit-test, traceability, and audit gates.
+Diagnostics: upload the exact remote unit-test log.
