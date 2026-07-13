@@ -1,0 +1,12 @@
+verification_id,requirement_id,method,acceptance_criterion,planned_artifact,state
+AFDT-V-001,AFDT-REQ-001,inspection,Component statement appears identically in state decision and stress-report files,reports/scope_audit.json,PLANNED
+AFDT-V-002,AFDT-REQ-004,test,Force residual <=1e-9 times load scale and moment residual <=1e-9 times moment scale,results/manifests/load_equilibrium.json,IN_PROGRESS
+AFDT-V-003,AFDT-REQ-006,test,Unit tests cover each implemented equation and limiting case,reports/unit_test_log.txt,IN_PROGRESS
+AFDT-V-004,AFDT-REQ-009,test,All benchmark acceptance criteria in BENCHMARK_LOCK are met,reports/FE_VERIFICATION_REPORT.md,PLANNED
+AFDT-V-005,AFDT-REQ-010,analysis,Key response changes <=2 percent over final two mesh refinements and nonlinear residual history is recorded,reports/NONLINEAR_JOINT_REPORT.md,PLANNED
+AFDT-V-006,AFDT-REQ-011,inspection,No margin row has a blank traceability field,reports/margins.csv,PLANNED
+AFDT-V-007,AFDT-REQ-012,analysis,Miner damage reproduces hand-verifiable synthetic spectrum and sensitivity cases,reports/FATIGUE_DT_REPORT.md,PLANNED
+AFDT-V-008,AFDT-REQ-013,analysis,Paris benchmark passes and AFGROW comparison inputs/outputs are archived,reports/FATIGUE_DT_REPORT.md,PLANNED
+AFDT-V-009,AFDT-REQ-016,test,Changing a geometry revision invalidates all registered dependent evidence,digital_thread/impact_test.json,PLANNED
+AFDT-V-010,AFDT-REQ-017,inspection,Three NCR packages include detect contain assess disposition corrective action and re-verification,inspection_quality/ncr/,PLANNED
+AFDT-V-011,AFDT-REQ-018,analysis,Residuals and parameter changes are quantified without overwriting blind predictions,reports/PUBLIC_DATA_CORRELATION.md,PLANNED
