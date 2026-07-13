@@ -1,0 +1,33 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+build/
+dist/
+*.egg-info/
+
+# Solver databases and bulky transient outputs
+*.db
+*.rst
+*.rth
+*.full
+*.emat
+*.esav
+*.mntr
+*.op2
+*.h3d
+*.fem.out
+*.sim
+*.odb
+*.lck
+*.log.tmp
+
+# CAD temp/backup files
+~$*
+*.bak
+*.autosave
+
+# Generated result trees: commit compact manifests/plots deliberately
+results/raw/
+reports/generated/
