@@ -28,7 +28,16 @@ jobs:
       - name: Install package
         run: python -m pip install -e .
       - name: Run unit tests
-        run: python -m unittest discover -s tests -v
+        shell: bash
+        run: |
+          set -o pipefail
+          python -m unittest discover -s tests -v 2>&1 | tee unit-test.log
+      - name: Upload unit-test log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: software-completion-unit-test-log
+          path: unit-test.log
       - name: Check traceability
         run: python tools/check_traceability.py
       - name: Audit release
