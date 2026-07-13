@@ -38,6 +38,9 @@ jobs:
         with:
           name: software-completion-unit-test-log
           path: unit-test.log
+      - name: Remove diagnostic log
+        if: always()
+        run: rm -f unit-test.log
       - name: Check traceability
         run: python tools/check_traceability.py
       - name: Audit release
