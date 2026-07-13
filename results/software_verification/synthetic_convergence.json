@@ -1,0 +1,10 @@
+{
+  "apparent_order": 2.0,
+  "extrapolated_value": 100.0,
+  "final_change_fraction": 0.00046867676925480396,
+  "gci_fine_fraction": 0.00019528198718950164,
+  "monotonic": true,
+  "notes": [],
+  "passed": true,
+  "tolerance_fraction": 0.02
+}

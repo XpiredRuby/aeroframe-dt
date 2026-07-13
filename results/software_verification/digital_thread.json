@@ -1,0 +1,72 @@
+{
+  "artifacts": [
+    {
+      "id": "AN-HAND",
+      "kind": "analysis",
+      "metadata": {},
+      "revision": "A",
+      "sha256": null,
+      "status": "CURRENT",
+      "uri": "results/software_verification/synthetic_substantiation.json"
+    },
+    {
+      "id": "CAD-FITTING",
+      "kind": "cad",
+      "metadata": {},
+      "revision": "A",
+      "sha256": null,
+      "status": "CURRENT",
+      "uri": "cad/GEOMETRY_CONCEPT.md"
+    },
+    {
+      "id": "INSP-PLAN",
+      "kind": "inspection",
+      "metadata": {},
+      "revision": "A",
+      "sha256": null,
+      "status": "CURRENT",
+      "uri": "results/software_verification/synthetic_inspection.json"
+    },
+    {
+      "id": "PMI-SIDECAR",
+      "kind": "pmi",
+      "metadata": {},
+      "revision": "A",
+      "sha256": null,
+      "status": "CURRENT",
+      "uri": "results/software_verification/synthetic_qif_sidecar.xml"
+    },
+    {
+      "id": "REQ-STATIC",
+      "kind": "requirement",
+      "metadata": {},
+      "revision": "A",
+      "sha256": null,
+      "status": "CURRENT",
+      "uri": "requirements/requirements.csv"
+    }
+  ],
+  "audit_issues": [],
+  "links": [
+    {
+      "child_id": "AN-HAND",
+      "parent_id": "CAD-FITTING",
+      "relation": "analyzed_by"
+    },
+    {
+      "child_id": "PMI-SIDECAR",
+      "parent_id": "CAD-FITTING",
+      "relation": "defines"
+    },
+    {
+      "child_id": "INSP-PLAN",
+      "parent_id": "PMI-SIDECAR",
+      "relation": "verified_by"
+    },
+    {
+      "child_id": "CAD-FITTING",
+      "parent_id": "REQ-STATIC",
+      "relation": "allocated_to"
+    }
+  ]
+}

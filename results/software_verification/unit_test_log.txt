@@ -1,0 +1,48 @@
+test_cantilever (test_advanced.AdvancedTests.test_cantilever) ... ok
+test_digital_thread_invalidation (test_advanced.AdvancedTests.test_digital_thread_invalidation) ... ok
+test_f06 (test_advanced.AdvancedTests.test_f06) ... ok
+test_fatigue (test_advanced.AdvancedTests.test_fatigue) ... ok
+test_margins (test_advanced.AdvancedTests.test_margins) ... ok
+test_plate_sign_and_scale (test_advanced.AdvancedTests.test_plate_sign_and_scale) ... ok
+test_uncertainty_deterministic (test_advanced.AdvancedTests.test_uncertainty_deterministic) ... ok
+test_generated_artifacts (test_cli.CLISmokeTests.test_generated_artifacts) ... ok
+test_release_audit (test_cli.CLISmokeTests.test_release_audit) ... ok
+test_basic_stresses (test_hand_calcs.HandCalculationTests.test_basic_stresses) ... ok
+test_fastener_group_shear_equilibrium (test_hand_calcs.HandCalculationTests.test_fastener_group_shear_equilibrium) ... ok
+test_fastener_group_tension_equilibrium (test_hand_calcs.HandCalculationTests.test_fastener_group_tension_equilibrium) ... ok
+test_interaction_and_prying (test_hand_calcs.HandCalculationTests.test_interaction_and_prying) ... ok
+test_margin (test_hand_calcs.HandCalculationTests.test_margin) ... ok
+test_resultant (test_hand_calcs.HandCalculationTests.test_resultant) ... ok
+test_invalid_share_rejected (test_loads.LoadModelTests.test_invalid_share_rejected) ... ok
+test_resultant_includes_moment_arm (test_loads.LoadModelTests.test_resultant_includes_moment_arm) ... ok
+test_two_station_equilibrium (test_loads.LoadModelTests.test_two_station_equilibrium) ... ok
+test_neutral_package_and_parser (test_software_completion.AFGROWTests.test_neutral_package_and_parser) ... ok
+test_batch_commands_are_argv_not_shell (test_software_completion.BatchTests.test_batch_commands_are_argv_not_shell) ... ok
+test_macros_and_constraints (test_software_completion.CADAndExchangeTests.test_macros_and_constraints) ... ok
+test_qif_sidecar (test_software_completion.CADAndExchangeTests.test_qif_sidecar) ... ok
+test_convergence_and_solver_comparison (test_software_completion.ConvergenceTests.test_convergence_and_solver_comparison) ... ok
+test_nonmonotonic_rejected (test_software_completion.ConvergenceTests.test_nonmonotonic_rejected) ... ok
+test_blind_correlation_preserves_predictions (test_software_completion.CorrelationAndSTEPTests.test_blind_correlation_preserves_predictions) ... ok
+test_step_inventory_screen (test_software_completion.CorrelationAndSTEPTests.test_step_inventory_screen) ... ok
+test_decks_have_required_controls (test_software_completion.DeckTests.test_decks_have_required_controls) ... ok
+test_production_contract_requires_provenance (test_software_completion.DeckTests.test_production_contract_requires_provenance) ... ok
+test_export_audit_and_revision (test_software_completion.DigitalThreadExtendedTests.test_export_audit_and_revision) ... ok
+test_dynamics_oracles (test_software_completion.DynamicsTests.test_dynamics_oracles) ... ok
+test_latin_hypercube_and_failure_probability (test_software_completion.ExtractionAndUncertaintyTests.test_latin_hypercube_and_failure_probability) ... ok
+test_structural_extraction (test_software_completion.ExtractionAndUncertaintyTests.test_structural_extraction) ... ok
+test_modal_displacement_and_buckling_tables (test_software_completion.F06ExtendedTests.test_modal_displacement_and_buckling_tables) ... ok
+test_capability_gage_rr_and_ncr (test_software_completion.InspectionTests.test_capability_gage_rr_and_ncr) ... ok
+test_load_case_json_and_combination (test_software_completion.LoadEnvelopeTests.test_load_case_json_and_combination) ... ok
+test_manifest_hash_report_and_release (test_software_completion.ManifestReleaseReportingTests.test_manifest_hash_report_and_release) ... ok
+test_repo_audit_no_errors_after_cache_cleanup (test_software_completion.ManifestReleaseReportingTests.test_repo_audit_no_errors_after_cache_cleanup) ... ok
+test_doe_evaluation_and_pareto (test_software_completion.OptimizationTests.test_doe_evaluation_and_pareto) ... ok
+test_long_result_roundtrip_and_equilibrium (test_software_completion.SolverResultTests.test_long_result_roundtrip_and_equilibrium) ... ok
+test_integrated_pipeline (test_software_completion.SubstantiationPipelineTests.test_integrated_pipeline) ... ok
+test_explicit_unit_conversion (test_software_completion.UnitsAndTradeTests.test_explicit_unit_conversion) ... ok
+test_source_gated_material_fastener_trade (test_software_completion.UnitsAndTradeTests.test_source_gated_material_fastener_trade) ... ok
+test_traceability_script (test_traceability.TraceabilityTests.test_traceability_script) ... ok
+
+----------------------------------------------------------------------
+Ran 43 tests in 13.808s
+
+OK

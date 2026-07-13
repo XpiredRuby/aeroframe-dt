@@ -1,0 +1,172 @@
+{
+  "claim_level": "SYNTHETIC_TEST_ONLY",
+  "created_utc": "2026-07-13T04:15:58.589172+00:00",
+  "inputs": [],
+  "notes": [],
+  "outputs": [
+    {
+      "bytes": 5104,
+      "path": "results/software_verification/SOFTWARE_VERIFICATION_REPORT.html",
+      "role": "software_verification_output",
+      "sha256": "f9b0eb376ee709deb8cd57b302f08a48783b87cb82313c9cc756a22f2fed3e33"
+    },
+    {
+      "bytes": 3894,
+      "path": "results/software_verification/SOFTWARE_VERIFICATION_REPORT.md",
+      "role": "software_verification_output",
+      "sha256": "a881162fb8c58ec4bdd0fa744f6701079ddb3e7d3b343371604d1d095a072039"
+    },
+    {
+      "bytes": 623,
+      "path": "results/software_verification/afgrow_package/AFGROW_IMPORT_INSTRUCTIONS.md",
+      "role": "software_verification_output",
+      "sha256": "7bb5483ba30938daf2e1f6f8594e8a30b0c8b8dd226fb2fe8430bb83c1ad303b"
+    },
+    {
+      "bytes": 409,
+      "path": "results/software_verification/afgrow_package/case.json",
+      "role": "software_verification_output",
+      "sha256": "f1b7dfa99229959514cf59025d2affc76dd93f5c3fb4f2f66fadd7c61f43d10e"
+    },
+    {
+      "bytes": 106,
+      "path": "results/software_verification/afgrow_package/spectrum.csv",
+      "role": "software_verification_output",
+      "sha256": "8350d4f089be37f42d17412989cda74657d481a15bcf776512c4b71e64102535"
+    },
+    {
+      "bytes": 1164,
+      "path": "results/software_verification/cad_macros/freecad_parameter_sheet.py",
+      "role": "software_verification_output",
+      "sha256": "d9a7178070294de024808cc20360a7616e41a0572fb5ff3266edcae40dc472ee"
+    },
+    {
+      "bytes": 1408,
+      "path": "results/software_verification/cad_macros/set_global_variables.bas",
+      "role": "software_verification_output",
+      "sha256": "c2783ca4bc7c2555d41aa1538b792661d36fc060a5f8ad738c80e32c28401a5f"
+    },
+    {
+      "bytes": 553,
+      "path": "results/software_verification/digital_thread.dot",
+      "role": "software_verification_output",
+      "sha256": "7f061e41974517bfc179ff3c2ea975a50487df3529fa588e85d959f0bbfacc5c"
+    },
+    {
+      "bytes": 1590,
+      "path": "results/software_verification/digital_thread.json",
+      "role": "software_verification_output",
+      "sha256": "edb0f7d1f7e510dee08c9b966cb03b59d65211b3b5338255e2369fdaf4811bee"
+    },
+    {
+      "bytes": 719,
+      "path": "results/software_verification/ncr/NCR-SYNTH-001.md",
+      "role": "software_verification_output",
+      "sha256": "a910b97034f4b3eb29c387082dba7639c56bbfef0f47f1c19496d81ef178d17d"
+    },
+    {
+      "bytes": 689,
+      "path": "results/software_verification/ncr/NCR-SYNTH-002.md",
+      "role": "software_verification_output",
+      "sha256": "6eee88e9e4a8d3aa7c0ffae208db6c3c6e817c68ff8b106be6a9827d97e38755"
+    },
+    {
+      "bytes": 701,
+      "path": "results/software_verification/ncr/NCR-SYNTH-003.md",
+      "role": "software_verification_output",
+      "sha256": "1c05d3f7a48679d6a5ebda378db20b91ff7bf3d226c64a57e241d38af5e3912d"
+    },
+    {
+      "bytes": 37,
+      "path": "results/software_verification/release_audit.json",
+      "role": "software_verification_output",
+      "sha256": "e0c2924b0cf38903b5cc04c6b7491eb4acbcdfb846f4563bd1fe20d4953aff75"
+    },
+    {
+      "bytes": 1366,
+      "path": "results/software_verification/solver_decks/cantilever_buckling_ansys.dat",
+      "role": "software_verification_output",
+      "sha256": "d7020e5bdfc893d87aa501b29a97dd8eb69dcc4b7897e2d307e12a7b35fe950a"
+    },
+    {
+      "bytes": 1275,
+      "path": "results/software_verification/solver_decks/cantilever_modal_ansys.dat",
+      "role": "software_verification_output",
+      "sha256": "d9354391d5f1171d76f906ea37494973195224b1cfa48cfdc32a9293a5e3966b"
+    },
+    {
+      "bytes": 1530,
+      "path": "results/software_verification/solver_decks/cantilever_modal_nastran.bdf",
+      "role": "software_verification_output",
+      "sha256": "1083bbd75d488c48b566dc261bf7a3ace2b6a8346f357358df2d9d8921cd8ebb"
+    },
+    {
+      "bytes": 1310,
+      "path": "results/software_verification/solver_decks/cantilever_static_ansys.dat",
+      "role": "software_verification_output",
+      "sha256": "68ae61c0926bb1290793f74fec533c051c703ba6fce87b24fce75949f2b8a566"
+    },
+    {
+      "bytes": 1575,
+      "path": "results/software_verification/solver_decks/cantilever_static_nastran.bdf",
+      "role": "software_verification_output",
+      "sha256": "ae147a1c2e38b4d2acb30c7860a1b76441701c771dbc5635c15aba5d550e96c3"
+    },
+    {
+      "bytes": 455,
+      "path": "results/software_verification/solver_decks/constant_strain_patch_nastran.bdf",
+      "role": "software_verification_output",
+      "sha256": "d95bc96148819b2e090f15c7e4548d5da872e588a447ad0b681ee0a4f769944e"
+    },
+    {
+      "bytes": 919,
+      "path": "results/software_verification/solver_decks/square_plate_ansys.dat",
+      "role": "software_verification_output",
+      "sha256": "56f8b81b8a55167deee54abbbab9490a33299fc2f0d7461ec25acf60b6e3d4d1"
+    },
+    {
+      "bytes": 241,
+      "path": "results/software_verification/synthetic_convergence.json",
+      "role": "software_verification_output",
+      "sha256": "965ced537a715b266e33825cbe87821f5ee1a996e2a23824884c5508fc8ce424"
+    },
+    {
+      "bytes": 2804,
+      "path": "results/software_verification/synthetic_inspection.json",
+      "role": "software_verification_output",
+      "sha256": "fedbde3abdc894e8cded73c99d427abe6ce00f231e93d440bb212eb43ef7cc5e"
+    },
+    {
+      "bytes": 415,
+      "path": "results/software_verification/synthetic_load_envelope.csv",
+      "role": "software_verification_output",
+      "sha256": "97df8340582a23dcd134d462ee9be17ba8f2e56678141bba9c527b54be51f070"
+    },
+    {
+      "bytes": 777,
+      "path": "results/software_verification/synthetic_qif_sidecar.xml",
+      "role": "software_verification_output",
+      "sha256": "e4c9b3af8d38545496f8f1c3cc4d042d136983ee8aa80d2abbba99a2292f39a2"
+    },
+    {
+      "bytes": 7361,
+      "path": "results/software_verification/synthetic_substantiation.json",
+      "role": "software_verification_output",
+      "sha256": "3999c6bf01c92d0af47d2fb7693efba207da66a8d9cf09cf7071343aa19ed0d2"
+    },
+    {
+      "bytes": 4704,
+      "path": "results/software_verification/unit_test_log.txt",
+      "role": "software_verification_output",
+      "sha256": "535a97c9abcdcff293bdd72b74273ef947be3773654cb5409f896c9a08373a82"
+    }
+  ],
+  "parameters": {
+    "classification": "SYNTHETIC_TEST_ONLY",
+    "test_count_expected_minimum": 43
+  },
+  "run_id": "AFDT-SW-VERIFY-001",
+  "status": "PASS",
+  "tool": "aeroframe-dt",
+  "tool_version": "0.3.0"
+}

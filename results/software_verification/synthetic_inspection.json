@@ -1,0 +1,64 @@
+{
+  "capability": {
+    "count": 10,
+    "cp": 7.529232524209834,
+    "cpk": 7.423823268870601,
+    "lower_limit": 39.95,
+    "mean": 40.0007,
+    "sample_std": 0.002213594362117914,
+    "upper_limit": 40.05
+  },
+  "classification": "SYNTHETIC_TEST_ONLY",
+  "gage_rr": {
+    "gage_rr_variance": 2.2222222222089033e-06,
+    "part_variance": 9.008333333331697e-05,
+    "percent_gage_rr": 15.51600185520445,
+    "repeatability_variance": 1.00000000000126e-06,
+    "reproducibility_variance": 1.2222222222076434e-06,
+    "total_variance": 9.230555555552588e-05
+  },
+  "nonconformances": [
+    {
+      "characteristic_id": "CHAR-HOLE-POS",
+      "containment": "Quarantine synthetic lot and suspend release",
+      "corrective_action": "Revise fixture datum verification and first-piece inspection",
+      "detected_value": 0.31,
+      "disposition": "Use-as-is only if all affected synthetic margins remain nonnegative; otherwise rework",
+      "geometry_revision": "A",
+      "ncr_id": "NCR-SYNTH-001",
+      "requirement": "Synthetic position tolerance 0.25 mm",
+      "reverification": "Repeat CMM position measurement and rerun margin pipeline",
+      "root_cause": "Synthetic fixture datum shift",
+      "status": "CLOSED",
+      "structural_assessment": "Recompute fastener bypass and edge-distance margins using measured offset"
+    },
+    {
+      "characteristic_id": "CHAR-FLANGE-THK",
+      "containment": "Segregate affected synthetic part",
+      "corrective_action": "Correct CAM stock parameter and add in-process thickness check",
+      "detected_value": 15.72,
+      "disposition": "Rework or scrap if updated margin is negative",
+      "geometry_revision": "A",
+      "ncr_id": "NCR-SYNTH-002",
+      "requirement": "Synthetic minimum flange thickness 15.80 mm",
+      "reverification": "Inspect thickness map and regenerate analysis manifest",
+      "root_cause": "Synthetic machining stock allowance error",
+      "status": "CLOSED",
+      "structural_assessment": "Rerun plate-bending and fastener-prying sensitivity at measured thickness"
+    },
+    {
+      "characteristic_id": "CHAR-EDGE-DEFECT",
+      "containment": "Stop synthetic release and document defect location",
+      "corrective_action": "Revise deburr tool path and visual inspection standard",
+      "detected_value": 0.45,
+      "disposition": "Blend repair within synthetic repair envelope or scrap",
+      "geometry_revision": "A",
+      "ncr_id": "NCR-SYNTH-003",
+      "requirement": "Synthetic edge defect depth not to exceed 0.20 mm",
+      "reverification": "Inspect blend radius and rerun crack-growth screening",
+      "root_cause": "Synthetic deburr tool contact",
+      "status": "CLOSED",
+      "structural_assessment": "Apply conservative local thickness and initial-flaw sensitivity screening"
+    }
+  ]
+}

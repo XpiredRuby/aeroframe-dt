@@ -1,0 +1,18 @@
+{
+  "title": "AeroFrame-DT Synthetic Software Verification Report",
+  "document_id": "AFDT-RPT-SW-001",
+  "revision": "A",
+  "sections": [
+    {"title": "Scope", "body_markdown": "This generated report demonstrates deterministic report production using synthetic inputs only."},
+    {"title": "Verification", "body_markdown": "The unit-test suite, traceability audit, release audit, and CLI smoke tests are the governing software evidence."}
+  ],
+  "limitations": [
+    "No OEM geometry or loads are included.",
+    "No licensed solver result is represented as completed.",
+    "No certification or airworthiness claim is made."
+  ],
+  "evidence": [
+    {"artifact": "reports/generated/unit_test_log.txt", "status": "PASS", "purpose": "Automated tests"},
+    {"artifact": "reports/generated/release_audit.txt", "status": "PASS", "purpose": "Repository hygiene"}
+  ]
+}

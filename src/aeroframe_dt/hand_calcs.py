@@ -266,3 +266,56 @@ def tension_with_explicit_prying(
 
 def resultant_2d(vector: tuple[float, float]) -> float:
     return sqrt(vector[0] ** 2 + vector[1] ** 2)
+
+
+def factored_stress(
+    nominal_stress_Pa: float,
+    fitting_factor: float,
+    allowable_Pa: float | None = None,
+    safety_factor: float = 1.0,
+    check_id: str = "factored_stress",
+    factor_source: str = "SOURCE_REQUIRED",
+) -> CheckResult:
+    """Apply an explicit, source-identified fitting/stress factor."""
+    if nominal_stress_Pa < 0:
+        raise ValueError("nominal_stress_Pa must be nonnegative")
+    fitting_factor = _positive("fitting_factor", fitting_factor)
+    if not factor_source.strip() or factor_source == "SOURCE_REQUIRED":
+        raise ValueError("a non-placeholder factor_source is required")
+    demand = nominal_stress_Pa * fitting_factor
+    margin = None if allowable_Pa is None else margin_of_safety(allowable_Pa, demand, safety_factor)
+    return CheckResult(check_id, demand, allowable_Pa, safety_factor, margin, "Pa", "K * sigma_nominal", f"factor={fitting_factor:g}; source={factor_source}")
+
+
+def friction_slip_capacity(
+    friction_coefficient: float,
+    preload_per_fastener_N: float,
+    fastener_count: int,
+    slip_planes: int = 1,
+    preload_loss_factor: float = 1.0,
+) -> float:
+    """Return source-gated Coulomb slip capacity for a preloaded joint."""
+    if friction_coefficient < 0:
+        raise ValueError("friction_coefficient must be nonnegative")
+    preload_per_fastener_N = _positive("preload_per_fastener_N", preload_per_fastener_N)
+    if fastener_count <= 0 or slip_planes <= 0:
+        raise ValueError("fastener_count and slip_planes must be positive")
+    if not 0 < preload_loss_factor <= 1:
+        raise ValueError("preload_loss_factor must be in (0,1]")
+    return friction_coefficient * preload_per_fastener_N * fastener_count * slip_planes * preload_loss_factor
+
+
+def joint_slip_check(
+    applied_shear_N: float,
+    friction_coefficient: float,
+    preload_per_fastener_N: float,
+    fastener_count: int,
+    slip_planes: int = 1,
+    preload_loss_factor: float = 1.0,
+    safety_factor: float = 1.0,
+    check_id: str = "joint_slip",
+) -> CheckResult:
+    capacity = friction_slip_capacity(friction_coefficient, preload_per_fastener_N, fastener_count, slip_planes, preload_loss_factor)
+    demand = abs(applied_shear_N)
+    margin = margin_of_safety(capacity, demand, safety_factor)
+    return CheckResult(check_id, demand, capacity, safety_factor, margin, "N", "mu * preload * n * slip_planes * loss_factor", "Friction/preload inputs require source and installation provenance.")

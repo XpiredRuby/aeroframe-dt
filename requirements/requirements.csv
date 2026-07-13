@@ -1,19 +1,19 @@
 requirement_id,parent_id,category,requirement,verification_method,status,evidence_path
 AFDT-REQ-001,,scope,The authoritative component shall be a representative forward pylon-to-wingbox attachment fitting,inspection,VERIFIED,docs/DECISIONS.md
 AFDT-REQ-002,,integrity,The program shall not claim OEM geometry loads certification or FAA compliance,inspection,VERIFIED,docs/RISKS_AND_LIMITATIONS.md
-AFDT-REQ-003,,loads,Every released load shall identify provenance load level coordinate frame and revision,analysis,OPEN,loads/ASSUMPTIONS_AND_PROVENANCE.md
-AFDT-REQ-004,,loads,Each accepted load case shall satisfy reaction force and moment equilibrium within predeclared tolerance,test,IN_PROGRESS,src/aeroframe_dt/loads.py
-AFDT-REQ-005,,classical,Classical checks shall precede production FEA,inspection,IN_PROGRESS,src/aeroframe_dt/hand_calcs.py
-AFDT-REQ-006,AFDT-REQ-005,classical,Classical checks shall include net section bearing shear-out pin shear fastener interaction plate bending and prying,analysis,IN_PROGRESS,src/aeroframe_dt/hand_calcs.py
-AFDT-REQ-007,,cad,CAD shall be parametric and revision controlled,inspection,OPEN,cad/PARAMETER_SCHEMA.csv
-AFDT-REQ-008,,pmi,The design shall define functional datums GD&T and semantic PMI,inspection,IN_PROGRESS,cad/PMI_REQUIREMENTS.md
-AFDT-REQ-009,,verification,FE methods shall pass patch cantilever plate equilibrium and contact-resultant checks,test,OPEN,benchmarks/BENCHMARK_LOCK.md
-AFDT-REQ-010,,fea,The production model shall record mesh nonlinear and contact convergence,analysis,OPEN,fe/solid_contact/README.md
-AFDT-REQ-011,,margins,Every margin row shall trace to source load case geometry revision extraction rule allowable and factor,inspection,OPEN,requirements/verification_matrix.csv
-AFDT-REQ-012,,fatigue,Fatigue screening shall include a spectrum mean-stress method and Miner damage,analysis,OPEN,fatigue_damage_tolerance/README.md
-AFDT-REQ-013,,damage_tolerance,Crack-growth work shall be labeled screening and include flaw and model sensitivity,analysis,OPEN,fatigue_damage_tolerance/README.md
-AFDT-REQ-014,,dynamics,The program shall include modal and buckling analyses with analytical checks,analysis,OPEN,requirements/verification_matrix.csv
-AFDT-REQ-015,,optimization,Optimization shall include uncertainty and manufacturability constraints,analysis,OPEN,uncertainty_optimization/README.md
-AFDT-REQ-016,,digital_thread,The authoritative revision shall link requirements CAD PMI analysis inspection and nonconformance evidence,test,OPEN,digital_thread/README.md
-AFDT-REQ-017,,quality,At least three synthetic nonconformance cases shall receive structural disposition and RCCA,inspection,OPEN,inspection_quality/README.md
-AFDT-REQ-018,,validation,Public experimental correlation shall preserve pre-correlation and post-correlation results,analysis,OPEN,benchmarks/BENCHMARK_LOCK.md
+AFDT-REQ-003,,loads,Every released load shall identify provenance load level coordinate frame and revision,analysis,IN_PROGRESS,src/aeroframe_dt/load_cases.py
+AFDT-REQ-004,,loads,Each accepted load case shall satisfy reaction force and moment equilibrium within predeclared tolerance,test,VERIFIED,tests/test_loads.py
+AFDT-REQ-005,,classical,Classical checks shall precede production FEA,inspection,VERIFIED,src/aeroframe_dt/substantiation.py
+AFDT-REQ-006,AFDT-REQ-005,classical,Classical checks shall include net section bearing shear-out pin shear fastener interaction plate bending and prying,analysis,VERIFIED,src/aeroframe_dt/hand_calcs.py
+AFDT-REQ-007,,cad,CAD shall be parametric and revision controlled,inspection,IN_PROGRESS,src/aeroframe_dt/cad_automation.py
+AFDT-REQ-008,,pmi,The design shall define functional datums GD&T and semantic PMI,inspection,IN_PROGRESS,src/aeroframe_dt/digital_exchange.py
+AFDT-REQ-009,,verification,FE methods shall pass patch cantilever plate equilibrium and contact-resultant checks,test,OPEN,src/aeroframe_dt/solver_decks.py
+AFDT-REQ-010,,fea,The production model shall record mesh nonlinear and contact convergence,analysis,OPEN,src/aeroframe_dt/convergence.py
+AFDT-REQ-011,,margins,Every margin row shall trace to source load case geometry revision extraction rule allowable and factor,inspection,VERIFIED,src/aeroframe_dt/margins.py
+AFDT-REQ-012,,fatigue,Fatigue screening shall include a spectrum mean-stress method and Miner damage,analysis,IN_PROGRESS,src/aeroframe_dt/fatigue.py
+AFDT-REQ-013,,damage_tolerance,Crack-growth work shall be labeled screening and include flaw and model sensitivity,analysis,IN_PROGRESS,src/aeroframe_dt/afgrow.py
+AFDT-REQ-014,,dynamics,The program shall include modal and buckling analyses with analytical checks,analysis,IN_PROGRESS,src/aeroframe_dt/dynamics.py
+AFDT-REQ-015,,optimization,Optimization shall include uncertainty and manufacturability constraints,analysis,IN_PROGRESS,src/aeroframe_dt/optimization.py
+AFDT-REQ-016,,digital_thread,The authoritative revision shall link requirements CAD PMI analysis inspection and nonconformance evidence,test,VERIFIED,src/aeroframe_dt/digital_thread.py
+AFDT-REQ-017,,quality,At least three synthetic nonconformance cases shall receive structural disposition and RCCA,inspection,VERIFIED,examples/synthetic_inspection.json
+AFDT-REQ-018,,validation,Public experimental correlation shall preserve pre-correlation and post-correlation results,analysis,OPEN,src/aeroframe_dt/correlation.py

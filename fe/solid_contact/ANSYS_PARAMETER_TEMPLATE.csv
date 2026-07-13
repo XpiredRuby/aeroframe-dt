@@ -1,0 +1,13 @@
+parameter,value,units,classification,notes
+lug_width,,m,INPUT,From frozen CAD revision
+hole_diameter,,m,INPUT,From frozen CAD revision
+lug_thickness,,m,INPUT,From frozen CAD revision
+edge_distance,,m,INPUT,From frozen CAD revision
+bolt_preload,,N,INPUT,Source-backed only
+friction_coefficient,,1,INPUT,Sensitivity variable; not tuned without evidence
+mesh_size_global,,m,INPUT,Convergence study variable
+mesh_size_contact,,m,INPUT,Convergence study variable
+reaction_force_x,,N,OUTPUT,Integrated interface reaction
+reaction_force_y,,N,OUTPUT,Integrated interface reaction
+reaction_force_z,,N,OUTPUT,Integrated interface reaction
+strain_energy,,J,OUTPUT,Convergence metric

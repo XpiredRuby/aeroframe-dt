@@ -1,0 +1,57 @@
+{
+  "classification": "SYNTHETIC_TEST_ONLY",
+  "capability": {
+    "lower_limit": 39.95,
+    "upper_limit": 40.05,
+    "values": [40.001, 39.998, 40.004, 40.002, 39.997, 40.000, 40.003, 39.999, 40.001, 40.002]
+  },
+  "gage_rr": {
+    "PART-1": {"OP-A": [39.991, 39.993], "OP-B": [39.994, 39.992]},
+    "PART-2": {"OP-A": [40.001, 40.000], "OP-B": [40.003, 40.002]},
+    "PART-3": {"OP-A": [40.011, 40.010], "OP-B": [40.012, 40.013]}
+  },
+  "nonconformances": [
+    {
+      "ncr_id": "NCR-SYNTH-001",
+      "characteristic_id": "CHAR-HOLE-POS",
+      "detected_value": 0.31,
+      "requirement": "Synthetic position tolerance 0.25 mm",
+      "containment": "Quarantine synthetic lot and suspend release",
+      "structural_assessment": "Recompute fastener bypass and edge-distance margins using measured offset",
+      "disposition": "Use-as-is only if all affected synthetic margins remain nonnegative; otherwise rework",
+      "root_cause": "Synthetic fixture datum shift",
+      "corrective_action": "Revise fixture datum verification and first-piece inspection",
+      "reverification": "Repeat CMM position measurement and rerun margin pipeline",
+      "geometry_revision": "A",
+      "status": "CLOSED"
+    },
+    {
+      "ncr_id": "NCR-SYNTH-002",
+      "characteristic_id": "CHAR-FLANGE-THK",
+      "detected_value": 15.72,
+      "requirement": "Synthetic minimum flange thickness 15.80 mm",
+      "containment": "Segregate affected synthetic part",
+      "structural_assessment": "Rerun plate-bending and fastener-prying sensitivity at measured thickness",
+      "disposition": "Rework or scrap if updated margin is negative",
+      "root_cause": "Synthetic machining stock allowance error",
+      "corrective_action": "Correct CAM stock parameter and add in-process thickness check",
+      "reverification": "Inspect thickness map and regenerate analysis manifest",
+      "geometry_revision": "A",
+      "status": "CLOSED"
+    },
+    {
+      "ncr_id": "NCR-SYNTH-003",
+      "characteristic_id": "CHAR-EDGE-DEFECT",
+      "detected_value": 0.45,
+      "requirement": "Synthetic edge defect depth not to exceed 0.20 mm",
+      "containment": "Stop synthetic release and document defect location",
+      "structural_assessment": "Apply conservative local thickness and initial-flaw sensitivity screening",
+      "disposition": "Blend repair within synthetic repair envelope or scrap",
+      "root_cause": "Synthetic deburr tool contact",
+      "corrective_action": "Revise deburr tool path and visual inspection standard",
+      "reverification": "Inspect blend radius and rerun crack-growth screening",
+      "geometry_revision": "A",
+      "status": "CLOSED"
+    }
+  ]
+}

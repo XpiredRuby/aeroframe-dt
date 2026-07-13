@@ -1,0 +1,3 @@
+cycles,sequence,stress_max_Pa,stress_min_Pa
+1000,1,120000000.0,20000000.0
+100,2,160000000.0,10000000.0

@@ -1,0 +1,6 @@
+id,kind,revision,uri,sha256,parent_id,relation
+REQ-001,requirement,A,requirements/requirements.csv,,, 
+CAD-FITTING,cad,A,cad/GEOMETRY_CONCEPT.md,,REQ-001,allocated_to
+AN-STATIC,analysis,A,docs/STRESS_REPORT.md,,CAD-FITTING,analyzed_by
+PMI-HOLE-POS,inspection_characteristic,A,cad/PMI_REQUIREMENTS.md,,CAD-FITTING,defines
+INSP-HOLE-POS,inspection_plan,A,inspection_quality/README.md,,PMI-HOLE-POS,inspected_by

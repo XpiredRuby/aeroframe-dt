@@ -1,0 +1,21 @@
+{
+  "classification": "SYNTHETIC_TEST_ONLY",
+  "beam": {
+    "length_m": 1.0,
+    "width_m": 0.04,
+    "height_m": 0.08,
+    "elastic_modulus_Pa": 70000000000.0,
+    "poisson": 0.33,
+    "density_kg_m3": 2800.0,
+    "tip_force_N": 1000.0,
+    "elements": 20
+  },
+  "plate": {
+    "side_m": 1.0,
+    "thickness_m": 0.01,
+    "elastic_modulus_Pa": 70000000000.0,
+    "poisson": 0.33,
+    "pressure_Pa": 1000.0,
+    "divisions": 20
+  }
+}
