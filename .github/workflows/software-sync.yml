@@ -6,6 +6,12 @@ on:
     paths:
       - '.software_sync/**'
       - '.github/workflows/software-sync.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - '.software_sync/**'
+      - '.github/workflows/software-sync.yml'
+  workflow_dispatch:
 
 permissions:
   contents: write
