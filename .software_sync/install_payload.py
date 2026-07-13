@@ -27,9 +27,6 @@ def main() -> int:
     encoded = b"".join(p.read_bytes() for p in parts)
     safe_extract(base64.b64decode(encoded, validate=True))
     shutil.rmtree(ROOT / ".software_sync")
-    bootstrap = ROOT / ".github" / "workflows" / "software-sync.yml"
-    if bootstrap.exists():
-        bootstrap.unlink()
     print(f"installed {len(parts)} verified payload chunks")
     return 0
 
