@@ -1,0 +1,11 @@
+parameter_id,name,symbol,unit,value,status,description,source_id
+GEO-001,lug_hole_diameter,d_pin,m,0.050800,SET,Primary pin/hole nominal diameter (2.000 in),DEC-AFDT-1000-revA
+GEO-002,lug_thickness,t_lug,m,0.038100,SET,Load-direction projected bearing thickness (1.500 in),DEC-AFDT-1000-revA
+GEO-003,lug_width,w_lug,m,0.101600,SET,Net-section width normal to primary load (4.000 in),DEC-AFDT-1000-revA
+GEO-004,edge_distance_center,e_center,m,0.063500,SET,Hole-center to free-edge distance (2.500 in); e/D = 1.25; shear-out/hoop-tension regime,DEC-AFDT-1000-revA
+GEO-005,flange_thickness,t_flange,m,0.025400,SET,Wingbox-interface flange thickness (1.000 in),DEC-AFDT-1000-revA
+GEO-006,web_thickness,t_web,m,0.019050,SET,Primary transition web thickness (0.750 in),DEC-AFDT-1000-revA
+GEO-007,blend_radius,r_blend,m,0.012700,SET,Minimum structural blend radius (0.500 in),DEC-AFDT-1000-revA
+GEO-008,fastener_gauge_y,g_y,m,0.050800,SET,Left/right fastener-pattern gauge (2.000 in),DEC-AFDT-1000-revA
+GEO-009,fastener_pitch_x,p_x,m,0.038100,SET,Longitudinal fastener pitch (1.500 in),DEC-AFDT-1000-revA
+GEO-010,station_spacing,L_station,m,0.406400,SET,Forward-to-aft support-station spacing (16.000 in),DEC-AFDT-1000-revA
