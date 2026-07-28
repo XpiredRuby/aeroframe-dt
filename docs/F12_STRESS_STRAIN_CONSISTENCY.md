@@ -3,6 +3,11 @@
 **Companion to** `F12_FE_RESULTS_AF-DT-1000.md` §9. **This document supersedes the working
 hypothesis stated there.**
 
+**Outcome: closed as bounded, not fully resolved.** One hypothesis was tested and rejected. A
+second was tested twice and the two tests disagree. A flaw in the consistency check itself was
+identified after the fact. The practical answer is a bracketed stress range, and no sweep
+conclusion depends on narrowing it further.
+
 **Claim boundary:** educational / representative / portfolio only. Non-OEM, non-certified.
 All numbers `SYNTHETIC_TEST_ONLY`.
 
@@ -14,11 +19,11 @@ The bilinear isotropic hardening card defines, at any yielded point,
 
     sigma_vm = 469 + 760 * epsilon_p          (MPa)
 
-This is not an approximation. Under J2 plasticity with isotropic hardening it is the yield
-surface itself, so any point reporting `sigma_vm > 469` must carry exactly the plastic strain that
-relation implies. The two quantities are not independent outputs — one determines the other.
+Under J2 plasticity with isotropic hardening this is the yield surface itself, so a point
+reporting `sigma_vm > 469` must carry exactly the plastic strain that relation implies. The two are
+not independent outputs.
 
-Across the solved sweep they do not agree:
+Across the sweep they did not agree:
 
 | e/D | epsilon_p measured | epsilon_p implied by peak stress | ratio |
 |---|---|---|---|
@@ -27,118 +32,145 @@ Across the solved sweep they do not agree:
 | 1.8 | 0.00888 | 0.0491 | 0.181 |
 | 2.0 | 0.00795 | 0.0454 | 0.175 |
 
-Agreement is near-exact at e/D = 1.0 and degrades monotonically as the yielded region shrinks.
+## 2. Hypothesis 1 — nodal averaging. REJECTED.
 
-## 2. Hypothesis tested — nodal averaging. REJECTED.
+**Stated before the test:** averaging over partly-yielded elements depresses reported plastic
+strain more than reported stress. If true, unaveraged results should bring them into line — stress
+falling toward ~475 MPa or plastic strain rising toward ~0.045.
 
-**Stated before the test** (recorded in the results document): nodal averaging over elements that
-are only partly yielded depresses reported plastic strain more than reported stress. If true,
-switching to unaveraged results should bring the two into line — stress falling toward roughly
-475 MPa, or plastic strain rising toward roughly 0.045.
-
-**Test:** e/D = 2.0 model, Display Option switched to Unaveraged for both fields. No re-solve.
-Both then reverted to Averaged and re-read to confirm the model was left unchanged.
+**Test:** e/D = 2.0, Display Option switched to Unaveraged for both fields, no re-solve, then
+reverted and re-read to confirm the model was unchanged.
 
 | Quantity | Averaged | Unaveraged | Change |
 |---|---|---|---|
 | Peak von Mises | 503.49 MPa | **551.35 MPa** | +9.5% |
 | Peak equivalent plastic strain | 0.0079481 | **0.008013** | +0.8% |
 
-**The hypothesis is wrong.** Stress moved in the wrong direction — up, not down — and plastic
-strain barely moved at all. Unaveraged results make the inconsistency worse:
-
-    implied epsilon_p = (551.35 - 469) / 760 = 0.10836
-    measured           = 0.008013
-    ratio              = 0.074      (was 0.175 averaged)
-
-Averaging is not the cause. It was partially *masking* the problem.
+**Rejected.** Stress moved the wrong way and plastic strain barely moved. Unaveraged makes the
+inconsistency worse (ratio 0.175 -> 0.074). Averaging was partially *masking* the problem, not
+causing it.
 
 ## 3. What the failed test revealed
 
-The informative result is the **asymmetry in sensitivity**:
+The informative result was the **asymmetry in sensitivity**: peak stress changed 9.5% between
+display modes, peak plastic strain changed 0.8%. Plastic strain is nearly invariant to
+post-processing; peak stress is not.
 
-- Peak von Mises changed by **9.5%** between display modes
-- Peak plastic strain changed by **0.8%**
-
-Plastic strain is nearly invariant to how results are post-processed. Peak stress is not. This
-inverts the usual assumption — here the **plastic strain is the robust quantity and the peak
-stress is the fragile one**.
-
-### Running the relation backwards
-
-Because the yield surface fixes the relationship, measured plastic strain can be used to derive
-the stress at the most-yielded integration point:
+Running the yield surface backwards gives a stress estimate from the robust quantity:
 
     sigma_derived = 469 + 760 * epsilon_p_measured
 
-| e/D | epsilon_p | sigma derived (MPa) | sigma reported (MPa) | reported error |
+| e/D | epsilon_p | sigma derived | sigma reported | absolute gap |
 |---|---|---|---|---|
-| 1.0 | 0.37211 | 751.80 | 750.23 | -0.21% |
-| 1.2 | 0.03107 | 492.61 | 521.47 | +5.86% |
-| 1.8 | 0.00888 | 475.75 | 506.34 | +6.43% |
-| 2.0 (avg) | 0.0079481 | 475.04 | 503.49 | +5.99% |
-| 2.0 (unavg) | 0.008013 | 475.09 | 551.35 | **+16.05%** |
+| 1.0 | 0.37211 | 751.80 | 750.23 | -1.6 MPa |
+| 1.2 | 0.03107 | 492.61 | 521.47 | +28.9 MPa |
+| 1.8 | 0.00888 | 475.75 | 506.34 | +30.6 MPa |
+| 2.0 | 0.0079481 | 475.04 | 503.49 | +28.5 MPa |
 
-A consistent, one-sided pattern: where plasticity is widespread the reported peak is essentially
-exact; where it is confined, the reported peak runs about 6% high on averaged results and 16% high
-on unaveraged.
+**Restating in stress space corrects a misleading impression.** Near yield,
+`epsilon_p = (sigma - 469)/760` is a small difference of large numbers: a 5 MPa error in sigma
+shifts epsilon_p by 0.0066, which at e/D = 2.0 is comparable to epsilon_p itself. Comparing in
+strain space is ill-conditioned and inflated a modest ~29 MPa stress error into an apparent
+"factor of 5.7". The absolute gap is in fact **nearly constant at 28-31 MPa** wherever plasticity
+is confined, and near zero where it is widespread.
 
-## 4. Revised mechanism — integration point to node extrapolation
+## 4. Hypothesis 2 — integration point to node extrapolation. TESTS DISAGREE.
 
-Element results are computed at integration points and extrapolated to nodes for display.
-Averaging then blends the extrapolated values from adjacent elements.
+Element results are computed at integration points and extrapolated to nodes for display. Where
+the plastic zone spans many elements the gradient per element is gentle and extrapolation error is
+small; where it is a few elements at the bore edge the gradient is steep and extrapolation to the
+surface node overshoots.
 
-Where the plastic zone spans many elements (e/D = 1.0), stress gradients through each element are
-gentle, extrapolation error is small, and the reported peak matches the yield surface to 0.2%.
+### Test A — Elemental Mean. SUPPORTS.
 
-Where the plastic zone is a few elements at the bore edge (e/D >= 1.2), the gradient across a
-single element is steep, and extrapolating from integration points to the surface node overshoots.
-Averaging against neighbouring elements partially cancels that overshoot, which is why the
-**averaged** result is closer to correct and the **unaveraged** result is worse — the exact
-opposite of what the rejected hypothesis predicted.
+Elemental Mean reports element-averaged values, removing node extrapolation.
+Prediction stated before the test: approximately 475 MPa.
 
-Plastic strain does not suffer the same overshoot because it is bounded below by zero and is
-near-zero in the surrounding elastic material, so extrapolation cannot inflate it the same way.
+| Display mode | sigma reported | sigma derived from its own epsilon_p | gap |
+|---|---|---|---|
+| Unaveraged | 551.35 | 475.09 | +76.3 MPa |
+| Averaged | 503.49 | 475.04 | +28.5 MPa |
+| **Elemental Mean** | **469.24** | 473.19 | **-3.9 MPa** |
 
-**This mechanism is consistent with all the data in hand but has not itself been confirmed.**
-It is recorded as the current best explanation, not as a finding. See §6 for the tests that would
-confirm or reject it.
+Removing extrapolation cuts the gap by 86%. Consistent with the hypothesis.
 
-## 5. Consequence for the sweep
+### Test B — mesh refinement. DOES NOT SUPPORT.
 
-**Peak von Mises as reported by Ansys is not used quantitatively for e/D >= 1.2.**
-Where a stress value is needed, `sigma_derived = 469 + 760 * epsilon_p` is used instead, because
-the plastic strain it derives from is post-processing invariant to 0.8%.
+Extrapolation error scales with the stress gradient across a single element, so halving element
+size should substantially close the gap. Bore face sizing 2 mm -> 1 mm, e/D = 2.0.
 
-**Revised physical picture at e/D = 2.0:** the material is barely yielding —
-about **475 MPa, 1.3% above the 469 MPa yield**. The 503 MPa and 551 MPa figures are
-post-processing artefacts. This is consistent with the hand-method bearing margin of +0.216, a
-comfortable pass, and with the very small deformation of 0.4817 mm.
+| Bore mesh | Nodes | Elements | sigma reported | sigma derived | gap |
+|---|---|---|---|---|---|
+| 2 mm | 21,933 | 4,554 | 503.49 | 475.04 | 28.45 MPa |
+| 1 mm | 35,848 | 7,677 | 501.03 | 475.25 | **25.78 MPa** |
 
-**Nothing in the sweep's conclusions changes.** Every conclusion in the results document rests on
-deformation, plastic strain magnitude, reaction equilibrium, and closed-form margins — none on
-reported peak stress. The failure mode map, the crossover at e/D = 1.353, the zero-margin point at
-e/D = 1.201, and the elastic scaling law are all unaffected.
+A 2x refinement closed the gap by **9%**. Fitting `gap ~ h^p` gives **p = 0.14** — effectively no
+convergence. Extrapolation error would be expected to fall roughly linearly or quadratically with
+element size. **This does not support the hypothesis.**
 
-The mesh convergence study is also unaffected but is now better explained: peak von Mises there
-oscillated within +/-2% and refused to converge monotonically, while deformation converged to
-0.12% and reaction was exact. That is the same fragility, observed before its cause was
-identified.
+Both quantities did move slightly toward each other, and nothing diverged, but the effect is far
+too weak to be the mechanism.
 
-## 6. Open — tests that would confirm or reject the revised mechanism
+## 5. Flaw identified in the consistency check itself
 
-- [ ] **Elemental Mean display option** at e/D = 2.0. This reports element-averaged values rather
-      than node-extrapolated ones, so it should sit much closer to `sigma_derived = 475 MPa`. If it
-      does not, the extrapolation mechanism is wrong too.
-- [ ] **Mesh refinement at e/D = 2.0**, bore face 2 mm -> 1 mm. Extrapolation error scales with the
-      stress gradient across a single element, so refinement should shrink the gap between
-      reported and derived stress. If the gap is insensitive to mesh size, the mechanism is wrong.
-- [ ] **Plastic strain at e/D = 1.5**, not captured during the sweep. Fills the one gap in the
-      table in §1 and §3.
+The check compares **global maximum** stress against **global maximum** plastic strain.
 
-## 7. Method note
+The yield surface locks the two together **at a point**. It does not require the two global maxima
+to lie at the same node once extrapolation and averaging have smoothed each field differently. That
+colocation was assumed and never verified.
 
-The rejected hypothesis is retained in full above rather than deleted. It was recorded before the
-test, the test was chosen specifically because it could falsify it, and it was falsified. Removing
-it would misrepresent how the conclusion in §4 was reached, and would hide that the currently
-stated mechanism is itself unconfirmed and arrived at the same way.
+If the maxima are not colocated, part of the apparent discrepancy is an artefact of the check
+rather than a property of the solution. This should have been established before either hypothesis
+was tested. Resolving it requires probing both quantities at a single common location rather than
+comparing field maxima.
+
+## 6. Conclusion — bounded, not resolved
+
+**True peak von Mises at e/D = 2.0 is bracketed:**
+
+- **Lower bound 469.24 MPa** (Elemental Mean) — under-reports, because elements straddling the
+  elastic-plastic boundary average unyielded integration points into the result
+- **Upper bound 503.49 MPa** (averaged nodal) — over-reports, by extrapolation overshoot
+
+The material is therefore **barely yielding, roughly 1 to 7 percent above the 469 MPa yield**.
+This is consistent with the hand-method bearing margin of +0.216, a comfortable pass, and with the
+small deformation of 0.4817 mm.
+
+**Reported peak von Mises is not used quantitatively for e/D >= 1.2 anywhere in this study.**
+
+### What is solid
+
+Refinement confirmed the quantities the sweep actually relies on:
+
+| Quantity | 2 mm | 1 mm | Change |
+|---|---|---|---|
+| Max total deformation | 0.4817 mm | 0.48147 mm | **0.05%** |
+| Force reaction Y | -284,690 N | -284,690 N | **exact** |
+
+**No sweep conclusion changes.** The failure mode map, the crossover at e/D = 1.353, the
+zero-margin point at e/D = 1.201, and the elastic scaling law all rest on deformation, plastic
+strain magnitude, reaction equilibrium, and closed-form margins. None rests on reported peak
+stress.
+
+The mesh convergence study at e/D = 1.5 is retroactively better explained: peak von Mises
+oscillated within +/-2% and would not converge monotonically while deformation converged to 0.12%
+and reaction was exact. That was the same fragility, observed before its cause was investigated.
+
+## 7. Open, if ever revisited
+
+- [ ] Probe stress and plastic strain at a **single common node** to eliminate the §5 colocation
+      confound. This is the test that should have come first.
+- [ ] Plastic strain at e/D = 1.5, not captured during the sweep.
+
+Further refinement is not recommended. Test B showed the gap is insensitive to mesh size, so more
+elements will not settle it, and the practical answer is already bounded tightly enough that no
+conclusion depends on it.
+
+## 8. Method note
+
+The rejected hypothesis in §2 and the unsupported half of §4 are retained in full rather than
+deleted. Each was recorded before its test, each test was chosen because it could falsify, and the
+outcomes are reported as they came — including the disagreement between Test A and Test B, and
+including a flaw in the check that was found only afterwards. Removing any of that would
+misrepresent how the bounded conclusion in §6 was reached and would imply more certainty than the
+evidence supports.
