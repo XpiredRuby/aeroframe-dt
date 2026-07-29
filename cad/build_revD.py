@@ -4,9 +4,11 @@ Parametric rebuild, Rev D.
 
 Changes from Rev A geometry:
   1. t_lug  1.500 -> 2.500 in   (F5 rev B sizing: closes MS at all orientations)
-  2. t_web  0.750 -> 1.250 in   (proportion to the thicker lug; also required for
-                                 the blend radius to fit - see note below)
-  3. Blend radii applied to ALL junction edges, not one.
+  2. t_web  0.750 -> 2.500 in   (matched to t_lug, giving a constant-thickness
+                                 blade; also required for the blend radius to
+                                 fit - see note below)
+  3. g_y    2.000 -> 4.000 in   (fastener gauge, to clear the 2.500 blade)
+  4. Blend radii applied to ALL junction edges, not one.
 
 Rev A used cq.selectors.NearestToPointSelector, which returns a SINGLE edge. Only one
 fillet of the intended set was created and the try/except never fired, so the partial
@@ -16,6 +18,12 @@ resulting face count, so a failure is loud.
 Note on r_blend vs t_web: a fillet of radius r on both sides of a web of thickness t
 requires 2r < t. With rev A values (r=0.500, t_web=0.750) this is violated (1.000 > 0.750),
 which is the likely geometric reason the original fillets could not all be built.
+
+UNITS WARNING. This script works in INCHES, but cadquery's STEP exporter declares
+SI_UNIT(.MILLI.,.METRE.) regardless. The file written here therefore describes a part
+25.4x too small - 16 mm long instead of 16 in, about 0.47 grams instead of 7.65 kg -
+and will import silently wrong into any millimetre-based FE tool.
+ALWAYS run cad/build_revD_to_mm.py afterwards and use the _mm STEP for analysis.
 
 All values SYNTHETIC_TEST_ONLY. Representative / educational. Non-OEM, non-certified.
 """
@@ -152,3 +160,5 @@ cq.exporters.export(fitting, "AF-DT-1000_fitting_revD.stl")
 with open("parameters_revD.json", "w") as fh:
     json.dump(P, fh, indent=2)
 print("\nexported: AF-DT-1000_fitting_revD.step / .stl / parameters_revD.json")
+print("NOTE: coordinates are in INCHES but the STEP declares millimetres.")
+print("      Run build_revD_to_mm.py and use the _mm file for analysis.")
