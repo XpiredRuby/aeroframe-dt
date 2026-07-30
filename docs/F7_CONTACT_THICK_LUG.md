@@ -4,7 +4,7 @@
 margin survives the thick-lug effect at t/D = 1.25.
 
 **Result: it survives, at roughly a third of its stated value.**
-`MS = +0.710` becomes **`MS ≈ +0.25`**.
+`MS = +0.710` becomes **`MS ~ +0.25`**.
 
 **Claim boundary:** educational / representative / portfolio only. Non-OEM, non-certified.
 All numbers `SYNTHETIC_TEST_ONLY`.
@@ -31,7 +31,7 @@ The margin needed only 58.5% concentration to vanish. **This analysis measures `
 
 ## 2. Model
 
-Two bodies, imported as a single STEP built by `cad/build_f7.py`:
+Two bodies, from a single STEP built by `cad/build_f7.py`:
 
 | Body | Material | E (MPa) | Mass |
 |---|---|---|---|
@@ -51,8 +51,6 @@ Weak Springs On to suppress the pin's axial float and spin about its own axis, n
 carries load.
 
 **Mesh:** 8 mm global, 3 mm on the bore.
-
-**Solve:** converged, 22 s, 5 substeps.
 
 ### Setup error corrected mid-analysis
 
@@ -86,7 +84,8 @@ margin.
    narrow arc rather than a full cosine. Nothing to do with pin bending.
 3. **Elastic idealisation** — no yielding to flatten the peak
 
-Only the first belongs in `t_eff`.
+Only the first belongs in `t_eff`. This error was caught before publication because 1265 MPa was
+implausible enough to be worth questioning rather than accepting.
 
 ### The ratio method
 
@@ -109,7 +108,7 @@ Both peaks occur on `lug\lug`, at the bore.
 
 The stiff-pin run was reverted to E = 200,000 MPa afterwards and re-solved, returning 1265.1 MPa
 exactly — confirming the model was restored and that the difference was caused by the modulus
-change alone and nothing else.
+change alone.
 
 ### Corrected margin
 
@@ -121,7 +120,36 @@ change alone and nothing else.
 t/D = 1.25, exactly as F6 predicted. But bearing concentrates to 74% of the thickness, not the
 58.5% that would have driven the margin to zero.
 
-## 5. Bounds and caveats
+## 5. Model verification, from the solved archive
+
+Read directly out of `f7contact.wbpz` rather than taken on trust from the GUI.
+
+**Material assignments as intended:**
+
+    MP,EX,1,71700000000    Pa      lug, 71.7 GPa
+    MP,EX,2,200000000000   Pa      pin, 200 GPa   <- real pin, not the stiff reference
+    MP,DENS,1,2810 / MP,DENS,2,7850
+    mp,mu,cid,0.1
+
+**Mesh resolution where it matters.** Surface renders of this model look coarse, because the
+far-field flange is coarse. That is irrelevant — the measurement happens at the bore, which is
+finely resolved:
+
+| Quantity | Value |
+|---|---|
+| Total | 21,744 nodes / 15,204 elements |
+| Nodes on the bore surface | 8,037 |
+| Effective bore nodal spacing | 1.12 mm |
+| **Node layers through the 63.5 mm thickness** | **111** |
+| Median layer spacing | 0.54 mm |
+
+111 layers resolving the through-thickness bearing profile is more than adequate for the quantity
+being measured.
+
+**Solver health:** 0 errors, 3 warnings. Converged in 2 to 3 equilibrium iterations per substep,
+5 substeps. "Initial penetration is excluded" confirms `Adjust to Touch` took effect.
+
+## 6. Bounds and caveats
 
 **0.742 is an upper bound on t_eff/t.** A 20x pin still bends, at roughly 1/20 the deflection.
 Extrapolating the residual to a truly rigid pin gives `t_eff/t ~ 0.729` and **MS ~ +0.247**. The
@@ -131,17 +159,23 @@ correction is small and does not change the conclusion.
 the bore edge would flatten the pressure peak and raise `t_eff`, moving the margin back toward
 +0.710. **The true margin lies between +0.25 and +0.71**, and +0.25 is the defensible lower bound.
 
-**Single mesh.** This is one mesh density, not a convergence study. `HANDOFF.md` §16 records that
+**Single mesh.** This is one mesh density, not a convergence study. `HANDOFF.md` records that
 convergence needs three points and that two-point studies misdiagnosed a singularity twice in this
 project. The ratio is more robust than either absolute value, since mesh-dependent peak effects
 appear in numerator and denominator alike — but it is reported as a **bounded estimate**, not a
 converged value.
 
+**Contact status shows some over-constrained nodes**, and the solver logged
+*"Coefficient ratio exceeds 1.0e8 - Check results"*. Both are expected consequences of holding the
+pin with weak springs plus contact rather than a kinematic constraint. The solve converged cleanly
+with zero errors, so neither is treated as invalidating — but neither is dismissed either, and both
+would need attention before any result here was used for anything beyond this study.
+
 **Clevis geometry is assumed.** `t2 = 0.5 t1`, gap 0.030 in. F6 showed pin bending stress rises 49%
 if the ears are as thick as the lug, so a different clevis would shift `t_eff`. The mating fitting
 (AF-DT-2000) remains undefined.
 
-## 6. Conclusions
+## 7. Conclusions
 
 1. **The +0.710 margin survives, at MS ~ +0.25.** The fitting passes.
 2. **The thin-lug method was optimistic by a factor of ~2.8 on margin** at t/D = 1.25. This is a
@@ -153,16 +187,22 @@ if the ears are as thick as the lug, so a different clevis would shift `t_eff`. 
 5. The stated margin in all summary documents should be **+0.25 (thick-lug corrected)** with
    +0.710 shown as the uncorrected thin-lug value, not the other way round.
 
-## 7. Open
+## 8. Open
 
 - [ ] Mesh convergence on the pressure ratio — 3 points at 3 / 1.5 / 0.75 mm bore sizing
+- [ ] Resolve the over-constrained contact nodes and the 1e8 coefficient ratio
 - [ ] Elastic-plastic rerun to recover the yielding benefit, needs verified 7075-T7351 hardening data
 - [ ] Define the AF-DT-2000 clevis and repeat if `t2` differs materially from 0.5 t1
 - [ ] Ekvall correlation band should be re-propagated through +0.25 rather than +0.710
+- [ ] F10 modal and eigenvalue buckling were planned in the same session and not run
 
-## 8. Archive
+## 9. Archive
 
-`f7contact.wbpz`, 20.3 MB, on both `C:\Users\vin` and the `H:` drive. Size confirms solution data
-is included.
+`f7contact.wbpz`, 20.3 MB, on both `C:\Users\vin` and the `H:` drive. Size and contents verified —
+solution data included, correct materials, correct mesh.
 
-Result images on `H:`: `f7pressure`, `f7stress`, `f7deform`, `f7status`, `f7mesh`.
+Result images: `f7pressure`, `f7stress`, `f7deform`, `f7status`, `f7mesh`.
+
+Reported peaks from those images: contact pressure 1265.1 MPa, equivalent stress 1050.1 MPa,
+total deformation 3.11 mm. The equivalent stress and deformation figures come from the coarse
+far-field mesh and are indicative only; the contact pressure is the measured quantity.
