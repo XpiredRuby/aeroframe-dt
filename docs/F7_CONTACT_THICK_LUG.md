@@ -3,8 +3,8 @@
 **Closes the critical open item from `F6_PIN_BENDING_THICK_LUG.md`** — whether the +0.710 hand
 margin survives the thick-lug effect at t/D = 1.25.
 
-**Result: it survives, at roughly a third of its stated value.**
-`MS = +0.710` becomes **`MS ~ +0.25`**.
+**Result: it survives, at about a quarter of its stated value.**
+`MS = +0.710` becomes **`MS = +0.165`**, converged over three mesh densities.
 
 **Claim boundary:** educational / representative / portfolio only. Non-OEM, non-certified.
 All numbers `SYNTHETIC_TEST_ONLY`.
@@ -50,8 +50,6 @@ Force on the two pin end faces, Components, `Fx = 529,740 N`, `Fy = 0`, `Fz = 31
 Weak Springs On to suppress the pin's axial float and spin about its own axis, neither of which
 carries load.
 
-**Mesh:** 8 mm global, 3 mm on the bore.
-
 ### Setup error corrected mid-analysis
 
 The first attempt **inverted the boundary conditions** — flange loaded, pin fixed. It diverged on
@@ -70,12 +68,12 @@ A pin joint is a hinge and carries no moment about its own axis. The only resist
 the flange is bolted flat to the wingbox over 6.17e-2 m2; replacing that restraint with a force
 deleted the thing holding the part. Reversing the boundary conditions fixed it.
 
-## 3. Method — why the raw pressure cannot be used directly
+## 3. Method — why the raw pressure cannot be used
 
 The obvious extraction is `t_eff/t = p_uniform / p_max`, where
 `p_uniform = 4P/(pi*D*t) = 243.8 MPa` is the peak of a cosine distribution with uniform
-through-thickness bearing. Applied to the measured 1265.1 MPa this gives 0.19 and a badly negative
-margin.
+through-thickness bearing. Applied to the coarsest measured peak this gives 0.19 and a badly
+negative margin.
 
 **That would be wrong.** The measured peak contains three superimposed effects:
 
@@ -84,8 +82,7 @@ margin.
    narrow arc rather than a full cosine. Nothing to do with pin bending.
 3. **Elastic idealisation** — no yielding to flatten the peak
 
-Only the first belongs in `t_eff`. This error was caught before publication because 1265 MPa was
-implausible enough to be worth questioning rather than accepting.
+Only the first belongs in `t_eff`.
 
 ### The ratio method
 
@@ -95,34 +92,63 @@ remain **exactly identical**. Everything that is not pin bending cancels:
 
     t_eff / t = p_max(stiff pin) / p_max(real pin)
 
-## 4. Result
+## 4. Mesh convergence — three points
 
-| Run | Pin E (MPa) | Peak contact pressure |
-|---|---|---|
-| Real pin | 200,000 | **1265.1 MPa** |
-| Stiff reference | 4,000,000 (20x) | **938.6 MPa** |
+Six solves: three bore mesh densities, each with a real pin (E = 200 GPa) and a stiff reference
+(E = 4000 GPa, 20x). Global mesh held at 8 mm throughout.
 
-    t_eff / t = 938.6 / 1265.1 = 0.742
+| Bore mesh | Nodes | Elements | p_max real (MPa) | p_max stiff (MPa) | **t_eff/t** | **MS** | change |
+|---|---|---|---|---|---|---|---|
+| 3.00 mm | 21,744 | 15,204 | 1265.1 | 938.6 | 0.7419 | +0.269 | — |
+| 1.50 mm | 58,780 | 34,209 | 2146.8 | 1432.0 | 0.6670 | +0.141 | -10.1% |
+| **0.75 mm** | **203,472** | **118,379** | **2955.9** | **2012.7** | **0.6809** | **+0.165** | **+2.1%** |
 
-Both peaks occur on `lug\lug`, at the bore.
+### The absolute pressure does not converge
 
-The stiff-pin run was reverted to E = 200,000 MPa afterwards and re-solved, returning 1265.1 MPa
-exactly — confirming the model was restored and that the difference was caused by the modulus
-change alone.
+1265.1 -> 2146.8 -> 2955.9 MPa. A **134% rise** across a 9.4x increase in node count, still
+climbing at the finest mesh. This is a **contact-edge singularity**: with a clearance-fit pin the
+contact patch has a sharp edge, and the elastic pressure there grows without bound under
+refinement.
 
-### Corrected margin
+**Any absolute contact pressure from this model is meaningless.** Reporting 1265 MPa, or 2956 MPa,
+as a physical bearing pressure would be wrong.
 
-    Ra  = 0.3284      (was 0.2437)
-    Rtr = 0.6603      (was 0.4899)
-    MS  = +0.269      (was +0.710)
+### The ratio does converge
 
-**Pin bending costs 62% of the margin.** The thin-lug method was materially optimistic at
-t/D = 1.25, exactly as F6 predicted. But bearing concentrates to 74% of the thickness, not the
-58.5% that would have driven the margin to zero.
+0.7419 -> 0.6670 -> 0.6809. Total movement **8.2%**, and the third step is **5x smaller** than the
+second, in the opposite direction. Non-monotonic and settling around **0.67 to 0.68**.
 
-## 5. Model verification, from the solved archive
+**Both runs share the singularity, and it cancels.** This was the design intent of the ratio
+method, stated as a hypothesis before the study. The study confirms it: the underlying quantity
+diverges by 134% while the ratio moves 8% and converges.
 
-Read directly out of `f7contact.wbpz` rather than taken on trust from the GUI.
+### Two points would have given the wrong answer
+
+At two points the sequence read 0.7419 -> 0.6670, a 10% fall. Extrapolating that trend
+geometrically predicts `t_eff/t ~ 0.60` at 0.75 mm and **MS ~ +0.03** — effectively zero, and a
+conclusion that the fitting only barely passes. The third point shows the ratio rebounding and
+stabilising at 0.68.
+
+`HANDOFF.md` records that convergence needs three or more points, and that two-point studies
+misdiagnosed a singularity twice earlier in this project. **This is the third instance, and the
+first where the two-point answer would have materially changed the engineering conclusion.**
+
+## 5. Result
+
+    t_eff / t = 0.681
+
+    Ra  = 0.3578      (was 0.2437 under the thin-lug assumption)
+    Rtr = 0.7194      (was 0.4899)
+    MS  = +0.165      (was +0.710)
+
+**Pin bending costs 77% of the margin.** The thin-lug method was optimistic by a factor of 4.3 on
+margin at t/D = 1.25 — substantially worse than the factor of 2.8 suggested by the unconverged
+first estimate. Bearing concentrates into 68% of the thickness, above the 58.5% that would drive
+the margin to zero, but not by a wide band.
+
+## 6. Model verification, from the solved archive
+
+Read directly out of the solved files rather than taken on trust from the GUI.
 
 **Material assignments as intended:**
 
@@ -131,78 +157,76 @@ Read directly out of `f7contact.wbpz` rather than taken on trust from the GUI.
     MP,DENS,1,2810 / MP,DENS,2,7850
     mp,mu,cid,0.1
 
-**Mesh resolution where it matters.** Surface renders of this model look coarse, because the
-far-field flange is coarse. That is irrelevant — the measurement happens at the bore, which is
-finely resolved:
+**Bore resolution at the 3 mm mesh** (the coarsest of the three, so a lower bound on all of them):
 
 | Quantity | Value |
 |---|---|
-| Total | 21,744 nodes / 15,204 elements |
 | Nodes on the bore surface | 8,037 |
 | Effective bore nodal spacing | 1.12 mm |
-| **Node layers through the 63.5 mm thickness** | **111** |
+| Node layers through the 63.5 mm thickness | 111 |
 | Median layer spacing | 0.54 mm |
 
-111 layers resolving the through-thickness bearing profile is more than adequate for the quantity
-being measured.
+Surface renders of this model look coarse because the far-field flange is coarse. That is
+irrelevant — the measurement happens at the bore, which is finely resolved even at the coarsest
+mesh used.
 
-**Solver health:** 0 errors, 3 warnings. Converged in 2 to 3 equilibrium iterations per substep,
-5 substeps. "Initial penetration is excluded" confirms `Adjust to Touch` took effect.
+**Solver health:** 0 errors. Converged in 2 to 3 equilibrium iterations per substep, 5 substeps.
+"Initial penetration is excluded" confirms `Adjust to Touch` took effect.
 
-## 6. Bounds and caveats
+## 7. Caveats
 
-**0.742 is an upper bound on t_eff/t.** A 20x pin still bends, at roughly 1/20 the deflection.
-Extrapolating the residual to a truly rigid pin gives `t_eff/t ~ 0.729` and **MS ~ +0.247**. The
-correction is small and does not change the conclusion.
+**Elastic only, so +0.165 is conservative.** Real yielding at the bore edge would flatten the
+pressure peak and raise `t_eff`, moving the margin back toward +0.710. **The true margin lies
+between +0.165 and +0.710**, and +0.165 is the defensible lower bound.
 
-**+0.25 is conservative in the other direction.** Both runs are linear elastic. Real yielding at
-the bore edge would flatten the pressure peak and raise `t_eff`, moving the margin back toward
-+0.710. **The true margin lies between +0.25 and +0.71**, and +0.25 is the defensible lower bound.
-
-**Single mesh.** This is one mesh density, not a convergence study. `HANDOFF.md` records that
-convergence needs three points and that two-point studies misdiagnosed a singularity twice in this
-project. The ratio is more robust than either absolute value, since mesh-dependent peak effects
-appear in numerator and denominator alike — but it is reported as a **bounded estimate**, not a
-converged value.
+**0.681 is an upper bound on t_eff/t from the stiffness side.** A 20x pin still bends, at roughly
+1/20 the deflection, so a truly rigid reference would give a slightly lower ratio. The correction
+is small relative to the 8% convergence band and does not change the conclusion.
 
 **Contact status shows some over-constrained nodes**, and the solver logged
-*"Coefficient ratio exceeds 1.0e8 - Check results"*. Both are expected consequences of holding the
-pin with weak springs plus contact rather than a kinematic constraint. The solve converged cleanly
-with zero errors, so neither is treated as invalidating — but neither is dismissed either, and both
-would need attention before any result here was used for anything beyond this study.
+*"Coefficient ratio exceeds 1.0e8 - Check results"*. Both follow from holding the pin with weak
+springs plus contact rather than a kinematic constraint. All six solves converged with zero errors,
+so neither is treated as invalidating — but neither is dismissed.
+
+**Mesh quality at 0.75 mm.** Ansys reported that some elements could not meet target metrics at the
+finest density. The ratio at that mesh agrees with the 1.5 mm value to 2.1%, so the effect appears
+small, but it is recorded.
 
 **Clevis geometry is assumed.** `t2 = 0.5 t1`, gap 0.030 in. F6 showed pin bending stress rises 49%
 if the ears are as thick as the lug, so a different clevis would shift `t_eff`. The mating fitting
 (AF-DT-2000) remains undefined.
 
-## 7. Conclusions
+## 8. Conclusions
 
-1. **The +0.710 margin survives, at MS ~ +0.25.** The fitting passes.
-2. **The thin-lug method was optimistic by a factor of ~2.8 on margin** at t/D = 1.25. This is a
-   real, quantified methodological limitation, not a modelling artefact.
-3. **`t_eff/t = 0.742`**, comfortably above the 0.585 failure threshold but far below the 1.0 the
-   hand method assumed.
-4. **Any future lug work in this project at t/D above ~0.6 must carry this correction** or repeat
+1. **The +0.710 margin survives, at MS = +0.165.** The fitting passes, with less margin than
+   previously believed.
+2. **The thin-lug method was optimistic by a factor of 4.3 on margin** at t/D = 1.25. A real,
+   quantified methodological limitation, not a modelling artefact.
+3. **`t_eff/t = 0.681`**, above the 0.585 failure threshold but without a wide band.
+4. **Absolute contact pressure from this model is not usable** — it diverges under refinement. Only
+   the ratio is meaningful.
+5. **Any future lug work in this project at t/D above ~0.6 must carry this correction** or repeat
    this measurement.
-5. The stated margin in all summary documents should be **+0.25 (thick-lug corrected)** with
-   +0.710 shown as the uncorrected thin-lug value, not the other way round.
+6. All summary documents should state **+0.165 (thick-lug corrected, converged)** with +0.710 shown
+   as the uncorrected thin-lug value.
 
-## 8. Open
+## 9. Open
 
-- [ ] Mesh convergence on the pressure ratio — 3 points at 3 / 1.5 / 0.75 mm bore sizing
 - [ ] Resolve the over-constrained contact nodes and the 1e8 coefficient ratio
 - [ ] Elastic-plastic rerun to recover the yielding benefit, needs verified 7075-T7351 hardening data
 - [ ] Define the AF-DT-2000 clevis and repeat if `t2` differs materially from 0.5 t1
-- [ ] Ekvall correlation band should be re-propagated through +0.25 rather than +0.710
+- [ ] Re-propagate the Ekvall correlation band through +0.165 rather than +0.710
 - [ ] F10 modal and eigenvalue buckling were planned in the same session and not run
 
-## 9. Archive
+## 10. Archive
 
-`f7contact.wbpz`, 20.3 MB, on both `C:\Users\vin` and the `H:` drive. Size and contents verified —
-solution data included, correct materials, correct mesh.
+| File | Size | Contents |
+|---|---|---|
+| `f7contact.wbpz` | 20.3 MB | 3 mm bore mesh, first solve |
+| **`f7converged.wbpz`** | **335 MB** | **0.75 mm bore mesh, converged, real pin restored** |
 
-Result images: `f7pressure`, `f7stress`, `f7deform`, `f7status`, `f7mesh`.
+Both on `C:\Users\vin` and the `H:` drive. Sizes confirm solution data is included.
 
-Reported peaks from those images: contact pressure 1265.1 MPa, equivalent stress 1050.1 MPa,
-total deformation 3.11 mm. The equivalent stress and deformation figures come from the coarse
-far-field mesh and are indicative only; the contact pressure is the measured quantity.
+Result images from the 3 mm run: `f7pressure`, `f7stress`, `f7deform`, `f7status`, `f7mesh`.
+Note that the pressure and stress values in those images are from the unconverged coarse mesh and
+are superseded by the table in section 4.
