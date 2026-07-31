@@ -1,4 +1,6 @@
-# AeroFrame-DT — Handoff (analysis phase complete, Ansys work finished)
+# AeroFrame-DT — Handoff
+
+**Analysis phase complete. All Ansys work finished. Material allowables now real.**
 
 ## 0. Who I am / how to work with me
 - I'm **Ruby** (GitHub: **XpiredRuby**). Texas A&M aerospace senior. Portfolio project, not a pro dev.
@@ -13,26 +15,25 @@
   Shift-modified characters.
 
 ## 1. What the project IS
-**AeroFrame-DT** = rigorous engineering **substantiation** of ONE small critical aircraft part —
-a **forward pylon-to-wingbox attachment fitting (AF-DT-1000)** on an MD-11-class aircraft — done
-like a real aerospace stress engineer, with a full digital-thread evidence trail.
+Rigorous engineering **substantiation** of ONE small critical aircraft part — a **forward
+pylon-to-wingbox attachment fitting (AF-DT-1000)** on an MD-11-class aircraft — done like a real
+aerospace stress engineer, with a full digital-thread evidence trail.
 
 - **Thesis: depth over breadth on ONE fitting. Do NOT add more parts.**
-- Claim boundary: **educational / representative / portfolio only. Non-OEM, non-certified.
-  All numbers `SYNTHETIC_TEST_ONLY`.**
+- Claim boundary: **educational / representative / portfolio only. Non-OEM, non-certified.**
+  Geometry and load case are `SYNTHETIC_TEST_ONLY`. **Material allowables are real** (MIL-HDBK-5J).
 
 ## 2. Repo
 - **github.com/XpiredRuby/aeroframe-dt**, branch `main`.
-- **GitHub connector HAS WRITE ACCESS.** Claude commits via `create_or_update_file`
-  (needs the blob SHA when overwriting). `push_files` returns 403 — use single-file calls.
-- **Binaries (.xlsx, .step, .png, .wbpz) CANNOT be pushed** by Claude. I upload those.
-  **SVG is text and CAN be pushed.**
+- Claude commits via `create_or_update_file` (needs blob SHA when overwriting). `push_files` = 403.
+- **Binaries (.xlsx, .step, .png, .wbpz) CANNOT be pushed.** I upload those. **SVG is text, can be pushed.**
 
 ## 3. Environment
 - **Ansys Mechanical 2025 R2** on **TAMU VDI**. **No further Ansys work is required.**
-- Files: my PC -> Google Drive **AeroFrame-DT** -> VDI. Also H: drive (persists across logout).
+- Files: my PC -> Google Drive -> VDI. Also H: drive (persists).
 - Hand calcs: **Abbott Aerospace** AA-SM-009-002/-005, digitizing USAF AFFDL-TR-69-42 /
   NASA TM X-73305 (Melcon-Hoblit lug method).
+- **MIL-HDBK-5J** (31 Jan 2003) downloaded, 69 MB. Public release, Distribution Statement A.
 
 ## 4. GEOMETRY — Rev D (frozen)
 | Param | Rev A | **Rev D** |
@@ -48,229 +49,191 @@ like a real aerospace stress engineer, with a full digital-thread evidence trail
 | p_x | 1.500 | 1.500 |
 | L_station | 16.000 | 16.000 |
 
-Volume 166.19 in³, **mass 7.65 kg**. Material 7075-T7351
-(E=71.7 GPa, ν=0.33, ρ=2810, Ftu≈71 ksi representative).
-Ratios: **e/D=1.25, W/D=2.00, t/D=1.25**. Abr=5.00 in², Atn=5.00 in², Aav=3.75 in².
+Volume 166.19 in³, **mass 7.65 kg**. Ratios **e/D=1.25, W/D=2.00, t/D=1.25**.
+Abr=5.00 in², Atn=5.00 in², Aav=3.75 in².
 
 **Axis mapping FROZEN (identity):** CAD X→aircraft X (fwd), Y→Y (span), Z→Z (up).
 Lug axis = CAD Z. Bore axis = CAD Y.
 
+**Grain orientation (design decision):** lug axis along **L**, transverse load along **LT**,
+bore axis (thickness) along **ST**. Keeps the weakest direction and the SCC-susceptible direction
+out of the primary load path.
+
 ### STEP build chain and unit trap
-STEP files are not in the repo (binary). Rebuild with:
-
     python cad/build_revD.py          # inch numbers
-    python cad/build_revD_to_mm.py    # rescales x25.4 -> use this one
-    python cad/build_f7.py            # two-body lug + pin, already in mm
+    python cad/build_revD_to_mm.py    # rescales x25.4 -> USE THIS ONE
+    python cad/build_f7.py            # two-body lug + pin, already mm
 
-**Always use the `_mm` file.** cadquery declares millimetres regardless of the numbers fed to it.
-
-Verified: **1 continuous bore face at r = 25.40 mm**, 8 fastener holes r = 3.175 mm, 8 blends
-r = 12.70 mm. Bore area **1.0134e-2 m²**. Flange underside **6.1682e-2 m²**.
+cadquery declares millimetres regardless of the numbers fed to it. Always use `_mm`.
 
 ## 5. LOADS — Rev C
 - 6000 kg propulsion, 9g fwd. LC-02 governs.
-- F_x = 529,740 N fwd; CG offset → couple → R_z = 317,840 N vertical.
+- F_x = 529,740 N fwd; CG offset -> couple -> R_z = 317,840 N vertical.
 - **Resultant 617,776 N at 59.04° off the lug axis. TRANSVERSE-DOMINANT.**
 - In lb: P_axial = 71,453 lb (Z), P_transverse = 119,090 lb (X).
 
-## 6. MARGIN — see `docs/MARGIN_SUMMARY.md` for the authoritative figure
+## 6. MARGIN — read `docs/MARGIN_SUMMARY.md`, it is authoritative
 
-**Governing margin: `MS = +0.165`** (thick-lug corrected, converged).
+**Governing: `MS = +0.078`** — A-basis allowables, thick-lug corrected, 1.15 fitting factor.
 
-| Stage | MS |
-|---|---|
-| Melcon-Hoblit thin-lug method | +0.710 |
-| Reconstructed on a stress basis (0.06% agreement) | +0.7104 |
-| **Corrected for thick-lug bearing distribution** | **+0.165** |
+| Stage | MS | What changed |
+|---|---|---|
+| Melcon-Hoblit thin-lug, assumed Ftu = 71 ksi | +0.710 | original |
+| Thick-lug corrected (F7) | +0.165 | t_eff/t = 0.681 measured |
+| **Real A-basis allowables (MIL-HDBK-5J)** | **+0.078** | Ftu was 9% optimistic |
 
-**Any document quoting +0.710 without qualification is quoting the uncorrected thin-lug value.**
-The thin-lug method was **optimistic by a factor of 4.3 on margin** at t/D = 1.25.
-
-Sensitivities on the corrected value:
+**The original figure was overstated by a factor of 9.1.** Any document quoting +0.710 is quoting
+the uncorrected, unverified value.
 
 | Case | MS |
 |---|---|
-| Baseline | +0.165 |
-| Ftux -10% | +0.074 |
-| Ekvall mean, r = 1.003 | +0.161 |
-| **Ekvall worst, r = 1.19** | **-0.021** |
-| Zero-margin threshold | at t_eff/t = 0.585 |
+| **A-basis, corrected** | **+0.078** |
+| B-basis, corrected | +0.111 |
+| Ekvall mean, r = 1.003 | +0.075 |
+| **Ekvall worst, r = 1.19** | **-0.094** |
 
-**The worst-case Ekvall stack is marginally negative**, with a possible double-counting caveat —
-if Ekvall's 243 test specimens included thick lugs, the effect is partly inside his scatter band
-already. Unresolvable without the paper.
+Worst-case stack is negative, with a possible **double-counting** caveat — if Ekvall's 243 test
+specimens included thick lugs, the effect is partly inside his scatter already. Needs the paper.
 
-## 7. F7 CONTACT — COMPLETE (`docs/F7_CONTACT_THICK_LUG.md`)
-Two-body lug + steel pin, Frictional contact mu = 0.1, 0.0127 mm radial clearance.
+## 7. MATERIAL ALLOWABLES — real, from MIL-HDBK-5J
+**Table 3.7.6.0(b3), page 3-373.** 7075-T7351 plate, **2.001-2.500 in** band (contains t_lug = 2.500).
 
-**Ratio method:** `t_eff/t = p_max(stiff pin) / p_max(real pin)`. A 20x-stiffness pin cannot bend,
-so through-thickness concentration vanishes while clearance effects and the contact-edge
-singularity remain identical and cancel.
+| | A | B |
+|---|---|---|
+| Ftu L / LT / ST | 65 / 66 / 62 | 67 / 68 / 64 |
+| Fty L / LT / ST | 52 / 52 / 49 | 55 / 55 / 52 |
+| Fcy L / LT | 50 / 54 | 53 / 57 |
+| Fsu | 39 | 40 |
+| Fbru e/D 1.5 / 2.0 | 102 / 131 | 105 / 135 |
+| Fbry e/D 1.5 / 2.0 | 79 / 93 | 83 / 99 |
+
+ksi. `E = 10.3e3 ksi`, `Ec = 10.6e3`, `G = 3.9e3`, `mu = 0.33`, `density = 0.101 lb/in^3`.
+Used: **Ftu = 65 (L)** for net tension, **Ftux = 66 (LT)** for transverse and bearing.
+
+**K_Ic** (Table 3.1.2.1.6, "information only"): L-T 30 avg / 25 min, T-L 27 / 21, S-L 22 / 17 ksi-sqrt(in).
+
+**SCC caution:** Table 3.1.2.3.1(b) flags 7075-T7351 ST direction, 39 ksi threshold at this
+thickness. Grain orientation choice avoids it.
+
+**F12 sweep allowables verified** against Table 3.7.6.0(b1), 0.500-1.000 in band:
+Fsu 303 MPa used vs **44 ksi = 303.4 MPa A-basis** — matches to 0.1%. Ftu 75 ksi used vs 77 ksi
+A-basis, 2.6% conservative. **F12 needs no revision.**
+
+## 8. F7 CONTACT — COMPLETE (`docs/F7_CONTACT_THICK_LUG.md`)
+Two-body lug + steel pin, Frictional mu = 0.1, 0.0127 mm radial clearance.
+**Ratio method:** `t_eff/t = p_max(stiff pin) / p_max(real pin)`.
 
 | Bore mesh | Nodes | p real | p stiff | t_eff/t | MS |
 |---|---|---|---|---|---|
-| 3.00 mm | 21,744 | 1265.1 | 938.6 | 0.7419 | +0.269 |
-| 1.50 mm | 58,780 | 2146.8 | 1432.0 | 0.6670 | +0.141 |
-| **0.75 mm** | **203,472** | **2955.9** | **2012.7** | **0.6809** | **+0.165** |
+| 3.00 mm | 21,744 | 1265.1 | 938.6 | 0.7419 | — |
+| 1.50 mm | 58,780 | 2146.8 | 1432.0 | 0.6670 | — |
+| **0.75 mm** | **203,472** | **2955.9** | **2012.7** | **0.6809** | converged |
 
-**Absolute contact pressure diverges 134% and never converges** — a genuine contact-edge
-singularity. **The ratio moves 8.2% and converges.** This validates the method by evidence rather
-than argument.
+**Absolute pressure diverges 134%** — contact-edge singularity. **The ratio moves 8.2% and
+converges.** Validates the method by evidence, not argument.
 
-**Two points would have given the wrong answer.** The 3.0 -> 1.5 mm trend extrapolated to
-t_eff/t ~ 0.60 and MS ~ +0.03. The third point showed it rebounding. Third instance in this project
-where a two-point study misled, and the first where it would have changed the engineering answer.
+**Two points would have given the wrong answer** — the 3.0 -> 1.5 mm trend extrapolated to
+t_eff/t ~ 0.60. The third point showed it rebounding.
 
-## 8. F6 PIN BENDING — COMPLETE (`docs/F6_PIN_BENDING_THICK_LUG.md`)
-- **Pin bending governs the pin at ~780 MPa**, 5.1x the 152 MPa double-shear stress.
-- **High-strength steel pin required.** 155-200 ksi steels give MS +1.05 to +1.72.
-  7075-T6 gives only +0.10 and goes negative for thicker clevis ears. **Aluminium not viable.**
-- Bending stress is **49% higher** if clevis ears are as thick as the lug. **The clevis is undefined.**
+## 9. F6 PIN BENDING — COMPLETE
+Pin bending governs at ~780 MPa, 5.1x the 152 MPa double-shear stress. **High-strength steel pin
+required**; aluminium not viable. Bending is 49% higher if clevis ears are as thick as the lug —
+**the clevis is undefined.**
 
-## 9. F5 FE — Rev D linear elastic — COMPLETE (`docs/F5_FE_REVD_LINEAR_ELASTIC.md`)
-Converged 8 mm global / 1 mm bore, 152,951 nodes: peak **1194.1 MPa** at the bore edge,
-deformation **3.5686 mm**, reaction **-529,770 / ~0 / -317,860 N**.
-Reaction error fell 0.074% -> 0.022% -> **0.006%** under refinement, confirming faceting as
-predicted before the study.
-
+## 10. F5 FE — Rev D linear elastic — COMPLETE
+Converged 152,951 nodes: peak 1194.1 MPa at bore edge, deformation 3.5686 mm.
+Reaction error fell 0.074% -> 0.022% -> **0.006%**, confirming faceting as predicted.
 **Does NOT validate the margin and cannot** — peak elastic stress is not comparable to an
-allowable-based margin. What it established: the load reaches the assumed path, **the bore is
-critical** (not the blade root), and no secondary critical location exists.
+allowable-based margin. Established: load reaches the assumed path, **bore is critical**, no
+secondary critical location.
 
-## 10. F12 CORRELATION — COMPLETE
-Anchor: **Ekvall, J.C., J. Aircraft 23(5), 1986, pp. 438-443.** 243 lug tests, 24 materials,
-predicted/test 0.85–1.19, mean 1.003.
+## 11. F12 CORRELATION — COMPLETE
+Anchor: **Ekvall, J. Aircraft 23(5), 1986, pp. 438-443.** 243 tests, predicted/test 0.85-1.19,
+mean 1.003. The IAF paper (Shiroky et al.) has a unit error — **NOT the anchor**.
 
-The IAF paper (Shiroky et al.) has a unit error in its headline test and an inconsistent e/D.
-**NOT the anchor.**
-
-FE sweep, straight 7075-T651 lug, D=26.8, t=25, P=284,686 N:
-
-| e/D | Peak vM (MPa) | Deformation (mm) | Plastic strain |
-|---|---|---|---|
-| 1.0 | 750.23 (discarded) | 7.655 | 0.37211 |
-| 1.2 | 521.47 | 0.896 | 0.03107 |
-| 1.5 | 490.45 | 0.632 | not captured |
-| 1.8 | 506.34 | 0.526 | 0.00888 |
-| 2.0 | 503.49 | 0.4817 | 0.00795 |
-
+Sweep, 7075-T651 lug, D=26.8, t=25, P=284,686 N:
 - **Shear-out governs below e/D = 1.353, bearing above.** Bearing margin flat at +0.216.
 - **Zero margin at e/D = 1.201**, confirmed by measurement (-0.002).
-- **e/D = 1.0 fails by shear-out.** Its 750 MPa peak needs 37% plastic strain — discarded.
-- **Elastic scaling law** holds to 1.7% at e/D >= 1.5.
-- `w = 2e` makes net-section and shear-out areas **algebraically identical** in that sweep.
+- **e/D = 1.0 fails by shear-out.** 750 MPa peak needs 37% plastic strain — discarded.
+- Elastic scaling law holds to 1.7%. `w = 2e` makes net-section and shear-out areas identical.
 
-Peak stress not quoted for e/D >= 1.2 — see `docs/F12_STRESS_STRAIN_CONSISTENCY.md`.
-
-## 11. F15 RCCA — DISPOSITION UNCHANGED, SEVERITY WORSE
-Mis-drilled bore, edge distance 2.500 -> 1.900 in. Originally recorded as +0.710 -> +0.220.
-**Under the thick-lug correction this becomes approximately -0.169** — clearly negative before any
-Ekvall scatter is applied.
-
-**REWORK disposition stands and is strengthened.** It is no longer a marginal call.
-The figure is approximate — scaled rather than re-derived. Exact recomputation at e = 1.900 in is
-an open item.
-
-## 12. Committed files
-- `cad/PARAMETER_SCHEMA.csv`, `build_revD.py`, `build_revD_to_mm.py`, `build_lug_sweep.py`, `build_f7.py`
-- **`docs/MARGIN_SUMMARY.md`** <- authoritative margin figure, read this first
-- `docs/F5_F6_STATIC_RESULTS_AF-DT-1000_revA/B/D.md`
-- `docs/F5_FE_REVD_LINEAR_ELASTIC.md`, `docs/F5_MARGIN_CROSSCHECK.md`
-- `docs/F6_PIN_BENDING_THICK_LUG.md`, **`docs/F7_CONTACT_THICK_LUG.md`**
-- `docs/F12_CORRELATION_AF-DT-1000.md`, `F12_FE_RESULTS_AF-DT-1000.md`,
-  `F12_STRESS_STRAIN_CONSISTENCY.md`
-- `docs/F15_NONCONFORMANCE_RCCA_AF-DT-1000.md`
-- `figures/make_figures.py`, `README.md`, `fig1_margin_vs_eD.svg`, `fig3_plastic_strain_check.svg`
-- `loads/LOAD_BASIS_AF-DT-1000_revA/B/C.md`, `loads/AA-SM-009-005_AF-DT-1000_revD.xlsx`
-
-**Pending manual upload (binaries):** figure PNGs, `fig2_fe_response.svg`, Ansys result images.
+## 12. F15 RCCA — DISPOSITION UNCHANGED, SEVERITY WORSE
+Mis-drilled bore, e 2.500 -> 1.900 in. Originally +0.710 -> +0.220.
+**Under both corrections this is approximately -0.370.** REWORK stands and is now unambiguous.
+Approximate — scaled, not re-derived. Exact recomputation is open.
 
 ## 13. Ansys archives on H:
 | File | Size | Contents |
 |---|---|---|
-| `ed2p0.wbpz` | 9.21 MB | F12 lug e/D = 2.0, solved |
-| `revdconverged.wbpz` | 45.5 MB | Rev D linear elastic, 1 mm converged |
-| `f7contact.wbpz` | 20.3 MB | F7 contact, 3 mm bore mesh |
+| `revdconverged.wbpz` | 45.5 MB | Rev D linear elastic, converged |
 | **`f7converged.wbpz`** | **335 MB** | **F7 contact, 0.75 mm converged — the good copy** |
+| `f7contact.wbpz` | 20.3 MB | F7 contact, 3 mm mesh |
+| `ed2p0.wbpz` | 9.21 MB | F12 lug e/D = 2.0 |
 
-## 14. WHERE WE ARE
-**All Ansys work is complete.** No further VDI sessions are required for the phases below.
+## 14. WHERE WE ARE — remaining work, none needs the VDI
 
-**Remaining, all off-VDI:**
-1. **MIL-HDBK-5J** — freely available, Distribution Statement A, public release. Hosted on the
-   Internet Archive and by Abbott Aerospace. Fixes **Ftux** and **A/B-basis allowables**, both
-   currently placeholders. Also supplies S-N and da/dN data for F8/F9. **Highest value per hour.**
-2. **F8 fatigue** — hand calculation from FE stresses plus MIL-HDBK-5J S-N curves. An aircraft
-   fitting with no fatigue analysis is the most conspicuous gap a reviewer would find.
-3. **F9 crack growth** — hand da/dN integration with a published K solution.
-4. **F11 optimization** — the closed-form margins are already parametric; sweep analytically.
-5. **F13 manufacturing/inspection, F14 digital thread** — documentation.
-6. **F16/F17 formal stress report** — the artifact a stress engineer recognises on sight.
+1. **F9 damage tolerance.** **F8 safe-life fatigue is NOT supportable** — MIL-HDBK-5J Section
+   3.7.6.2 has **no S-N curves** for the T73/T7351 temper. It does have crack-propagation data
+   (Figures 3.7.6.2.9 a-c, graphs) and K_Ic. Damage tolerance is also what FAR 25.571 requires for
+   primary structure. **Needs: da/dN values read off those figures, or published Paris constants.**
+2. **F11 optimization** — margins are parametric; sweep analytically. Blocked on the Melcon-Hoblit
+   K-factor curves, which are not digitised.
+3. **F13 manufacturing/inspection, F14 digital thread** — documentation, unblocked.
+4. **F16/F17 formal stress report** — the artifact a stress engineer recognises.
 
-**Not done and not required:** F10 modal and eigenvalue buckling. Would be ~45 min VDI if wanted.
+**Not done, not required:** F10 modal and buckling. ~45 min VDI if wanted.
 
 ## 15. PORTFOLIO TARGET
-- **Now: ~90.** **Realistic ceiling: ~92.**
-- **95+ is NOT achievable** without a professional sign-off or a physical test. Both ruled out by
-  constraint. Don't promise 95.
+**Now ~90. Ceiling ~92.** 95+ needs professional sign-off or a physical test. Both ruled out.
 
 ## 16. Still-open
-- [ ] Ftux proper basis; A/B-basis allowables (MIL-HDBK-5J)
-- [ ] Re-run Melcon-Hoblit at e = 1.900 in for an exact F15 margin
-- [ ] Establish t/D range of Ekvall's specimens to resolve the double-counting question
-- [ ] Ekvall paper — our margin curves cross at **e/D = 1.353**, an earlier note claimed 1.5.
-      A crossing at 1.5 implies Fbru ≈ 606 MPa (1.17 × Ftu). **Do not assume it.**
-- [ ] Elastic-plastic contact run to tighten the +0.165 lower bound
-- [ ] Define the AF-DT-2000 clevis; pin material and size selection
-- [ ] Resolve over-constrained contact nodes and the 1e8 coefficient ratio in F7
-- [ ] Onshape drawing out of date; delete broken "Drawing 1"
-- [ ] Plastic strain at e/D = 1.5 not captured; F12 colocation test
+- [ ] Re-run Melcon-Hoblit at e = 1.900 in for exact F15 margin
+- [ ] Ekvall specimen t/D range, to resolve double-counting
+- [ ] Ekvall paper — our curves cross at **e/D = 1.353**, an earlier note claimed 1.5.
+      A crossing at 1.5 implies Fbru ≈ 606 MPa. **Do not assume it.**
+- [ ] Single vs redundant load path, fixing A-basis vs B-basis
+- [ ] Elastic-plastic contact run to tighten the +0.078 lower bound
+- [ ] Define AF-DT-2000 clevis; pin material and size selection
+- [ ] Over-constrained contact nodes and 1e8 coefficient ratio in F7
+- [ ] Onshape drawing out of date; plastic strain at e/D = 1.5; F12 colocation test
 
 ## 17. Lessons — don't repeat
 
 ### Analysis
-- **Convergence needs 3+ points.** Two-point studies misdiagnosed a singularity three times in this
-  project. The third instance (F7) would have changed the engineering conclusion.
+- **Convergence needs 3+ points.** Two-point studies misled three times. The F7 instance would have
+  changed the engineering conclusion.
 - **Check whether a method's assumptions hold for the actual geometry.** The thin-lug method was
-  used at t/D = 1.25 for months before anyone asked what that did to the margin. Correcting it
-  consumed 77% of the reported margin.
-- **Never compare a linear elastic peak stress against an allowable-based margin.** Convert both
-  sides to the same basis first.
-- **Bilinear hardening has no failure criterion.** Compute
-  `required plastic strain = (peak vM - yield)/tangent modulus` before quoting any peak stress.
+  used at t/D = 1.25 for months. Correcting it consumed 77% of the margin.
+- **Verify allowables before trusting a margin.** "Representative Ftu = 71 ksi" was 9% optimistic
+  against A-basis. Combined with the thick-lug error the headline was overstated 9.1x.
+- **Never compare a linear elastic peak stress against an allowable-based margin.**
+- **Bilinear hardening has no failure criterion.** Check required plastic strain against elongation
+  before quoting any peak stress.
 - **Near yield, comparing in strain space is ill-conditioned.** Compare in stress space.
-- **Verify colocation before comparing two field maxima.**
-- **Beam theory does not apply below about L/h = 3.** A cantilever estimate on the Rev D blade
-  (L/h = 1.4) predicted the wrong critical location and understated deflection 3x.
-- **When an absolute FE quantity diverges, look for a ratio that cancels the divergence.** F7's
-  contact pressure diverged 134%; the stiff-pin ratio converged to 8%.
-- **A pin joint carries no moment about its own axis.** Loading a lug at the flange while fixing the
-  pin makes a free hinge — 87 kN.m applied against 1.6 kN.m of friction. Diverged immediately.
+- **Beam theory does not apply below about L/h = 3.**
+- **When an absolute FE quantity diverges, look for a ratio that cancels it.**
+- **A pin joint carries no moment about its own axis.** Loading the lug at the flange while fixing
+  the pin makes a free hinge — 87 kN.m against 1.6 kN.m of friction.
 
 ### Geometry / CAD
-- **Build STEP externally and import — don't fight Discovery's GUI/scripting.**
-- **Never text-parse a STEP for bounding boxes or volumes.** Arc crowns have no `CARTESIAN_POINT`.
-  **Use the CAD kernel.**
-- **Check the unit declaration on every generated STEP.** cadquery writes millimetres regardless.
-- **Re-derive every geometry gate when a parameter changes.** A stale gate rejects correct work.
+- **Build STEP externally and import.** Don't fight Discovery's scripting.
+- **Never text-parse a STEP for bounding boxes.** Arc crowns have no `CARTESIAN_POINT`.
+- **Check the unit declaration on every generated STEP.**
+- **Re-derive every geometry gate when a parameter changes.**
 
 ### Ansys operation
-- **After changing any unit dropdown, re-read the numeric field.** Ansys *converts* rather than
-  relabels. Caused a 0.071 MPa modulus, a 6 µm element size, and a 175 lb/ft³ density.
+- **After changing any unit dropdown, re-read the numeric field.** Ansys converts rather than
+  relabels. Caused a 0.071 MPa modulus, a 6 µm element size, a 175 lb/ft³ density.
 - **Scope by Named Selection worksheet rule, not by clicking.** Rules survive geometry swaps.
-  Rev D bore: `Radius / Equal / 0.0254`. Flange: `Location Z / Smallest`. Pin ends:
-  `Location Y / Equal / +-0.048387`. **Worksheet compares in the CAD unit system — read the note.**
-- **Settings silently revert.** Contact Type reverted from Frictional to Bonded, and material
-  assignments were wiped, both by an automatic geometry refresh. **Re-verify every setting
-  immediately before solving, not just when you set it.**
-- **Verify every typed field by zooming in.** Single-click selects the row, not the edit box.
+  **The worksheet compares in the CAD unit system — read the note above the grid.**
+- **Settings silently revert.** Contact Type went Frictional -> Bonded and materials were wiped,
+  both by an automatic geometry refresh. **Re-verify immediately before solving.**
+- A **Bonded** contact solves cleanly and measures nothing.
+- **Verify every typed field by zooming.** Single-click selects the row, not the edit box.
 - **Mass/volume gate every import.**
-- A **Bonded** contact will solve cleanly and measure nothing. Check the type before trusting a
-  contact result.
 
 ### Session management
-- **The VDI wipes local disk at logout.** Two sessions were lost.
-- `File > Archive` gives a single `.wbpz`. **Distinct name each time.**
-- **Copy to H: immediately.** An archive far smaller than its mesh warrants means results were not
-  included. Check you are reading the `.wbpz`, not the `.wbpj`.
-- Confirm only **one Workbench instance** is running.
+- **The VDI wipes local disk at logout.** Two sessions lost.
+- `File > Archive` gives one `.wbpz`. **Distinct name each time. Copy to H: immediately.**
+- An archive far smaller than its mesh warrants means results were not included. Check you are
+  reading the `.wbpz`, not the `.wbpj`.
