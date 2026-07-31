@@ -26,7 +26,7 @@
 | **Lug, combined oblique** | Melcon-Hoblit, thick-lug corrected | **+0.078** | §6 |
 | Pin, bending | Simple beam, balanced clevis | +1.39 | §7 |
 | Pin, double shear | Direct | +3.90 | §7 |
-| Damage tolerance | Crack growth to `a_c` | 5,000 flt interval | §8 |
+| Damage tolerance | Crack growth to `a_c` | 4,500 flt interval | §8 |
 
 **Governing failure mode: combined bearing / transverse at the lug bore.**
 
@@ -74,7 +74,7 @@ Rev D, frozen. All dimensions inches.
 **Areas:** `Abr = 5.00 in²`, `Atn = 5.00 in²`, `Aav = 3.75 in²`
 **Mass:** 7.65 kg (verified against FE model to 0.01%)
 
-**`t/D = 1.25` is the single most consequential geometric parameter in this report.** See §5.
+**`t/D = 1.25` is the single most consequential geometric parameter in this report.** See §6.
 
 ### Grain orientation — design decision
 
@@ -133,7 +133,7 @@ producing the vertical couple. **Transverse-dominant** — the transverse term d
 
 ### 6.1 Method and its limitation
 
-The Melcon-Hoblit method (R2, R3) is a **thin-lug** method. It assumes bearing pressure is **uniform
+The Melcon-Hoblit method (R2, R3) is a **thin-lug** method assuming bearing pressure is **uniform
 through the lug thickness**. That assumption degrades as `t/D` rises; `t/D > 0.6` normally warrants
 a pin-bending assessment.
 
@@ -159,16 +159,16 @@ clearance effects and the contact-edge singularity remain identical and cancel.
 **Absolute pressure diverged 134% across the study. The ratio moved 8.2% and converged.** This
 validates the ratio method by evidence rather than argument.
 
-**Result: `t_eff/t = 0.681`.** Bearing concentrates into 68% of the thickness. Nominal stresses rise
+**Result: `t_eff/t = 0.681`.** Bearing concentrates into 68% of the thickness; nominal stresses rise
 by `1/0.681`.
 
 ### 6.3 Margin calculation
 
 Allowable loads from R2 with `Kt = 0.950`, `Ktru = 0.7875`, `Kbr = 1.240`:
 
-    P'tu  = Kt   * Atn * Ftu  = 0.950 * 5.00 * 65,000 = 308,750 lb
+    P'tu  = Kt   * Atn * Ftu  = 0.950  * 5.00 * 65,000 = 308,750 lb
     P'tru = Ktru * Abr * Ftux = 0.7875 * 5.00 * 66,000 = 259,875 lb
-    P'bru = Kbr  * Abr * Ftux = 1.240 * 5.00 * 66,000 = 409,200 lb
+    P'bru = Kbr  * Abr * Ftux = 1.240  * 5.00 * 66,000 = 409,200 lb
 
 Nominal stresses on the reduced effective area, with the 1.15 fitting factor:
 
@@ -214,9 +214,8 @@ undefined**; this is an assumption.
 | PH13-8Mo H1000 | 2120 | +1.72 |
 | *7075-T6 (for contrast)* | *858* | *+0.10* |
 
-**A high-strength steel pin is required.** Aluminium is not viable — 7075-T6 gives +0.10 at the
-reference clevis and goes negative for thicker ears. Bending rises 49% if ears are as thick as the
-lug, so **the clevis must be defined before a pin is selected.**
+**A high-strength steel pin is required.** Aluminium is not viable. Bending rises 49% if ears are as
+thick as the lug, so **the clevis must be defined before a pin is selected.**
 
 ---
 
@@ -225,15 +224,16 @@ lug, so **the clevis must be defined before a pin is selected.**
 **Safe-life fatigue is not supportable.** R1 §3.7.6.2 provides **no S-N curves** for the T73/T7351
 temper. Damage tolerance is used instead, consistent with R5 (25.571).
 
-**Critical crack size**, from `K_Ic = 25 ksi-sqrt(in)` and the governing transverse stress:
+**Critical crack size**, from `K_Ic = 25 ksi-sqrt(in)`, the governing transverse stress, and the
+finite-width edge-crack geometry factor:
 
-    a_c = (1/pi)(K_Ic / (F*sigma))^2 = 0.1296 in = **3.29 mm**
+    a_c = **3.07 mm**    (0.1208 in)
 
-Ligament bore-to-edge is 38.1 mm, so **`a_c` is 8.6% of the available ligament**. This depends only
-on tabulated toughness and computed stress — the most defensible result in this section.
+Ligament bore-to-edge is 38.1 mm, so **`a_c` is 8.1% of the available ligament**. This depends only
+on tabulated toughness, computed stress and geometry — the most defensible result in this section.
 
 **`a_c` is itself a consequence of the thick-lug correction.** Uncorrected, transverse stress would
-be 164.2 MPa and `a_c` would be 7.1 mm — more than double.
+be 164.2 MPa and `a_c` about 6.6 mm — more than double.
 
 **Crack growth** uses Paris constants read from R1 Figure 3.7.6.2.9(b) at R = 0.10:
 `m = 4.00`, `C = 3.7e-9` (in/cycle, ksi-sqrt-in). Graph-read, so factor-3 uncertainty on C.
@@ -241,17 +241,17 @@ be 164.2 MPa and `a_c` would be 7.1 mm — more than double.
 **Spectrum is constructed** (`SYNTHETIC_SPECTRUM`): 1 GAG cycle/flight at 0.30 of limit,
 10 manoeuvre at 0.15, 100 gust at 0.05. Equivalent `dS = 11.99 ksi/flight`.
 
-    Flights, rogue flaw (1.27 mm) to critical:  1.04e4
-    **Repeat inspection interval, life/2:       5,000 flights**
+    Flights, rogue flaw (1.27 mm) to critical:  9.42e3
+    **Repeat inspection interval, life/2:        4,500 flights**
 
-**By NDI at a 1.27 mm detection threshold. Visual inspection is inadequate** — `a_c = 3.3 mm` is
+**By NDI at a 1.27 mm detection threshold. Visual inspection is inadequate** — `a_c = 3.07 mm` is
 below reliable visual detection regardless of interval.
 
 **The GAG cycle contributes 59% of damage from 0.9% of cycles.** Under a fourth-power law the
 largest cycle dominates.
 
-**The interval is assumption-limited.** Varying the GAG fraction 0.20–0.50 spans 9,800 to 1,050
-flights — **a factor of 9.3, exceeding every other uncertainty combined.**
+**The interval is assumption-limited.** Varying the GAG fraction 0.20–0.50 spans 8,912 to 952
+flights — **a factor of 9.4, exceeding every other uncertainty combined.**
 
 ---
 
@@ -267,6 +267,13 @@ flights — **a factor of 9.3, exceeding every other uncertainty combined.**
 | Mesh convergence, F7 ratio | 3-point, 8.2% total movement, converged |
 | Geometry mass vs FE | **0.01%** |
 | F12 correlation allowables vs R1 | Fsu matches to **0.1%** |
+| **Damage tolerance, two independent implementations** | **agree to 7% on `a_c`, 10% on life** |
+
+**The damage tolerance cross-check** compared a hand calculation using a constant `F = 1.12` against
+`src/aeroframe_dt/fatigue.py`, which applies the full finite-width edge-crack polynomial. The hand
+calculation's stated limitation — that it would be non-conservative — **was recorded before the
+comparison was run**, and the comparison confirmed both its direction and its magnitude. Module
+values are adopted.
 
 **Linear elastic FE peak stress is NOT used to validate the margin.** Empirical lug allowables
 already contain the stress concentration and local plasticity; comparing a peak elastic stress
@@ -284,8 +291,8 @@ load path, critical location, absence of a secondary failure site — not the ma
 4. **Clevis undefined.** Pin bending and therefore `t_eff` both depend on it.
 5. **Spectrum constructed, not derived.** The interval is conditional on §8's assumptions.
 6. **Paris constants graph-read.** Order-of-magnitude life uncertainty.
-7. **Simplified K solution** (`F = 1.12`). A Bowie or Newman-Raju solution would give a **smaller**
-   `a_c`, so the quoted value is non-conservative.
+7. **Edge-crack K solution.** A lug has a *loaded* hole; Bowie or Newman-Raju would be correct and
+   would give a smaller `a_c` still.
 8. **No professional review.** Not checked or approved by a licensed stress engineer.
 
 ---
@@ -297,7 +304,7 @@ load path, critical location, absence of a secondary failure site — not the ma
 2. **The margin is thin.** It survives worst-case method scatter only if the double-counting concern
    in §6.4 resolves favourably.
 3. **A high-strength steel pin is mandatory.** Aluminium is not viable.
-4. **NDI at 5,000-flight intervals**, conditional on the constructed spectrum. Visual inspection is
+4. **NDI at 4,500-flight intervals**, conditional on the constructed spectrum. Visual inspection is
    inadequate at any interval.
 5. **`t/D = 1.25` is the root of most of the above.** It invalidated the thin-lug method, drove the
    pin bending requirement, and halved the tolerable flaw size. **A thinner lug at larger diameter
@@ -317,4 +324,4 @@ load path, critical location, absence of a secondary failure site — not the ma
 | Single vs redundant load path | fixes A-basis vs B-basis, worth +0.033 |
 | Elastic-plastic contact run | tightens the +0.078 lower bound |
 | Exact Melcon-Hoblit rerun at e = 1.900 in | exact F15 nonconformance margin |
-| Bowie / Newman-Raju K solution | corrects the non-conservative `a_c` |
+| Bowie / Newman-Raju K solution for a loaded hole | corrects the remaining `a_c` approximation |
