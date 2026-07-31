@@ -24,7 +24,7 @@ toolchain and a revision-aware digital thread.
 | **Governing margin** | **`MS = +0.078`** — passes |
 | Failure mode | combined bearing / transverse at the lug bore |
 | Pin | high-strength steel mandatory, bending governs at 780 MPa |
-| Damage tolerance | critical crack **3.3 mm**, NDI at 5,000-flight intervals |
+| Damage tolerance | critical crack **3.07 mm**, NDI at 4,500-flight intervals |
 
 ### The margin moved by a factor of 9
 
@@ -85,6 +85,12 @@ third point showed it rebounding to +0.165.
 | Geometry mass vs FE model | **0.01%** |
 | Correlation allowables vs MIL-HDBK-5J | Fsu matches to **0.1%** |
 | Mesh convergence | 3-point, repeated, singularities ruled out |
+| Damage tolerance, two independent implementations | agree to **7%** on critical crack, **10%** on life |
+
+The damage-tolerance cross-check compared a hand calculation against `src/aeroframe_dt/fatigue.py`,
+written independently of the analysis. The hand calculation's own stated limitation — that its
+constant geometry factor would prove non-conservative — was recorded *before* the comparison and
+confirmed by it, in both direction and magnitude.
 
 ---
 
@@ -175,6 +181,7 @@ docs/    STRESS_REPORT_AF-DT-1000.md   <- start here
 cad/     parametric generators (cadquery)
 figures/ generated from recorded data by make_figures.py
 loads/   load basis revisions
+src/     aeroframe_dt package
 tests/   unit tests for the analysis toolchain
 tools/   traceability and evidence generation
 ```
