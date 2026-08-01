@@ -1,0 +1,11 @@
+characteristic_id,requirement_id,feature_id,nominal,lower_limit,upper_limit,units,method,instrument,resolution,sampling_plan,criticality
+AFDT-CHAR-001,AFDT-REQ-008,DATUM_A_MOUNT_FACE,0.0,0.0,0.008,in,flatness to datum A,cmm,0.0001,100 percent,critical
+AFDT-CHAR-002,AFDT-REQ-008,PIN_BORE,0.0,0.0,0.030,in,position to A and B at MMC,cmm,0.0001,100 percent,critical
+AFDT-CHAR-003,AFDT-REQ-008,PIN_BORE,2.001,2.000,2.002,in,diameter size,air gauge,0.00005,100 percent,critical
+AFDT-CHAR-004,AFDT-REQ-008,PIN_BORE,0.0,0.0,0.002,in,cylindricity,cmm,0.0001,100 percent,critical
+AFDT-CHAR-005,AFDT-REQ-008,PIN_BORE,0.0,0.0,0.005,in,perpendicularity to datum A,cmm,0.0001,100 percent,critical
+AFDT-CHAR-006,AFDT-REQ-008,LUG_BLADE,2.500,2.480,2.520,in,thickness size,micrometer,0.0001,100 percent,critical
+AFDT-CHAR-007,AFDT-REQ-008,FASTENER_HOLE_PATTERN,0.0,0.0,0.014,in,position to A at MMC,cmm,0.0001,first article plus 10 percent,major
+AFDT-CHAR-008,AFDT-REQ-008,BLEND_R0500,0.0,0.0,0.015,in,profile of a surface,cmm,0.0001,first article plus 10 percent,major
+AFDT-CHAR-009,AFDT-REQ-008,PIN_BORE,16.0,0.0,32.0,uin,surface roughness Ra,profilometer,1.0,100 percent,critical
+AFDT-CHAR-010,AFDT-REQ-013,PIN_BORE,0.0,0.0,1.27,mm,subsurface indication length,eddy current,0.05,100 percent,critical
