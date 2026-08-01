@@ -133,6 +133,10 @@ that `a_c = 3.07 mm` is **below reliable visual detection**, and the 4,500-fligh
 interval is predicated on reliably finding a 1.27 mm flaw. **If the NDI method cannot achieve that
 threshold, the inspection interval must shorten.**
 
+**The executable inspection plan is `inspection_quality/inspection_plan_AF-DT-1000_revD.csv`**, with
+process planning, measurement-system analysis and the tolerance stack in
+`F13_MANUFACTURING_INSPECTION.md`.
+
 ## 6. Semantic PMI
 
 For STEP AP242 export, each tolerance above shall carry:
@@ -153,12 +157,19 @@ analysis that justifies it**, so a tolerance change triggers re-evaluation of th
 | Plate orientation | MIL-HDBK-5J Tables 3.7.6.0(b3) and 3.1.2.3.1(b) |
 | Eddy current 1.27 mm | `F9b_SPECTRUM_AND_INTERVAL.md` §4 |
 
+**This dependency is now machine-readable.** `F14_DIGITAL_THREAD.md` registers all ten
+characteristics as descendants of the margin, and its forward query shows that the pending
+elastic-plastic contact run would mark every tolerance in this document stale.
+
 ## 7. Limitations
 
 1. **Bore position tolerance is extrapolated**, not derived. The AFFDL K-factor curves would allow a
    proper allocation. The value is set conservatively to compensate.
-2. **No statistical tolerance stack** has been performed. Each tolerance is assessed independently;
-   simultaneous worst-case deviations are not evaluated.
+2. ~~**No statistical tolerance stack** has been performed.~~ **CLOSED by
+   `F13_MANUFACTURING_INSPECTION.md` §7.** Simultaneous worst-case deviations take
+   **MS +0.0784 → +0.0568**, consuming 27.6% of the margin. The exact thickness term agrees with
+   the linearisation of §4.1 to 0.1%. Bore position remains the dominant term and remains
+   extrapolated — limitation 1 above is unchanged and is now the binding one.
 3. **No thermal or assembly-induced distortion** is considered.
 4. **Fastener hole positions** use conventional float allocation rather than an analysed value; the
    fastener group is not the critical feature.
