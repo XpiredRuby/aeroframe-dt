@@ -1,0 +1,145 @@
+{
+  "characteristic_count": 10,
+  "characteristics": [
+    {
+      "characteristic_id": "AFDT-CHAR-001",
+      "criticality": "critical",
+      "feature_id": "DATUM_A_MOUNT_FACE",
+      "resolution_percent_of_band": 1.25,
+      "sampling_plan": "100 percent",
+      "tolerance_band": 0.008,
+      "units": "in"
+    },
+    {
+      "characteristic_id": "AFDT-CHAR-002",
+      "criticality": "critical",
+      "feature_id": "PIN_BORE",
+      "resolution_percent_of_band": 0.33,
+      "sampling_plan": "100 percent",
+      "tolerance_band": 0.03,
+      "units": "in"
+    },
+    {
+      "characteristic_id": "AFDT-CHAR-003",
+      "criticality": "critical",
+      "feature_id": "PIN_BORE",
+      "resolution_percent_of_band": 2.5,
+      "sampling_plan": "100 percent",
+      "tolerance_band": 0.0019999999999997797,
+      "units": "in"
+    },
+    {
+      "characteristic_id": "AFDT-CHAR-004",
+      "criticality": "critical",
+      "feature_id": "PIN_BORE",
+      "resolution_percent_of_band": 5.0,
+      "sampling_plan": "100 percent",
+      "tolerance_band": 0.002,
+      "units": "in"
+    },
+    {
+      "characteristic_id": "AFDT-CHAR-005",
+      "criticality": "critical",
+      "feature_id": "PIN_BORE",
+      "resolution_percent_of_band": 2.0,
+      "sampling_plan": "100 percent",
+      "tolerance_band": 0.005,
+      "units": "in"
+    },
+    {
+      "characteristic_id": "AFDT-CHAR-006",
+      "criticality": "critical",
+      "feature_id": "LUG_BLADE",
+      "resolution_percent_of_band": 0.25,
+      "sampling_plan": "100 percent",
+      "tolerance_band": 0.040000000000000036,
+      "units": "in"
+    },
+    {
+      "characteristic_id": "AFDT-CHAR-007",
+      "criticality": "major",
+      "feature_id": "FASTENER_HOLE_PATTERN",
+      "resolution_percent_of_band": 0.71,
+      "sampling_plan": "first article plus 10 percent",
+      "tolerance_band": 0.014,
+      "units": "in"
+    },
+    {
+      "characteristic_id": "AFDT-CHAR-008",
+      "criticality": "major",
+      "feature_id": "BLEND_R0500",
+      "resolution_percent_of_band": 0.67,
+      "sampling_plan": "first article plus 10 percent",
+      "tolerance_band": 0.015,
+      "units": "in"
+    },
+    {
+      "characteristic_id": "AFDT-CHAR-009",
+      "criticality": "critical",
+      "feature_id": "PIN_BORE",
+      "resolution_percent_of_band": 3.12,
+      "sampling_plan": "100 percent",
+      "tolerance_band": 32.0,
+      "units": "uin"
+    },
+    {
+      "characteristic_id": "AFDT-CHAR-010",
+      "criticality": "critical",
+      "feature_id": "PIN_BORE",
+      "resolution_percent_of_band": 3.94,
+      "sampling_plan": "100 percent",
+      "tolerance_band": 1.27,
+      "units": "mm"
+    }
+  ],
+  "claim_boundary": "educational representative portfolio only, non-OEM non-certified",
+  "component": "AF-DT-1000",
+  "errors": [],
+  "geometry_revision": "D",
+  "load_revision": "C",
+  "measurement_system_analysis": {
+    "AFDT-CHAR-002": {
+      "data_class": "SYNTHETIC_TEST_ONLY",
+      "part_variance": 5.483208333333332e-05,
+      "percent_gage_rr_of_total_variation": 2.86,
+      "precision_to_tolerance_percent": 4.24,
+      "repeatability_variance": 4.499999999999981e-08,
+      "reproducibility_variance": 0.0,
+      "verdict": "acceptable"
+    },
+    "AFDT-CHAR-006": {
+      "data_class": "SYNTHETIC_TEST_ONLY",
+      "part_variance": 1.599000000000003e-05,
+      "percent_gage_rr_of_total_variation": 5.05,
+      "precision_to_tolerance_percent": 3.03,
+      "repeatability_variance": 4.0833333333335446e-08,
+      "reproducibility_variance": 0.0,
+      "verdict": "acceptable"
+    }
+  },
+  "process_capability": {
+    "characteristic_id": "AFDT-CHAR-006",
+    "count": 10,
+    "cp": 2.238,
+    "cpk": 2.115,
+    "data_class": "SYNTHETIC_TEST_ONLY",
+    "mean": 2.5011,
+    "sample_std": 0.002979,
+    "verdict": "capable"
+  },
+  "tolerance_stack": {
+    "bore_position_basis": "extrapolated from the F15 anchor, not derived; see PMI section 4.2",
+    "ms_nominal": 0.07843,
+    "ms_rss": 0.06365,
+    "ms_worst_case": 0.05677,
+    "rss_delta": -0.01478,
+    "terms": {
+      "bore_position": -0.01195,
+      "bore_size": -0.00108,
+      "thickness": -0.00863
+    },
+    "tolerance_scale_factor_to_zero_margin": 3.62,
+    "worst_case_consumption_percent": 27.6,
+    "worst_case_delta": -0.02166
+  }
+}
