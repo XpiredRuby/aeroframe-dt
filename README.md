@@ -22,6 +22,7 @@ toolchain and a revision-aware digital thread.
 | | |
 |---|---|
 | **Governing margin** | **`MS = +0.078`** — passes |
+| **With all released tolerances at their adverse limit** | **`MS = +0.057`** — still passes |
 | Failure mode | combined bearing / transverse at the lug bore |
 | Pin | high-strength steel mandatory, bending governs at 780 MPa |
 | Damage tolerance | critical crack **3.07 mm**, NDI at 4,500-flight intervals |
@@ -52,6 +53,18 @@ quantity was extracted as a *ratio* of two runs sharing that singularity, which 
 Predicted to work, then demonstrated to work.
 [`docs/F7_CONTACT_THICK_LUG.md`](docs/F7_CONTACT_THICK_LUG.md)
 
+**A configuration-management tool tested against a rework cycle that actually happened.** The
+evidence graph was registered as it stood at load revision B, then the real correction was applied —
+a lug-axis mapping error where 30.96° had been measured from the wrong reference. The graph flagged
+24 artifacts stale, reproducing a blast radius that had been worked out by hand. The one place it
+over-flags is named and explained rather than hidden.
+[`docs/F14_DIGITAL_THREAD.md`](docs/F14_DIGITAL_THREAD.md)
+
+**Tolerances derived from margin sensitivity, then stacked back onto the margin.** Every GD&T callout
+traces to the analysis that justifies it, and the worst-case stack of all of them consumes 27.6% of
+the margin and leaves it positive. The exact stack agrees with the independent linearised sensitivity
+to 0.1%. [`docs/F13_MANUFACTURING_INSPECTION.md`](docs/F13_MANUFACTURING_INSPECTION.md)
+
 **A methodological error caught after the fact and documented.** A linear elastic FE peak stress was
 initially set up as a check on an allowable-based margin. It isn't one — empirical allowables already
 contain the concentration and local plasticity. The setup was wrong, and the write-up says so.
@@ -72,7 +85,11 @@ third point showed it rebounding to +0.165.
 | F6 | Pin bending, thick-lug sensitivity | complete |
 | F7 | Two-body contact FE, `t_eff/t = 0.681` measured | complete, converged |
 | F9 | Damage tolerance, critical crack + inspection interval | complete |
+| F10 | Dynamics and buckling | **analytical only** — FE outstanding |
+| F11 | Geometric optimization | complete |
 | F12 | Correlation against 243 published lug tests | complete |
+| F13 | Manufacturing, inspection, and tolerance stack | complete |
+| F14 | Populated digital thread, 53 artifacts, 68 links | complete |
 | F15 | Nonconformance RCCA, mis-drilled bore | complete |
 | F8 | Safe-life fatigue | **not supportable** — no S-N data exists for 7075-T7351 |
 
@@ -86,6 +103,8 @@ third point showed it rebounding to +0.165.
 | Correlation allowables vs MIL-HDBK-5J | Fsu matches to **0.1%** |
 | Mesh convergence | 3-point, repeated, singularities ruled out |
 | Damage tolerance, two independent implementations | agree to **7%** on critical crack, **10%** on life |
+| Tolerance stack, exact vs linearised sensitivity | agree to **0.1%** |
+| Evidence graph audit | **0 issues** across 53 artifacts and 68 links |
 
 The damage-tolerance cross-check compared a hand calculation against `src/aeroframe_dt/fatigue.py`,
 written independently of the analysis. The hand calculation's own stated limitation — that its
@@ -139,6 +158,8 @@ between implemented software and CAD/solver/data execution.
 python -m pip install -e .
 python -m unittest discover -s tests -v
 python tools/check_traceability.py
+python tools/run_f13_inspection_plan.py
+python tools/build_f14_thread.py
 python tools/generate_all_software_evidence.py
 aeroframe-dt audit .
 ```
@@ -173,17 +194,20 @@ source's own worked example before use
 ## Repository
 
 ```
-docs/    STRESS_REPORT_AF-DT-1000.md   <- start here
-         MARGIN_SUMMARY.md             <- authoritative margin figure
-         HANDOFF.md                    <- full project state
-         F5/F6/F7/F9/F12/F15 analysis records
-         SOFTWARE_COMPLETION_MATRIX.md
-cad/     parametric generators (cadquery)
-figures/ generated from recorded data by make_figures.py
-loads/   load basis revisions
-src/     aeroframe_dt package
-tests/   unit tests for the analysis toolchain
-tools/   traceability and evidence generation
+docs/               STRESS_REPORT_AF-DT-1000.md   <- start here
+                    MARGIN_SUMMARY.md             <- authoritative margin figure
+                    HANDOFF.md                    <- full project state
+                    F5/F6/F7/F9/F12/F13/F14/F15 analysis records
+                    PMI_GDT_DEFINITION.md
+                    SOFTWARE_COMPLETION_MATRIX.md
+cad/                parametric generators (cadquery)
+digital_thread/     populated evidence graph, JSON/DOT, impact analyses
+figures/            generated from recorded data by make_figures.py
+inspection_quality/ inspection plan for Rev D
+loads/              load basis revisions
+src/                aeroframe_dt package
+tests/              unit tests for the analysis toolchain
+tools/              traceability, inspection, digital thread, evidence generation
 ```
 
 ## Repository policy
@@ -194,9 +218,16 @@ rejects common ANSYS/NASTRAN/OptiStruct database formats.
 
 ## Status
 
-The analysis chain is complete through the formal stress report. Remaining open items are listed in
-[`docs/STRESS_REPORT_AF-DT-1000.md`](docs/STRESS_REPORT_AF-DT-1000.md) §12 — chiefly a real load
-spectrum, the Ekvall specimen `t/D` range, and definition of the mating clevis.
+The analysis chain is complete through the formal stress report, the manufacturing and inspection
+package, and the digital thread. **Three items remain open**, all requiring solver time:
+
+- **elastic-plastic contact run** — tightens the `+0.078` lower bound and settles whether the
+  thick-lug correction and the Ekvall scatter band double-count the same effect;
+- **REQ-009 FE benchmarks** — patch, cantilever, plate;
+- **REQ-014 modal and buckling FE** — the analytical half is done.
+
+**REQ-012 safe-life fatigue cannot close honestly**: MIL-HDBK-5J provides no S-N curves for the
+T7351 temper. Damage tolerance is the appropriate route and is complete.
 
 Not checked or approved by a licensed stress engineer. This demonstrates method, traceability and
 self-verification — it does not substantiate a flight article.
