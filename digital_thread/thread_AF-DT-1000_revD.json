@@ -1,0 +1,1029 @@
+{
+  "artifacts": [
+    {
+      "id": "AFDT-CHAR-001",
+      "kind": "pmi_characteristic",
+      "metadata": {
+        "criticality": "critical",
+        "feature": "DATUM_A_MOUNT_FACE",
+        "method": "flatness to datum A",
+        "units": "in",
+        "upper_limit": "0.008"
+      },
+      "revision": "D",
+      "sha256": null,
+      "status": "CURRENT",
+      "uri": null
+    },
+    {
+      "id": "AFDT-CHAR-002",
+      "kind": "pmi_characteristic",
+      "metadata": {
+        "criticality": "critical",
+        "feature": "PIN_BORE",
+        "method": "position to A and B at MMC",
+        "units": "in",
+        "upper_limit": "0.030"
+      },
+      "revision": "D",
+      "sha256": null,
+      "status": "CURRENT",
+      "uri": null
+    },
+    {
+      "id": "AFDT-CHAR-003",
+      "kind": "pmi_characteristic",
+      "metadata": {
+        "criticality": "critical",
+        "feature": "PIN_BORE",
+        "method": "diameter size",
+        "units": "in",
+        "upper_limit": "2.002"
+      },
+      "revision": "D",
+      "sha256": null,
+      "status": "CURRENT",
+      "uri": null
+    },
+    {
+      "id": "AFDT-CHAR-004",
+      "kind": "pmi_characteristic",
+      "metadata": {
+        "criticality": "critical",
+        "feature": "PIN_BORE",
+        "method": "cylindricity",
+        "units": "in",
+        "upper_limit": "0.002"
+      },
+      "revision": "D",
+      "sha256": null,
+      "status": "CURRENT",
+      "uri": null
+    },
+    {
+      "id": "AFDT-CHAR-005",
+      "kind": "pmi_characteristic",
+      "metadata": {
+        "criticality": "critical",
+        "feature": "PIN_BORE",
+        "method": "perpendicularity to datum A",
+        "units": "in",
+        "upper_limit": "0.005"
+      },
+      "revision": "D",
+      "sha256": null,
+      "status": "CURRENT",
+      "uri": null
+    },
+    {
+      "id": "AFDT-CHAR-006",
+      "kind": "pmi_characteristic",
+      "metadata": {
+        "criticality": "critical",
+        "feature": "LUG_BLADE",
+        "method": "thickness size",
+        "units": "in",
+        "upper_limit": "2.520"
+      },
+      "revision": "D",
+      "sha256": null,
+      "status": "CURRENT",
+      "uri": null
+    },
+    {
+      "id": "AFDT-CHAR-007",
+      "kind": "pmi_characteristic",
+      "metadata": {
+        "criticality": "major",
+        "feature": "FASTENER_HOLE_PATTERN",
+        "method": "position to A at MMC",
+        "units": "in",
+        "upper_limit": "0.014"
+      },
+      "revision": "D",
+      "sha256": null,
+      "status": "CURRENT",
+      "uri": null
+    },
+    {
+      "id": "AFDT-CHAR-008",
+      "kind": "pmi_characteristic",
+      "metadata": {
+        "criticality": "major",
+        "feature": "BLEND_R0500",
+        "method": "profile of a surface",
+        "units": "in",
+        "upper_limit": "0.015"
+      },
+      "revision": "D",
+      "sha256": null,
+      "status": "CURRENT",
+      "uri": null
+    },
+    {
+      "id": "AFDT-CHAR-009",
+      "kind": "pmi_characteristic",
+      "metadata": {
+        "criticality": "critical",
+        "feature": "PIN_BORE",
+        "method": "surface roughness Ra",
+        "units": "uin",
+        "upper_limit": "32.0"
+      },
+      "revision": "D",
+      "sha256": null,
+      "status": "CURRENT",
+      "uri": null
+    },
+    {
+      "id": "AFDT-CHAR-010",
+      "kind": "pmi_characteristic",
+      "metadata": {
+        "criticality": "critical",
+        "feature": "PIN_BORE",
+        "method": "subsurface indication length",
+        "units": "mm",
+        "upper_limit": "1.27"
+      },
+      "revision": "D",
+      "sha256": null,
+      "status": "CURRENT",
+      "uri": null
+    },
+    {
+      "id": "AFDT-REQ-001",
+      "kind": "requirement",
+      "metadata": {
+        "category": "scope",
+        "method": "inspection",
+        "status": "VERIFIED"
+      },
+      "revision": "1",
+      "sha256": "bdc3450bff940a01adbd87b99cbcdb5f500b929856154b37d575946fa740631c",
+      "status": "CURRENT",
+      "uri": "docs/DECISIONS.md"
+    },
+    {
+      "id": "AFDT-REQ-002",
+      "kind": "requirement",
+      "metadata": {
+        "category": "integrity",
+        "method": "inspection",
+        "status": "VERIFIED"
+      },
+      "revision": "1",
+      "sha256": "5dad7af8e8f88e58c9fb7d1d80603535a95d930be77d4f237f41d5b8593743dc",
+      "status": "CURRENT",
+      "uri": "docs/RISKS_AND_LIMITATIONS.md"
+    },
+    {
+      "id": "AFDT-REQ-003",
+      "kind": "requirement",
+      "metadata": {
+        "category": "loads",
+        "method": "analysis",
+        "status": "VERIFIED"
+      },
+      "revision": "1",
+      "sha256": "3d5b8cf4feab735e4211e55504b68fca6b480ec15c92c9d02c0a322f3a1b72f9",
+      "status": "CURRENT",
+      "uri": "loads/LOAD_BASIS_AF-DT-1000_revC.md"
+    },
+    {
+      "id": "AFDT-REQ-004",
+      "kind": "requirement",
+      "metadata": {
+        "category": "loads",
+        "method": "test",
+        "status": "VERIFIED"
+      },
+      "revision": "1",
+      "sha256": "0b46da03b5e4eebbba65bc76547c122ea5b9c2823c5ff475b86519acb2fa50e3",
+      "status": "CURRENT",
+      "uri": "tests/test_loads.py"
+    },
+    {
+      "id": "AFDT-REQ-005",
+      "kind": "requirement",
+      "metadata": {
+        "category": "classical",
+        "method": "inspection",
+        "status": "VERIFIED"
+      },
+      "revision": "1",
+      "sha256": "c0b1169c9c15ef0e2a5ca5e6ed33cf396a9f0bdfa134f5b9fab3b350e98dbc4a",
+      "status": "CURRENT",
+      "uri": "src/aeroframe_dt/substantiation.py"
+    },
+    {
+      "id": "AFDT-REQ-006",
+      "kind": "requirement",
+      "metadata": {
+        "category": "classical",
+        "method": "analysis",
+        "status": "VERIFIED"
+      },
+      "revision": "1",
+      "sha256": "273a767fee4bcb992241fbc476cbc011282d2a429611438bb5761fa09a1135d7",
+      "status": "CURRENT",
+      "uri": "src/aeroframe_dt/hand_calcs.py"
+    },
+    {
+      "id": "AFDT-REQ-007",
+      "kind": "requirement",
+      "metadata": {
+        "category": "cad",
+        "method": "inspection",
+        "status": "VERIFIED"
+      },
+      "revision": "1",
+      "sha256": "f7dac45aac7625e1b9d70d1a742ab77491a96da73687eb899394dbfc393e76a5",
+      "status": "CURRENT",
+      "uri": "cad/build_revD.py"
+    },
+    {
+      "id": "AFDT-REQ-008",
+      "kind": "requirement",
+      "metadata": {
+        "category": "pmi",
+        "method": "inspection",
+        "status": "VERIFIED"
+      },
+      "revision": "1",
+      "sha256": "6583e80406f2511aba14b57e05707e96169a1e42127fe16240340b4491e5a545",
+      "status": "CURRENT",
+      "uri": "docs/PMI_GDT_DEFINITION.md"
+    },
+    {
+      "id": "AFDT-REQ-009",
+      "kind": "requirement",
+      "metadata": {
+        "category": "verification",
+        "method": "test",
+        "status": "OPEN"
+      },
+      "revision": "1",
+      "sha256": "8f17150a200a440618dcfd493dfe8074fd840b161b757170dadf23f664b293ae",
+      "status": "CURRENT",
+      "uri": "src/aeroframe_dt/solver_decks.py"
+    },
+    {
+      "id": "AFDT-REQ-010",
+      "kind": "requirement",
+      "metadata": {
+        "category": "fea",
+        "method": "analysis",
+        "status": "VERIFIED"
+      },
+      "revision": "1",
+      "sha256": "48d647dc5a07f3dd90a468d5c6bcb87f96d215e52f9f99b04773c8d5e0b90093",
+      "status": "CURRENT",
+      "uri": "docs/F5_FE_REVD_LINEAR_ELASTIC.md"
+    },
+    {
+      "id": "AFDT-REQ-011",
+      "kind": "requirement",
+      "metadata": {
+        "category": "margins",
+        "method": "inspection",
+        "status": "VERIFIED"
+      },
+      "revision": "1",
+      "sha256": "37b3e63d9dbee47b53d2814c99a84a65753e8e0a0f90d683489de593c6325f39",
+      "status": "CURRENT",
+      "uri": "src/aeroframe_dt/margins.py"
+    },
+    {
+      "id": "AFDT-REQ-012",
+      "kind": "requirement",
+      "metadata": {
+        "category": "fatigue",
+        "method": "analysis",
+        "status": "IN_PROGRESS"
+      },
+      "revision": "1",
+      "sha256": "c83b87f68844cf73604b60c523f53741e1fdbd79ea14161da9df24945a402263",
+      "status": "CURRENT",
+      "uri": "src/aeroframe_dt/fatigue.py"
+    },
+    {
+      "id": "AFDT-REQ-013",
+      "kind": "requirement",
+      "metadata": {
+        "category": "damage_tolerance",
+        "method": "analysis",
+        "status": "VERIFIED"
+      },
+      "revision": "1",
+      "sha256": "783f3ed4933dc9a2816f1e59d90d74e3a67486d09d6d2d152709bfc85ca530fc",
+      "status": "CURRENT",
+      "uri": "docs/F9_DAMAGE_TOLERANCE.md"
+    },
+    {
+      "id": "AFDT-REQ-014",
+      "kind": "requirement",
+      "metadata": {
+        "category": "dynamics",
+        "method": "analysis",
+        "status": "IN_PROGRESS"
+      },
+      "revision": "1",
+      "sha256": "55e760d9b251aca44d7ebf88a5d5ce74214420866e54ddbb694883f842cd4a0b",
+      "status": "CURRENT",
+      "uri": "docs/F10_DYNAMICS_BUCKLING.md"
+    },
+    {
+      "id": "AFDT-REQ-015",
+      "kind": "requirement",
+      "metadata": {
+        "category": "optimization",
+        "method": "analysis",
+        "status": "VERIFIED"
+      },
+      "revision": "1",
+      "sha256": "1e0d81b92c56a791488ba1fe1c2c1423016782dd8c7b4b54e99d071e3b4e5566",
+      "status": "CURRENT",
+      "uri": "docs/F11_OPTIMIZATION.md"
+    },
+    {
+      "id": "AFDT-REQ-016",
+      "kind": "requirement",
+      "metadata": {
+        "category": "digital_thread",
+        "method": "test",
+        "status": "VERIFIED"
+      },
+      "revision": "1",
+      "sha256": "2bf305c47ee522c30e949dbed8db316b671181441ff7290990fe280be507bb57",
+      "status": "CURRENT",
+      "uri": "src/aeroframe_dt/digital_thread.py"
+    },
+    {
+      "id": "AFDT-REQ-017",
+      "kind": "requirement",
+      "metadata": {
+        "category": "quality",
+        "method": "inspection",
+        "status": "VERIFIED"
+      },
+      "revision": "1",
+      "sha256": "bfc837236378db8d3dbb297d3b769c62722c93539c46a019920bb8cbfea2baf7",
+      "status": "CURRENT",
+      "uri": "examples/synthetic_inspection.json"
+    },
+    {
+      "id": "AFDT-REQ-018",
+      "kind": "requirement",
+      "metadata": {
+        "category": "validation",
+        "method": "analysis",
+        "status": "VERIFIED"
+      },
+      "revision": "1",
+      "sha256": "6d42bbf6e2f2d6d1cd44366da98ca9ba72196d6ccfc11824a84619f2a0e4da03",
+      "status": "CURRENT",
+      "uri": "docs/F12_CORRELATION_AF-DT-1000.md"
+    },
+    {
+      "id": "ANL-F10-DYNAMICS",
+      "kind": "analysis",
+      "metadata": {
+        "f1_Hz": 2133,
+        "state": "analytical only"
+      },
+      "revision": "D",
+      "sha256": "55e760d9b251aca44d7ebf88a5d5ce74214420866e54ddbb694883f842cd4a0b",
+      "status": "CURRENT",
+      "uri": "docs/F10_DYNAMICS_BUCKLING.md"
+    },
+    {
+      "id": "ANL-F11-OPT",
+      "kind": "analysis",
+      "metadata": {},
+      "revision": "D",
+      "sha256": "1e0d81b92c56a791488ba1fe1c2c1423016782dd8c7b4b54e99d071e3b4e5566",
+      "status": "CURRENT",
+      "uri": "docs/F11_OPTIMIZATION.md"
+    },
+    {
+      "id": "ANL-F12-CORR",
+      "kind": "analysis",
+      "metadata": {
+        "ratio_range": "0.85-1.19",
+        "tests": 243
+      },
+      "revision": "D",
+      "sha256": "6d42bbf6e2f2d6d1cd44366da98ca9ba72196d6ccfc11824a84619f2a0e4da03",
+      "status": "CURRENT",
+      "uri": "docs/F12_CORRELATION_AF-DT-1000.md"
+    },
+    {
+      "id": "ANL-F13-STACK",
+      "kind": "analysis",
+      "metadata": {
+        "consumption_pct": 27.6,
+        "ms_worst_case": 0.0568
+      },
+      "revision": "D",
+      "sha256": "f51af283adcb928c30ebc15d669f56762262429ea000d7c9f1bbe381219dc3d8",
+      "status": "CURRENT",
+      "uri": "docs/F13_MANUFACTURING_INSPECTION.md"
+    },
+    {
+      "id": "ANL-F5-FE",
+      "kind": "analysis",
+      "metadata": {
+        "equilibrium_error_pct": 0.006,
+        "nodes": 152951,
+        "type": "linear elastic FE"
+      },
+      "revision": "D",
+      "sha256": "48d647dc5a07f3dd90a468d5c6bcb87f96d215e52f9f99b04773c8d5e0b90093",
+      "status": "CURRENT",
+      "uri": "docs/F5_FE_REVD_LINEAR_ELASTIC.md"
+    },
+    {
+      "id": "ANL-F6-PIN",
+      "kind": "analysis",
+      "metadata": {
+        "pin_bending_MPa": 780
+      },
+      "revision": "D",
+      "sha256": "1cb11a41919ec885b5afb31abb19d21183c1595fe67da59c3282d94506d4da53",
+      "status": "CURRENT",
+      "uri": "docs/F6_PIN_BENDING_THICK_LUG.md"
+    },
+    {
+      "id": "ANL-F7-CONTACT",
+      "kind": "analysis",
+      "metadata": {
+        "basis": "elastic only",
+        "mesh_points": 3,
+        "note": "makes MS a lower bound",
+        "t_eff_over_t": 0.681
+      },
+      "revision": "D",
+      "sha256": "31c4ad7412905da7ae8e09b3a9721a5bea76d770e264b69a438dcb2c882106d9",
+      "status": "CURRENT",
+      "uri": "docs/F7_CONTACT_THICK_LUG.md"
+    },
+    {
+      "id": "ANL-F9-DT",
+      "kind": "analysis",
+      "metadata": {
+        "a_c_mm": 3.07
+      },
+      "revision": "D",
+      "sha256": "783f3ed4933dc9a2816f1e59d90d74e3a67486d09d6d2d152709bfc85ca530fc",
+      "status": "CURRENT",
+      "uri": "docs/F9_DAMAGE_TOLERANCE.md"
+    },
+    {
+      "id": "ANL-F9B-SPECTRUM",
+      "kind": "analysis",
+      "metadata": {
+        "class": "SYNTHETIC_SPECTRUM",
+        "interval_flights": 4500,
+        "ndi_threshold_mm": 1.27
+      },
+      "revision": "D",
+      "sha256": "3731b4b4592c601e264022a89e324c40dbc05afe9f608ba9098ee09c3b48c2fe",
+      "status": "CURRENT",
+      "uri": "docs/F9b_SPECTRUM_AND_INTERVAL.md"
+    },
+    {
+      "id": "CAD-BUILD-F7",
+      "kind": "cad_script",
+      "metadata": {
+        "units": "mm"
+      },
+      "revision": "D",
+      "sha256": "a74c212fb4b37f2e890c620f1fdec4ef461d127c799b66795010af0c86223fb2",
+      "status": "CURRENT",
+      "uri": "cad/build_f7.py"
+    },
+    {
+      "id": "CAD-BUILD-REVD",
+      "kind": "cad_script",
+      "metadata": {
+        "units": "inch valued"
+      },
+      "revision": "D",
+      "sha256": "f7dac45aac7625e1b9d70d1a742ab77491a96da73687eb899394dbfc393e76a5",
+      "status": "CURRENT",
+      "uri": "cad/build_revD.py"
+    },
+    {
+      "id": "CAD-BUILD-REVD-MM",
+      "kind": "cad_script",
+      "metadata": {
+        "note": "this is the export used for FE",
+        "units": "mm"
+      },
+      "revision": "D",
+      "sha256": "5071c9b7196dd3c56cb01eb86e8314c105bc71dfe5feb97aafb9cf6dbee659f0",
+      "status": "CURRENT",
+      "uri": "cad/build_revD_to_mm.py"
+    },
+    {
+      "id": "CAD-PARAMS",
+      "kind": "parameter_set",
+      "metadata": {},
+      "revision": "D",
+      "sha256": "95339aa3663089c6e17a0d02ebe8ccdf218c5060b1964ee7027cda11328463ce",
+      "status": "CURRENT",
+      "uri": "cad/PARAMETER_SCHEMA.csv"
+    },
+    {
+      "id": "GEO-AF-DT-1000",
+      "kind": "geometry",
+      "metadata": {
+        "W_over_D": 2.0,
+        "e_over_D": 1.25,
+        "mass_kg": 7.65,
+        "state": "frozen",
+        "t_lug_in": 2.5,
+        "t_over_D": 1.25
+      },
+      "revision": "D",
+      "sha256": "4180e00bdc0690f31facc6b08c56ad89c1fe9b0620960f34101a8d300d2399eb",
+      "status": "CURRENT",
+      "uri": "docs/DECISIONS_AF-DT-1000_revD.md"
+    },
+    {
+      "id": "INSP-PLAN-AF-DT-1000",
+      "kind": "inspection_plan",
+      "metadata": {},
+      "revision": "D",
+      "sha256": "84692e49190dac5df391c98bed2a0da9c830b6029cbb37e9728b36e9989014dd",
+      "status": "CURRENT",
+      "uri": "inspection_quality/inspection_plan_AF-DT-1000_revD.csv"
+    },
+    {
+      "id": "LOAD-AF-DT-1000",
+      "kind": "load_case",
+      "metadata": {
+        "angle_deg_off_lug_axis": 59.04,
+        "class": "SYNTHETIC_TEST_ONLY",
+        "level": "LIMIT",
+        "resultant_N": 617776,
+        "state": "released"
+      },
+      "revision": "C",
+      "sha256": "3d5b8cf4feab735e4211e55504b68fca6b480ec15c92c9d02c0a322f3a1b72f9",
+      "status": "CURRENT",
+      "uri": "loads/LOAD_BASIS_AF-DT-1000_revC.md"
+    },
+    {
+      "id": "MARGIN-AF-DT-1000",
+      "kind": "margin",
+      "metadata": {
+        "MS": 0.078,
+        "authoritative": true,
+        "basis": "A-basis, thick-lug corrected, fitting factor 1.15"
+      },
+      "revision": "D",
+      "sha256": "baef304bbfdd8f46441d35c1fba9b5d1ea0012fbb023f8883d6dfc27f07e1d3c",
+      "status": "CURRENT",
+      "uri": "docs/MARGIN_SUMMARY.md"
+    },
+    {
+      "id": "NCR-F15-001",
+      "kind": "nonconformance",
+      "metadata": {
+        "MS_after": -0.37,
+        "deviation": "edge distance 2.500 -> 1.900 in",
+        "disposition": "REWORK"
+      },
+      "revision": "D",
+      "sha256": "dc8e4757a0c2768f09dc526d02b33a2c1b02e443758c5b931c70046ef7735a97",
+      "status": "CURRENT",
+      "uri": "docs/F15_NONCONFORMANCE_RCCA_AF-DT-1000.md"
+    },
+    {
+      "id": "PMI-AF-DT-1000",
+      "kind": "pmi_definition",
+      "metadata": {},
+      "revision": "D",
+      "sha256": "6583e80406f2511aba14b57e05707e96169a1e42127fe16240340b4491e5a545",
+      "status": "CURRENT",
+      "uri": "docs/PMI_GDT_DEFINITION.md"
+    },
+    {
+      "id": "RPT-STRESS-AF-DT-1000",
+      "kind": "report",
+      "metadata": {},
+      "revision": "D",
+      "sha256": "a891ac2f0a4a729488884f06102550725115863d8fd9c445fbe9c629f6ad3510",
+      "status": "CURRENT",
+      "uri": "docs/STRESS_REPORT_AF-DT-1000.md"
+    },
+    {
+      "id": "SRC-EKVALL-1986",
+      "kind": "source",
+      "metadata": {
+        "citation": "Ekvall, J. Aircraft 23(5) 1986 pp.438-443",
+        "class": "REAL",
+        "scope": "243 lug tests, correlation band"
+      },
+      "revision": "1986",
+      "sha256": null,
+      "status": "CURRENT",
+      "uri": null
+    },
+    {
+      "id": "SRC-FAR-25",
+      "kind": "source",
+      "metadata": {
+        "citation": "14 CFR 25.561 emergency landing, 25.625 fitting factor",
+        "class": "REAL"
+      },
+      "revision": "current",
+      "sha256": null,
+      "status": "CURRENT",
+      "uri": null
+    },
+    {
+      "id": "SRC-MELCON-HOBLIT",
+      "kind": "source",
+      "metadata": {
+        "citation": "NASA TM-X-73305 Astronautics Structures Manual Vol I Sec B2",
+        "class": "REAL",
+        "scope": "lug analysis method"
+      },
+      "revision": "TM-X-73305",
+      "sha256": null,
+      "status": "CURRENT",
+      "uri": null
+    },
+    {
+      "id": "SRC-MILHDBK5J-3.1.2.1.6",
+      "kind": "source",
+      "metadata": {
+        "citation": "MIL-HDBK-5J Table 3.1.2.1.6",
+        "class": "REAL",
+        "scope": "K_Ic, information only"
+      },
+      "revision": "5J",
+      "sha256": null,
+      "status": "CURRENT",
+      "uri": null
+    },
+    {
+      "id": "SRC-MILHDBK5J-3.7.6.0b3",
+      "kind": "source",
+      "metadata": {
+        "citation": "MIL-HDBK-5J 31 Jan 2003 Table 3.7.6.0(b3) p.3-373",
+        "class": "REAL",
+        "scope": "7075-T7351 plate allowables, 2.001-2.500 in band"
+      },
+      "revision": "5J",
+      "sha256": null,
+      "status": "CURRENT",
+      "uri": null
+    }
+  ],
+  "audit_issues": [],
+  "links": [
+    {
+      "child_id": "INSP-PLAN-AF-DT-1000",
+      "parent_id": "AFDT-CHAR-001",
+      "relation": "inspected_by"
+    },
+    {
+      "child_id": "INSP-PLAN-AF-DT-1000",
+      "parent_id": "AFDT-CHAR-002",
+      "relation": "inspected_by"
+    },
+    {
+      "child_id": "INSP-PLAN-AF-DT-1000",
+      "parent_id": "AFDT-CHAR-003",
+      "relation": "inspected_by"
+    },
+    {
+      "child_id": "INSP-PLAN-AF-DT-1000",
+      "parent_id": "AFDT-CHAR-004",
+      "relation": "inspected_by"
+    },
+    {
+      "child_id": "INSP-PLAN-AF-DT-1000",
+      "parent_id": "AFDT-CHAR-005",
+      "relation": "inspected_by"
+    },
+    {
+      "child_id": "INSP-PLAN-AF-DT-1000",
+      "parent_id": "AFDT-CHAR-006",
+      "relation": "inspected_by"
+    },
+    {
+      "child_id": "INSP-PLAN-AF-DT-1000",
+      "parent_id": "AFDT-CHAR-007",
+      "relation": "inspected_by"
+    },
+    {
+      "child_id": "INSP-PLAN-AF-DT-1000",
+      "parent_id": "AFDT-CHAR-008",
+      "relation": "inspected_by"
+    },
+    {
+      "child_id": "INSP-PLAN-AF-DT-1000",
+      "parent_id": "AFDT-CHAR-009",
+      "relation": "inspected_by"
+    },
+    {
+      "child_id": "INSP-PLAN-AF-DT-1000",
+      "parent_id": "AFDT-CHAR-010",
+      "relation": "inspected_by"
+    },
+    {
+      "child_id": "LOAD-AF-DT-1000",
+      "parent_id": "AFDT-REQ-003",
+      "relation": "verified_by"
+    },
+    {
+      "child_id": "CAD-BUILD-REVD",
+      "parent_id": "AFDT-REQ-007",
+      "relation": "verified_by"
+    },
+    {
+      "child_id": "PMI-AF-DT-1000",
+      "parent_id": "AFDT-REQ-008",
+      "relation": "verified_by"
+    },
+    {
+      "child_id": "ANL-F5-FE",
+      "parent_id": "AFDT-REQ-010",
+      "relation": "verified_by"
+    },
+    {
+      "child_id": "ANL-F9-DT",
+      "parent_id": "AFDT-REQ-013",
+      "relation": "verified_by"
+    },
+    {
+      "child_id": "ANL-F10-DYNAMICS",
+      "parent_id": "AFDT-REQ-014",
+      "relation": "verified_by"
+    },
+    {
+      "child_id": "ANL-F11-OPT",
+      "parent_id": "AFDT-REQ-015",
+      "relation": "verified_by"
+    },
+    {
+      "child_id": "ANL-F12-CORR",
+      "parent_id": "AFDT-REQ-018",
+      "relation": "verified_by"
+    },
+    {
+      "child_id": "RPT-STRESS-AF-DT-1000",
+      "parent_id": "ANL-F10-DYNAMICS",
+      "relation": "reported_in"
+    },
+    {
+      "child_id": "RPT-STRESS-AF-DT-1000",
+      "parent_id": "ANL-F11-OPT",
+      "relation": "reported_in"
+    },
+    {
+      "child_id": "MARGIN-AF-DT-1000",
+      "parent_id": "ANL-F12-CORR",
+      "relation": "bounds_scatter_of"
+    },
+    {
+      "child_id": "RPT-STRESS-AF-DT-1000",
+      "parent_id": "ANL-F13-STACK",
+      "relation": "reported_in"
+    },
+    {
+      "child_id": "MARGIN-AF-DT-1000",
+      "parent_id": "ANL-F5-FE",
+      "relation": "validates_assumptions_of"
+    },
+    {
+      "child_id": "RPT-STRESS-AF-DT-1000",
+      "parent_id": "ANL-F6-PIN",
+      "relation": "reported_in"
+    },
+    {
+      "child_id": "MARGIN-AF-DT-1000",
+      "parent_id": "ANL-F7-CONTACT",
+      "relation": "corrects"
+    },
+    {
+      "child_id": "ANL-F9B-SPECTRUM",
+      "parent_id": "ANL-F9-DT",
+      "relation": "feeds"
+    },
+    {
+      "child_id": "INSP-PLAN-AF-DT-1000",
+      "parent_id": "ANL-F9B-SPECTRUM",
+      "relation": "sets_ndi_threshold_of"
+    },
+    {
+      "child_id": "RPT-STRESS-AF-DT-1000",
+      "parent_id": "ANL-F9B-SPECTRUM",
+      "relation": "reported_in"
+    },
+    {
+      "child_id": "ANL-F7-CONTACT",
+      "parent_id": "CAD-BUILD-F7",
+      "relation": "produces_model_for"
+    },
+    {
+      "child_id": "CAD-BUILD-REVD-MM",
+      "parent_id": "CAD-BUILD-REVD",
+      "relation": "rescaled_by"
+    },
+    {
+      "child_id": "GEO-AF-DT-1000",
+      "parent_id": "CAD-BUILD-REVD-MM",
+      "relation": "produces"
+    },
+    {
+      "child_id": "CAD-BUILD-REVD",
+      "parent_id": "CAD-PARAMS",
+      "relation": "parameterises"
+    },
+    {
+      "child_id": "ANL-F10-DYNAMICS",
+      "parent_id": "GEO-AF-DT-1000",
+      "relation": "geometry_input"
+    },
+    {
+      "child_id": "ANL-F11-OPT",
+      "parent_id": "GEO-AF-DT-1000",
+      "relation": "geometry_input"
+    },
+    {
+      "child_id": "ANL-F5-FE",
+      "parent_id": "GEO-AF-DT-1000",
+      "relation": "geometry_input"
+    },
+    {
+      "child_id": "ANL-F6-PIN",
+      "parent_id": "GEO-AF-DT-1000",
+      "relation": "geometry_input"
+    },
+    {
+      "child_id": "ANL-F7-CONTACT",
+      "parent_id": "GEO-AF-DT-1000",
+      "relation": "geometry_input"
+    },
+    {
+      "child_id": "ANL-F9-DT",
+      "parent_id": "GEO-AF-DT-1000",
+      "relation": "geometry_input"
+    },
+    {
+      "child_id": "PMI-AF-DT-1000",
+      "parent_id": "GEO-AF-DT-1000",
+      "relation": "geometry_input"
+    },
+    {
+      "child_id": "NCR-F15-001",
+      "parent_id": "INSP-PLAN-AF-DT-1000",
+      "relation": "detects"
+    },
+    {
+      "child_id": "ANL-F10-DYNAMICS",
+      "parent_id": "LOAD-AF-DT-1000",
+      "relation": "load_input"
+    },
+    {
+      "child_id": "ANL-F11-OPT",
+      "parent_id": "LOAD-AF-DT-1000",
+      "relation": "load_input"
+    },
+    {
+      "child_id": "ANL-F5-FE",
+      "parent_id": "LOAD-AF-DT-1000",
+      "relation": "load_input"
+    },
+    {
+      "child_id": "ANL-F6-PIN",
+      "parent_id": "LOAD-AF-DT-1000",
+      "relation": "load_input"
+    },
+    {
+      "child_id": "ANL-F7-CONTACT",
+      "parent_id": "LOAD-AF-DT-1000",
+      "relation": "load_input"
+    },
+    {
+      "child_id": "ANL-F9-DT",
+      "parent_id": "LOAD-AF-DT-1000",
+      "relation": "load_input"
+    },
+    {
+      "child_id": "MARGIN-AF-DT-1000",
+      "parent_id": "LOAD-AF-DT-1000",
+      "relation": "load_input"
+    },
+    {
+      "child_id": "ANL-F13-STACK",
+      "parent_id": "MARGIN-AF-DT-1000",
+      "relation": "baseline_for"
+    },
+    {
+      "child_id": "NCR-F15-001",
+      "parent_id": "MARGIN-AF-DT-1000",
+      "relation": "assesses"
+    },
+    {
+      "child_id": "PMI-AF-DT-1000",
+      "parent_id": "MARGIN-AF-DT-1000",
+      "relation": "sizes_tolerances_of"
+    },
+    {
+      "child_id": "RPT-STRESS-AF-DT-1000",
+      "parent_id": "MARGIN-AF-DT-1000",
+      "relation": "released_in"
+    },
+    {
+      "child_id": "AFDT-CHAR-001",
+      "parent_id": "PMI-AF-DT-1000",
+      "relation": "specifies"
+    },
+    {
+      "child_id": "AFDT-CHAR-002",
+      "parent_id": "PMI-AF-DT-1000",
+      "relation": "specifies"
+    },
+    {
+      "child_id": "AFDT-CHAR-003",
+      "parent_id": "PMI-AF-DT-1000",
+      "relation": "specifies"
+    },
+    {
+      "child_id": "AFDT-CHAR-004",
+      "parent_id": "PMI-AF-DT-1000",
+      "relation": "specifies"
+    },
+    {
+      "child_id": "AFDT-CHAR-005",
+      "parent_id": "PMI-AF-DT-1000",
+      "relation": "specifies"
+    },
+    {
+      "child_id": "AFDT-CHAR-006",
+      "parent_id": "PMI-AF-DT-1000",
+      "relation": "specifies"
+    },
+    {
+      "child_id": "AFDT-CHAR-007",
+      "parent_id": "PMI-AF-DT-1000",
+      "relation": "specifies"
+    },
+    {
+      "child_id": "AFDT-CHAR-008",
+      "parent_id": "PMI-AF-DT-1000",
+      "relation": "specifies"
+    },
+    {
+      "child_id": "AFDT-CHAR-009",
+      "parent_id": "PMI-AF-DT-1000",
+      "relation": "specifies"
+    },
+    {
+      "child_id": "AFDT-CHAR-010",
+      "parent_id": "PMI-AF-DT-1000",
+      "relation": "specifies"
+    },
+    {
+      "child_id": "ANL-F13-STACK",
+      "parent_id": "PMI-AF-DT-1000",
+      "relation": "tolerances_stacked_by"
+    },
+    {
+      "child_id": "INSP-PLAN-AF-DT-1000",
+      "parent_id": "PMI-AF-DT-1000",
+      "relation": "defines"
+    },
+    {
+      "child_id": "ANL-F12-CORR",
+      "parent_id": "SRC-EKVALL-1986",
+      "relation": "correlation_source"
+    },
+    {
+      "child_id": "LOAD-AF-DT-1000",
+      "parent_id": "SRC-FAR-25",
+      "relation": "governs"
+    },
+    {
+      "child_id": "MARGIN-AF-DT-1000",
+      "parent_id": "SRC-MELCON-HOBLIT",
+      "relation": "method_source"
+    },
+    {
+      "child_id": "ANL-F9-DT",
+      "parent_id": "SRC-MILHDBK5J-3.1.2.1.6",
+      "relation": "allowable_source"
+    },
+    {
+      "child_id": "MARGIN-AF-DT-1000",
+      "parent_id": "SRC-MILHDBK5J-3.7.6.0b3",
+      "relation": "allowable_source"
+    }
+  ]
+}
