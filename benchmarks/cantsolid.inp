@@ -1,0 +1,56 @@
+! B-002 continuum companion, SOLID186 cantilever
+! Same beam as cant.inp, solved as a 3D solid to demonstrate convergence.
+! Acceptance: 2 percent or better on tip displacement, away from the clamp.
+!
+! RUN THIS FILE THREE TIMES. Change only the number on the "es=" line:
+!   run 1 : es=0.025
+!   run 2 : es=0.0125
+!   run 3 : es=0.00625
+! Record the tip UY from each run.
+finish
+/clear,nostart
+/prep7
+
+es=0.025
+
+et,1,solid186
+mp,ex,1,70e9
+mp,prxy,1,0.3
+
+block,0,1,0,0.05,0,0.10
+esize,es
+mshape,0,3d
+mshkey,1
+vmesh,all
+
+! clamp the root face
+nsel,s,loc,x,0
+d,all,all
+allsel,all
+
+! total 1000 N downward spread over the tip face nodes
+nsel,s,loc,x,1
+*get,ntip,node,,count
+fnode=-1000/ntip
+f,all,fy,fnode
+allsel,all
+finish
+
+/solu
+antype,static
+solve
+finish
+
+/post1
+set,last
+/com,
+/com,==== B-002 SOLID RESULT : mesh size, tip node count, tip deflection ====
+/com,==== beam theory gives -1.142857e-3 m ====
+*status,es
+*status,ntip
+nsel,s,loc,x,1
+nsel,r,loc,y,0.025
+nsel,r,loc,z,0.05
+prnsol,u,comp
+allsel,all
+finish
