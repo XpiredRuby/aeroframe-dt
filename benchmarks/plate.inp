@@ -1,0 +1,81 @@
+! B-003 simply supported square plate under uniform pressure
+! AeroFrame-DT REQ-009. Acceptance in benchmarks/BENCHMARK_LOCK.md
+! a = b = 1 m , t = 0.01 m , E = 70 GPa , nu = 0.30 , q = 1000 Pa
+! Navier oracle, centre deflection = 6.33727e-4 m
+! Acceptance: 2 percent or better
+!
+! RUN THIS FILE THREE TIMES. Change only the number on the "es=" line:
+!   run 1 : es=0.05
+!   run 2 : es=0.025
+!   run 3 : es=0.0125
+finish
+/clear,nostart
+/prep7
+
+es=0.025
+
+et,1,shell181
+sectype,1,shell
+secdata,0.01,1
+secnum,1
+
+mp,ex,1,70e9
+mp,prxy,1,0.3
+
+rectng,0,1,0,1
+esize,es
+mshkey,1
+mshape,0,2d
+amesh,all
+
+! simply supported: out of plane restraint on all four edges
+nsel,s,loc,x,0
+nsel,a,loc,x,1
+nsel,a,loc,y,0
+nsel,a,loc,y,1
+d,all,uz,0
+allsel,all
+
+! minimum in plane restraint, three points, statically determinate
+nsel,s,loc,x,0
+nsel,r,loc,y,0
+d,all,ux,0
+d,all,uy,0
+allsel,all
+nsel,s,loc,x,1
+nsel,r,loc,y,0
+d,all,uy,0
+allsel,all
+nsel,s,loc,x,0
+nsel,r,loc,y,1
+d,all,ux,0
+allsel,all
+
+sfa,all,1,pres,1000
+finish
+
+/solu
+antype,static
+solve
+finish
+
+/post1
+set,last
+/com,
+/com,==== B-003 RESULT : mesh size and centre deflection ====
+/com,==== Navier oracle is 6.33727e-4 m, sign follows the pressure ====
+*status,es
+nsel,s,loc,x,0.5
+nsel,r,loc,y,0.5
+prnsol,u,z
+allsel,all
+
+/com,
+/com,==== B-003 RESULT : centre moments, for the convergence check ====
+esel,s,cent,x,0.45,0.55
+esel,r,cent,y,0.45,0.55
+etable,mx,smisc,1
+etable,my,smisc,2
+pretab,mx,my
+allsel,all
+finish
