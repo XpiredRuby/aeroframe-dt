@@ -1,5 +1,38 @@
 # Changelog
 
+## 0.4.0 — 2026-08-01
+
+### Added
+- **F13 manufacturing, inspection and quality package** (`docs/F13_MANUFACTURING_INSPECTION.md`):
+  12-operation process plan with the structural reason for each step, ten measurable inspection
+  characteristics tied to the PMI callouts, measurement-system analysis, and process capability.
+- Machine-readable inspection plan `inspection_quality/inspection_plan_AF-DT-1000_revD.csv` and its
+  validator `tools/run_f13_inspection_plan.py`, which also screens gauge resolution against the
+  10:1 rule.
+- **Worst-case tolerance stack onto the governing margin**, evaluated on the real Melcon-Hoblit
+  interaction rather than a linearisation: `MS +0.0784 -> +0.0568`, consuming 27.6% of the margin.
+  Tolerances would have to be 3.62x wider to reach zero.
+- **F14 populated digital thread** (`docs/F14_DIGITAL_THREAD.md`): 53 artifacts, 68 links, zero
+  audit issues, every file-backed artifact carrying its build-time SHA-256. Built by
+  `tools/build_f14_thread.py` from the repository itself.
+- Two recorded impact analyses: a historical replay of the load revision B to C axis-mapping
+  correction, and a forward query on the pending elastic-plastic contact run.
+- Verification rows AFDT-V-030 through AFDT-V-033.
+
+### Changed
+- `PMI_GDT_DEFINITION.md` limitation 2 closed — the statistical tolerance stack now exists. Bore
+  position remains the dominant and least-certain term, and is now the binding limitation.
+- README surfaces F13 and F14 and states the three remaining solver-dependent open items.
+- Both `inspection_quality/` and `digital_thread/` READMEs now describe delivered work rather than
+  plans.
+
+### Verification
+- `tools/check_traceability.py` passes: 18 requirements, 33 verification rows.
+- Exact tolerance stack agrees with the independent linearised thickness sensitivity to 0.1%.
+- Historical replay reproduces the 24-artifact rework blast radius previously established by hand;
+  the single over-flag is identified and explained rather than suppressed.
+- All measurement data in F13 sections 5 and 6 remains `SYNTHETIC_TEST_ONLY`.
+
 ## 0.3.0 — 2026-07-12
 
 ### Added
