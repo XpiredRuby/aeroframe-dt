@@ -1,0 +1,58 @@
+{
+  "component": "AF-DT-1000",
+  "forward_query": {
+    "artifacts_marked_stale": [
+      "AFDT-CHAR-001",
+      "AFDT-CHAR-002",
+      "AFDT-CHAR-003",
+      "AFDT-CHAR-004",
+      "AFDT-CHAR-005",
+      "AFDT-CHAR-006",
+      "AFDT-CHAR-007",
+      "AFDT-CHAR-008",
+      "AFDT-CHAR-009",
+      "AFDT-CHAR-010",
+      "ANL-F13-STACK",
+      "ANL-F7-CONTACT",
+      "INSP-PLAN-AF-DT-1000",
+      "MARGIN-AF-DT-1000",
+      "NCR-F15-001",
+      "PMI-AF-DT-1000",
+      "RPT-STRESS-AF-DT-1000"
+    ],
+    "count": 17,
+    "trigger": "ANL-F7-CONTACT revised D -> E (planned)"
+  },
+  "geometry_revision": "D",
+  "historical_replay": {
+    "artifacts_marked_stale": [
+      "AFDT-CHAR-001",
+      "AFDT-CHAR-002",
+      "AFDT-CHAR-003",
+      "AFDT-CHAR-004",
+      "AFDT-CHAR-005",
+      "AFDT-CHAR-006",
+      "AFDT-CHAR-007",
+      "AFDT-CHAR-008",
+      "AFDT-CHAR-009",
+      "AFDT-CHAR-010",
+      "ANL-F10-DYNAMICS",
+      "ANL-F11-OPT",
+      "ANL-F13-STACK",
+      "ANL-F5-FE",
+      "ANL-F6-PIN",
+      "ANL-F7-CONTACT",
+      "ANL-F9-DT",
+      "ANL-F9B-SPECTRUM",
+      "INSP-PLAN-AF-DT-1000",
+      "LOAD-AF-DT-1000",
+      "MARGIN-AF-DT-1000",
+      "NCR-F15-001",
+      "PMI-AF-DT-1000",
+      "RPT-STRESS-AF-DT-1000"
+    ],
+    "audit_issues": [],
+    "count": 24,
+    "trigger": "LOAD-AF-DT-1000 revised B -> C"
+  }
+}
