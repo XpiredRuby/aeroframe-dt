@@ -1,5 +1,63 @@
 # Changelog
 
+## 0.5.0 — 2026-08-03
+
+**Governing margin moves from `+0.078` to `+0.156`.** Three Ansys sessions closed every
+solver-dependent open item. **17 of 18 requirements verified — the honest ceiling.**
+
+### Added
+- **F16 elastic-plastic contact** (`docs/F16_ELASTIC_PLASTIC_CONTACT.md`): `t_eff/t = 0.7300`
+  measured against the elastic 0.6809. Bilinear isotropic hardening, yield 358.5 MPa, tangent
+  modulus 1631 MPa. Equilibrium verified to 10 ppm on both the real-pin and stiff-pin solves.
+  Peak plastic strain 6.46% confirms the material yielded.
+- **F17 modal and buckling FE** (`docs/F17_MODAL_BUCKLING_FE.md`): six modes, first at 1197.2 Hz;
+  three eigenvalue buckling modes, all negative.
+- **FE verification report** (`reports/FE_VERIFICATION_REPORT.md`): patch test, cantilever in two
+  element formulations, and simply supported plate, against criteria frozen before execution.
+- Four Mechanical APDL verification decks in `benchmarks/`.
+- `docs/ansysworkorder.md`, the step-by-step execution record for the three sessions.
+- Verification rows AFDT-V-034 through AFDT-V-039.
+
+### Changed
+- **Stress report to Rev E.** New §6.5 manufacturing tolerance stack and §9 dynamics and stability;
+  §10 gains the analytical benchmarks. Margin history now shows a 4.6x movement, not 9.1x.
+- **`MARGIN_SUMMARY.md`** re-propagated throughout. Ekvall worst case improves from −0.094 to
+  −0.028. The breakeven is `t_eff/t = 0.7513`; the measurement came in at 0.7300, **just short of
+  clearing the scatter band.**
+- **F13 tolerance stack re-propagated** at the new operating point: worst case +0.133, consuming
+  14.9% of the margin against 27.6% before. Tolerances would need to be 6.7x wider to reach zero.
+- `tools/run_f13_inspection_plan.py` now computes the stack at both contact ratios and re-anchors
+  the bore-position sensitivity on the F15 case.
+- Digital thread rebuilt to **56 artifacts, 79 links, 0 audit issues**. F7 is linked to F16 by
+  `superseded_by` rather than being overwritten.
+- REQ-009 and REQ-014 status OPEN/IN_PROGRESS to VERIFIED.
+
+### Fixed
+- **`patch.inp`**: `NMODIF` cannot move nodes still attached to a meshed area. Without
+  `MODMSH,DETACH` the mesh stayed a regular grid — which passes a patch test trivially, and would
+  have been recorded as a pass on a test that was not testing anything.
+- **`cant.inp` and `cantsolid.inp`**: for `SECTYPE RECT` the first `SECDATA` argument lies along
+  element local Z, so the 0.05 dimension landed in the load plane and returned **exactly 4x** the
+  correct deflection. The same error in the solid model's `BLOCK` made the continuum companion a
+  different beam from the beam-element model. **The 4x symptom and its fix were written into the
+  deck's comments before execution**, and are recorded as a prediction that held.
+
+### Corrected
+- **F16 §6 retracts a claim made during execution.** The elastic-plastic run was described in
+  progress as settling whether the thick-lug correction and the Ekvall scatter band double-count.
+  It does not. That question concerns the composition of a 1986 test dataset and requires the paper.
+  The open item stays open and the conservative default is retained.
+
+### Verification
+- `tools/check_traceability.py`: 18 requirements, 39 verification rows, passing.
+- Re-anchored bore-position sensitivity reproduces the independently derived 0.747/in at the
+  elastic nominal to four significant figures.
+- Three benchmark caveats recorded rather than smoothed over: a 1e-8 relative force residual
+  against a "machine precision" criterion, the beam element's 0.57% against a 0.5% limit, and the
+  plate sequence drifting upward rather than converging.
+- **AFDT-REQ-012 remains open permanently.** MIL-HDBK-5J provides no S-N curves for the T7351
+  temper; damage tolerance is the appropriate route and is complete.
+
 ## 0.4.0 — 2026-08-01
 
 ### Added
@@ -11,17 +69,14 @@
   10:1 rule.
 - **Worst-case tolerance stack onto the governing margin**, evaluated on the real Melcon-Hoblit
   interaction rather than a linearisation: `MS +0.0784 -> +0.0568`, consuming 27.6% of the margin.
-  Tolerances would have to be 3.62x wider to reach zero.
 - **F14 populated digital thread** (`docs/F14_DIGITAL_THREAD.md`): 53 artifacts, 68 links, zero
-  audit issues, every file-backed artifact carrying its build-time SHA-256. Built by
-  `tools/build_f14_thread.py` from the repository itself.
+  audit issues, every file-backed artifact carrying its build-time SHA-256.
 - Two recorded impact analyses: a historical replay of the load revision B to C axis-mapping
   correction, and a forward query on the pending elastic-plastic contact run.
 - Verification rows AFDT-V-030 through AFDT-V-033.
 
 ### Changed
-- `PMI_GDT_DEFINITION.md` limitation 2 closed — the statistical tolerance stack now exists. Bore
-  position remains the dominant and least-certain term, and is now the binding limitation.
+- `PMI_GDT_DEFINITION.md` limitation 2 closed — the statistical tolerance stack now exists.
 - README surfaces F13 and F14 and states the three remaining solver-dependent open items.
 - Both `inspection_quality/` and `digital_thread/` READMEs now describe delivered work rather than
   plans.
@@ -29,8 +84,8 @@
 ### Verification
 - `tools/check_traceability.py` passes: 18 requirements, 33 verification rows.
 - Exact tolerance stack agrees with the independent linearised thickness sensitivity to 0.1%.
-- Historical replay reproduces the 24-artifact rework blast radius previously established by hand;
-  the single over-flag is identified and explained rather than suppressed.
+- Historical replay reproduces the rework blast radius previously established by hand; the single
+  over-flag is identified and explained rather than suppressed.
 - All measurement data in F13 sections 5 and 6 remains `SYNTHETIC_TEST_ONLY`.
 
 ## 0.3.0 — 2026-07-12
