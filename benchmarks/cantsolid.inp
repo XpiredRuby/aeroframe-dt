@@ -2,6 +2,12 @@
 ! Same beam as cant.inp, solved as a 3D solid to demonstrate convergence.
 ! Acceptance: 2 percent or better on tip displacement, away from the clamp.
 !
+! The 0.10 m dimension must lie in the load plane (global Y) so that this
+! model bends about the same axis as cant.inp. Building the block as
+! block,0,1,0,0.05,0,0.10 puts 0.05 in the load plane and gives 4.5714e-3 m,
+! which is a valid cantilever but a DIFFERENT beam from cant.inp.
+! Corrected after execution on 2026-08-03.
+!
 ! RUN THIS FILE THREE TIMES. Change only the number on the "es=" line:
 !   run 1 : es=0.025
 !   run 2 : es=0.0125
@@ -17,7 +23,7 @@ et,1,solid186
 mp,ex,1,70e9
 mp,prxy,1,0.3
 
-block,0,1,0,0.05,0,0.10
+block,0,1,0,0.10,0,0.05
 esize,es
 mshape,0,3d
 mshkey,1
@@ -49,8 +55,8 @@ set,last
 *status,es
 *status,ntip
 nsel,s,loc,x,1
-nsel,r,loc,y,0.025
-nsel,r,loc,z,0.05
+nsel,r,loc,y,0.05
+nsel,r,loc,z,0.025
 prnsol,u,comp
 allsel,all
 finish
