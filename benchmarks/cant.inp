@@ -1,17 +1,23 @@
 ! B-002 Euler-Bernoulli cantilever, BEAM188 model
 ! AeroFrame-DT REQ-009. Acceptance in benchmarks/BENCHMARK_LOCK.md
 ! L = 1 m , b = 0.05 m , h = 0.10 m , E = 70 GPa , tip load P = 1000 N
+! Bending about the strong axis: the 0.10 m dimension lies in the load plane.
 ! Exact tip deflection  1.142857e-3 m
 ! Exact tip rotation    1.714286e-3 rad
-! Exact root stress     12.0 MPa
 ! Acceptance: 0.5 percent or better on displacement
+!
+! NOTE ON SECDATA ORDER, established by execution on 2026-08-03:
+! For SECTYPE RECT the first SECDATA argument lies along the element local Z
+! and the second along local Y. Writing secdata,0.05,0.10 therefore puts the
+! 0.05 dimension in the load plane and gives 4.5714e-3 m, exactly 4x the
+! correct answer. secdata,0.10,0.05 is the correct entry for this problem.
 finish
 /clear,nostart
 /prep7
 
 et,1,beam188
 sectype,1,beam,rect
-secdata,0.05,0.10
+secdata,0.10,0.05
 
 mp,ex,1,70e9
 mp,prxy,1,0.3
@@ -49,16 +55,13 @@ prnsol,rot,comp
 allsel,all
 
 /com,
-/com,==== B-002 RESULT : root bending stress ====
-/com,==== expect extreme fibre 12.0 MPa ====
+/com,==== B-002 RESULT : root element bending stress ====
+/com,==== this is the ELEMENT CENTROID value, not the root section value.
+/com,==== element 1 spans x = 0 to 0.1 m, so M = 950 N.m and the exact
+/com,==== centroidal stress is 950 x 0.05 / 4.16667e-6 = 11.400 MPa
 esel,s,elem,,1
 etable,smax,smisc,32
 etable,smin,smisc,37
 pretab,smax,smin
 allsel,all
 finish
-
-! IF UY COMES OUT AS -4.571e-3 INSTEAD OF -1.143e-3 the rectangular
-! section is rotated 90 degrees. Change the secdata line to
-!   secdata,0.10,0.05
-! and run the file again. Nothing else changes.
