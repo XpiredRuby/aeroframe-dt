@@ -10,7 +10,9 @@ Three things happen here, in order:
     sensitive to: lug thickness and bore position.  The measurement data is
     SYNTHETIC_TEST_ONLY.
 3.  A tolerance stack of the released tolerances onto the governing margin, evaluated
-    on the real Melcon-Hoblit interaction rather than a linearisation.
+    on the real Melcon-Hoblit interaction rather than a linearisation, at BOTH the
+    elastic contact ratio (the Rev D basis) and the elastic-plastic ratio measured in
+    F16 (the current basis).
 
 Run:  python tools/run_f13_inspection_plan.py
 """
@@ -36,14 +38,17 @@ PLAN = ROOT / "inspection_quality" / "inspection_plan_AF-DT-1000_revD.csv"
 OUT = ROOT / "results" / "software_verification" / "f13_inspection_plan.json"
 
 # --- Released margin state, docs/MARGIN_SUMMARY.md section 4 -------------------
-RA_NOM = 0.3909          # axial load ratio
-RTR_NOM = 0.7740         # transverse load ratio
+RA_NOM = 0.3909          # axial load ratio at the elastic contact ratio
+RTR_NOM = 0.7740         # transverse load ratio at the elastic contact ratio
 T_NOM = 2.500            # in, lug thickness
 T_LML = 2.480            # in, thickness at the low material limit
 W_NOM = 4.000            # in, lug width
 D_NOM = 2.000            # in, bore diameter at MMC
 D_LMC = 2.002            # in, bore diameter at LMC
-DMS_DE = 0.747           # per in, docs/PMI_GDT_DEFINITION.md section 4.2 (extrapolated)
+T_EFF_ELASTIC = 0.6809   # F7 elastic contact ratio, the Rev D basis
+T_EFF_PLASTIC = 0.7300   # F16 elastic-plastic contact ratio, the current basis
+F15_MS_AFTER = -0.370    # MS at e = 1.900 in on the elastic basis, F15
+F15_DE = 0.600           # in, edge-distance loss in the F15 nonconformance
 POS_TOL = 0.030          # in, diametral position zone at MMC
 MMC_BONUS = 0.002        # in, maximum bonus tolerance from bore size
 
@@ -163,27 +168,50 @@ def process_capability() -> dict:
     }
 
 
-def tolerance_stack() -> dict:
-    ms_nom = margin(RA_NOM, RTR_NOM)
+def position_slope(ms_nom: float) -> float:
+    """Re-anchor dMS/de on the F15 case, which scales multiplicatively with (1 + MS).
+
+    F15 took e from 2.500 to 1.900 in and MS from +0.078 to -0.370, so (1 + MS) is
+    scaled by a fixed factor over that 0.600 in. Applying the same factor at whatever
+    the current nominal is gives the slope at that operating point. At the Rev D
+    nominal this reproduces the 0.747/in quoted in PMI section 4.2 to four figures,
+    which is an independent check on the re-anchoring.
+    """
+    factor = (1.0 + F15_MS_AFTER) / (1.0 + margin(RA_NOM, RTR_NOM))
+    ms_at_f15 = (1.0 + ms_nom) * factor - 1.0
+    return (ms_nom - ms_at_f15) / F15_DE
+
+
+def tolerance_stack(t_eff: float = T_EFF_ELASTIC) -> dict:
+    """Stack the released tolerances onto the margin at the given contact ratio.
+
+    Lug areas are linear in effective thickness, so both load ratios scale by t_eff.
+    """
+    scale = T_EFF_ELASTIC / t_eff
+    ra_nom, rtr_nom = RA_NOM * scale, RTR_NOM * scale
+    ms_nom = margin(ra_nom, rtr_nom)
+    dms_de = position_slope(ms_nom)
 
     # Thickness: every lug area is linear in t, so both load ratios scale by t_nom/t.
     ft = T_NOM / T_LML
-    d_thickness = margin(RA_NOM * ft, RTR_NOM * ft) - ms_nom
+    d_thickness = margin(ra_nom * ft, rtr_nom * ft) - ms_nom
 
     # Bore size at LMC: net-section area (w - D) * t falls 0.1 percent while bearing
     # area D * t rises 0.1 percent.  The adverse 0.1 percent is applied to BOTH ratios,
     # which bounds the term rather than resolving which mode governs.
     fd = (W_NOM - D_NOM) / (W_NOM - D_LMC)
-    d_boresize = margin(RA_NOM * fd, RTR_NOM * fd) - ms_nom
+    d_boresize = margin(ra_nom * fd, rtr_nom * fd) - ms_nom
 
     # Bore position: radial offset at LMC includes the full MMC bonus.
     radial = 0.5 * (POS_TOL + MMC_BONUS)
-    d_position = -radial * DMS_DE
+    d_position = -radial * dms_de
 
     terms = {"thickness": d_thickness, "bore_position": d_position, "bore_size": d_boresize}
     worst = sum(terms.values())
     rss = -math.sqrt(sum(value ** 2 for value in terms.values()))
     return {
+        "t_eff_over_t": t_eff,
+        "dms_de_per_in": round(dms_de, 4),
         "ms_nominal": round(ms_nom, 5),
         "terms": {key: round(value, 5) for key, value in terms.items()},
         "worst_case_delta": round(worst, 5),
@@ -208,7 +236,8 @@ def main() -> int:
         "characteristics": screened,
         "measurement_system_analysis": measurement_system_analysis(),
         "process_capability": process_capability(),
-        "tolerance_stack": tolerance_stack(),
+        "tolerance_stack": tolerance_stack(T_EFF_PLASTIC),
+        "tolerance_stack_elastic_basis": tolerance_stack(T_EFF_ELASTIC),
         "errors": errors,
     }
     OUT.parent.mkdir(parents=True, exist_ok=True)
@@ -216,13 +245,14 @@ def main() -> int:
 
     for error in errors:
         print(f"ERROR: {error}")
-    stack = payload["tolerance_stack"]
     print(f"Inspection plan OK: {len(screened)} characteristics, 0 validation errors"
           if not errors else "Inspection plan FAILED")
-    print(f"Worst-case tolerance stack: MS {stack['ms_nominal']:+.4f} -> "
-          f"{stack['ms_worst_case']:+.4f} "
-          f"({stack['worst_case_consumption_percent']} percent of nominal margin)")
-    print(f"RSS stack: MS {stack['ms_rss']:+.4f}")
+    for label, key in (("elastic", "tolerance_stack_elastic_basis"),
+                       ("plastic", "tolerance_stack")):
+        st = payload[key]
+        print(f"  {label}  t_eff/t {st['t_eff_over_t']:.4f}  dMS/de {st['dms_de_per_in']:.4f}  "
+              f"MS {st['ms_nominal']:+.4f} -> {st['ms_worst_case']:+.4f}  "
+              f"({st['worst_case_consumption_percent']} percent consumed)")
     print(f"Written: {OUT.relative_to(ROOT)}")
     return 1 if errors else 0
 
