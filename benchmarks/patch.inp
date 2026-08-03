@@ -20,6 +20,11 @@ mshkey,0
 mshape,0,2d
 amesh,all
 
+! Detach the mesh from the solid model. Without this, nodes remain associated
+! with AREA 1 and NMODIF refuses to move them:
+!   "Node 17 is attached to AREA 1 and cannot be altered."
+modmsh,detach
+
 ! distort the interior nodes so this is a real patch test and not a
 ! regular grid. boundary nodes are left exactly where they are.
 nsel,s,loc,x,0.001,0.999
