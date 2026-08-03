@@ -13,8 +13,7 @@ Two impact analyses are run and recorded:
      with the real rationale (the lug-axis mapping error). The descendant set the graph
      marks STALE is compared against the rework that actually happened.
 
-  B. FORWARD QUERY — what would go stale if the pending elastic-plastic contact run
-     changes t_eff/t.
+  B. FORWARD QUERY — what would go stale if the contact measurement changes again.
 
 Outputs:
     digital_thread/thread_AF-DT-1000_revD.json
@@ -101,7 +100,7 @@ ANALYSES = [
      {"pin_bending_MPa": 780}),
     ("ANL-F7-CONTACT", "analysis", "D", "docs/F7_CONTACT_THICK_LUG.md",
      {"t_eff_over_t": 0.681, "basis": "elastic only", "mesh_points": 3,
-      "note": "makes MS a lower bound"}),
+      "note": "elastic lower bound, superseded by F16"}),
     ("ANL-F9-DT", "analysis", "D", "docs/F9_DAMAGE_TOLERANCE.md", {"a_c_mm": 3.07}),
     ("ANL-F9B-SPECTRUM", "analysis", "D", "docs/F9b_SPECTRUM_AND_INTERVAL.md",
      {"class": "SYNTHETIC_SPECTRUM", "interval_flights": 4500, "ndi_threshold_mm": 1.27}),
@@ -112,11 +111,20 @@ ANALYSES = [
      {"tests": 243, "ratio_range": "0.85-1.19"}),
     ("ANL-F13-STACK", "analysis", "D", "docs/F13_MANUFACTURING_INSPECTION.md",
      {"ms_worst_case": 0.0568, "consumption_pct": 27.6}),
+    ("ANL-F16-PLASTIC", "analysis", "D", "docs/F16_ELASTIC_PLASTIC_CONTACT.md",
+     {"t_eff_over_t": 0.7300, "basis": "elastic-plastic", "MS": 0.1562,
+      "max_plastic_strain": 0.06456,
+      "note": "supersedes the elastic F7 lower bound"}),
+    ("ANL-F17-MODALBUCK", "analysis", "D", "docs/F17_MODAL_BUCKLING_FE.md",
+     {"f1_Hz": 1197.2, "modes": 6, "buckling_multipliers": "all negative",
+      "critical_abs_multiplier": 25.068}),
+    ("RPT-FE-VERIFICATION", "report", "D", "reports/FE_VERIFICATION_REPORT.md",
+     {"benchmarks": 3, "patch_error_m": 4.34e-19}),
 ]
 
 RELEASED = [
     ("MARGIN-AF-DT-1000", "margin", "D", "docs/MARGIN_SUMMARY.md",
-     {"MS": 0.078, "basis": "A-basis, thick-lug corrected, fitting factor 1.15",
+     {"MS": 0.156, "basis": "A-basis, elastic-plastic thick-lug corrected, fitting factor 1.15",
       "authoritative": True}),
     ("PMI-AF-DT-1000", "pmi_definition", "D", "docs/PMI_GDT_DEFINITION.md", {}),
     ("INSP-PLAN-AF-DT-1000", "inspection_plan", "D",
@@ -170,6 +178,18 @@ LINKS = [
     ("ANL-F9B-SPECTRUM", "INSP-PLAN-AF-DT-1000", "sets_ndi_threshold_of"),
     ("INSP-PLAN-AF-DT-1000", "NCR-F15-001", "detects"),
     ("ANL-F13-STACK", "RPT-STRESS-AF-DT-1000", "reported_in"),
+    # F16 supersedes the elastic contact measurement without deleting it
+    ("LOAD-AF-DT-1000", "ANL-F16-PLASTIC", "load_input"),
+    ("GEO-AF-DT-1000", "ANL-F16-PLASTIC", "geometry_input"),
+    ("ANL-F7-CONTACT", "ANL-F16-PLASTIC", "superseded_by"),
+    ("ANL-F16-PLASTIC", "MARGIN-AF-DT-1000", "corrects"),
+    ("ANL-F16-PLASTIC", "RPT-STRESS-AF-DT-1000", "reported_in"),
+    # F17 completes the analytical dynamics work
+    ("LOAD-AF-DT-1000", "ANL-F17-MODALBUCK", "load_input"),
+    ("GEO-AF-DT-1000", "ANL-F17-MODALBUCK", "geometry_input"),
+    ("ANL-F10-DYNAMICS", "ANL-F17-MODALBUCK", "completed_by"),
+    ("ANL-F17-MODALBUCK", "RPT-STRESS-AF-DT-1000", "reported_in"),
+    ("RPT-FE-VERIFICATION", "MARGIN-AF-DT-1000", "verifies_method_of"),
     ("ANL-F6-PIN", "RPT-STRESS-AF-DT-1000", "reported_in"),
     ("ANL-F10-DYNAMICS", "RPT-STRESS-AF-DT-1000", "reported_in"),
     ("ANL-F11-OPT", "RPT-STRESS-AF-DT-1000", "reported_in"),
@@ -258,11 +278,12 @@ def historical_replay() -> dict:
 
 
 def forward_query() -> dict:
-    """What the pending elastic-plastic contact run would invalidate."""
+    """What a further revision of the contact measurement would invalidate."""
     graph, _ = new_graph()
     stale = graph.revise_artifact(
         "ANL-F7-CONTACT", "E",
-        "elastic-plastic contact run supersedes the elastic t_eff/t = 0.681 lower bound",
+        "contact measurement revised again; F16 already superseded the elastic "
+        "t_eff/t = 0.681 lower bound with 0.7300",
     )
     graph.close()
     return {
