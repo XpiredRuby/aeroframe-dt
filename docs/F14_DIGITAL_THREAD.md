@@ -16,7 +16,7 @@ plus two impact analyses run on it.
 `AFDT-REQ-016` was already closed by the engine and a generic synthetic graph. **The engine was
 never pointed at this project.** F14 populates it with the real thing:
 
-    53 artifacts, 68 links, 0 audit issues
+    56 artifacts, 79 links, 0 audit issues
 
 Every artifact backed by a file carries the **SHA-256 of that file computed at build time**, not a
 recorded string. Re-running the build after any edit changes the hash. The graph is regenerable
@@ -40,6 +40,10 @@ revised persists across the revision. Modelling each revision as its own node wo
 history a chain of unrelated objects and would make "what did this change break" unanswerable —
 which is the only question the graph exists to answer.
 
+The same principle handles supersession. When F16 replaced F7's elastic contact measurement, F7 was
+**not** deleted or overwritten — it remains a node, linked to F16 by a `superseded_by` relation.
+The elastic result is still evidence; it is just no longer the governing one.
+
 ## 3. Impact analysis A — historical replay
 
 **The test:** register the graph as it stood when the load basis was at revision B, then apply the
@@ -47,12 +51,12 @@ real correction — the lug-axis mapping error, where 30.96° had been measured 
 than from the lug axis, and the correct 59.04° is transverse-dominant. Compare what the graph
 flags against the rework that actually happened.
 
-**Result: 24 artifacts marked STALE.**
+**Result: 26 artifacts marked STALE.**
 
 | Group | Flagged |
 |---|---|
 | The load basis itself | LOAD-AF-DT-1000 |
-| Analyses | F5 FE, F6 pin, F7 contact, F9 DT, F9b spectrum, F10 dynamics, F11 optimisation, F13 stack |
+| Analyses | F5 FE, F6 pin, F7 contact, F9 DT, F9b spectrum, F10 dynamics, F11 optimisation, F13 stack, F16 elastic-plastic, F17 modal/buckling |
 | Released | MARGIN-AF-DT-1000, PMI-AF-DT-1000, INSP-PLAN, NCR-F15-001, RPT-STRESS |
 | PMI characteristics | all 10 |
 
@@ -67,31 +71,30 @@ does not take an applied load and is therefore unaffected by a load revision, an
 buckling assessment, which does. The graph flags the whole document because the document is one
 node.
 
+**F17 inherits the same problem and demonstrates it more sharply.** Its modal half is genuinely
+load-independent — F17 solved it with the prestress link deliberately removed — while its buckling
+half is prestressed by the static solution and would genuinely go stale. One node, two answers.
+
 This is a real limitation and it generalises: **invalidation here is transitive and unconditional.
 The graph over-flags rather than under-flags.** For a configuration-control tool that is the right
 direction to be wrong in, but a reviewer should know that a STALE flag means "re-examine", not
 "re-run".
 
-Splitting F10 into separate modal and buckling nodes would fix this instance. The general problem —
-that document granularity and dependency granularity are not the same — does not go away.
+## 4. Impact analysis B — forward query on a contact revision
 
-## 4. Impact analysis B — forward query on the pending elastic-plastic run
+**The question:** if the contact measurement changes again, what does it invalidate?
 
-**The question:** the elastic-plastic contact run is the highest-value open item
-(`MARGIN_SUMMARY.md` §11). What does it invalidate when it lands?
-
-**Result: 17 artifacts, including all 10 PMI characteristics, the inspection plan, the F13
+**Result: 18 artifacts, including all 10 PMI characteristics, the inspection plan, the F13
 tolerance stack, the NCR assessment and the stress report.**
 
-**This is a sequencing finding, not a bookkeeping one.** The obvious expectation is that a better
-contact measurement moves a margin number. What the graph shows is that it moves the **tolerance
-scheme** too — because `PMI_GDT_DEFINITION.md` derives every tolerance from margin sensitivity
-rather than from convention, and `F13` stacks those tolerances back onto the margin. The
-dependency is real and it is one this project created deliberately.
+**This is a sequencing finding, not a bookkeeping one**, and it was acted on. Before F16 was run,
+this query showed that a new contact result would move the **tolerance scheme** as well as the
+margin — because `PMI_GDT_DEFINITION.md` derives every tolerance from margin sensitivity and `F13`
+stacks those tolerances back onto the margin.
 
-**Consequence: the elastic-plastic run should be executed before any further work downstream of
-the margin is treated as final.** Anything built on `MS = +0.078` between now and then is built on
-a value the run is expected to change.
+**That is why the elastic-plastic run was executed before any further downstream work was treated
+as final.** The prediction held: F16 moved the margin from +0.078 to +0.156, and the F13 stack now
+carries an open item to re-propagate at the new operating point.
 
 ## 5. Audit
 
@@ -106,9 +109,9 @@ producing a graph with a hole in it.
    result. The graph tells you what to look at; it does not tell you whether it mattered.
 2. **Invalidation is unconditional and transitive** — see §3.1. Conservative by design.
 3. **Node granularity is document granularity.** Where a document contains load-dependent and
-   load-independent content, the graph cannot distinguish them.
-4. **Link relations are labels, not semantics.** `corrects` and `load_input` are recorded and
-   displayed but the engine treats every link identically when propagating staleness.
+   load-independent content, the graph cannot distinguish them. F10 and F17 both show this.
+4. **Link relations are labels, not semantics.** `corrects`, `superseded_by` and `load_input` are
+   recorded and displayed but the engine treats every link identically when propagating staleness.
 5. **The graph is rebuilt, not maintained.** There is no persistent database under version control
    and no history across builds beyond what the revision events record within a single run.
 6. **Requirement-to-evidence links come from a single `evidence_path` column**, so a requirement
