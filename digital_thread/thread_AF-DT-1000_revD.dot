@@ -32,6 +32,8 @@ digraph AeroFrameDT {
   "ANL-F11-OPT" [label="ANL-F11-OPT\nanalysis rev D\nCURRENT"];
   "ANL-F12-CORR" [label="ANL-F12-CORR\nanalysis rev D\nCURRENT"];
   "ANL-F13-STACK" [label="ANL-F13-STACK\nanalysis rev D\nCURRENT"];
+  "ANL-F16-PLASTIC" [label="ANL-F16-PLASTIC\nanalysis rev D\nCURRENT"];
+  "ANL-F17-MODALBUCK" [label="ANL-F17-MODALBUCK\nanalysis rev D\nCURRENT"];
   "ANL-F5-FE" [label="ANL-F5-FE\nanalysis rev D\nCURRENT"];
   "ANL-F6-PIN" [label="ANL-F6-PIN\nanalysis rev D\nCURRENT"];
   "ANL-F7-CONTACT" [label="ANL-F7-CONTACT\nanalysis rev D\nCURRENT"];
@@ -47,6 +49,7 @@ digraph AeroFrameDT {
   "MARGIN-AF-DT-1000" [label="MARGIN-AF-DT-1000\nmargin rev D\nCURRENT"];
   "NCR-F15-001" [label="NCR-F15-001\nnonconformance rev D\nCURRENT"];
   "PMI-AF-DT-1000" [label="PMI-AF-DT-1000\npmi_definition rev D\nCURRENT"];
+  "RPT-FE-VERIFICATION" [label="RPT-FE-VERIFICATION\nreport rev D\nCURRENT"];
   "RPT-STRESS-AF-DT-1000" [label="RPT-STRESS-AF-DT-1000\nreport rev D\nCURRENT"];
   "SRC-EKVALL-1986" [label="SRC-EKVALL-1986\nsource rev 1986\nCURRENT"];
   "SRC-FAR-25" [label="SRC-FAR-25\nsource rev current\nCURRENT"];
@@ -66,17 +69,23 @@ digraph AeroFrameDT {
   "AFDT-REQ-003" -> "LOAD-AF-DT-1000" [label="verified_by"];
   "AFDT-REQ-007" -> "CAD-BUILD-REVD" [label="verified_by"];
   "AFDT-REQ-008" -> "PMI-AF-DT-1000" [label="verified_by"];
+  "AFDT-REQ-009" -> "RPT-FE-VERIFICATION" [label="verified_by"];
   "AFDT-REQ-010" -> "ANL-F5-FE" [label="verified_by"];
   "AFDT-REQ-013" -> "ANL-F9-DT" [label="verified_by"];
-  "AFDT-REQ-014" -> "ANL-F10-DYNAMICS" [label="verified_by"];
+  "AFDT-REQ-014" -> "ANL-F17-MODALBUCK" [label="verified_by"];
   "AFDT-REQ-015" -> "ANL-F11-OPT" [label="verified_by"];
   "AFDT-REQ-018" -> "ANL-F12-CORR" [label="verified_by"];
+  "ANL-F10-DYNAMICS" -> "ANL-F17-MODALBUCK" [label="completed_by"];
   "ANL-F10-DYNAMICS" -> "RPT-STRESS-AF-DT-1000" [label="reported_in"];
   "ANL-F11-OPT" -> "RPT-STRESS-AF-DT-1000" [label="reported_in"];
   "ANL-F12-CORR" -> "MARGIN-AF-DT-1000" [label="bounds_scatter_of"];
   "ANL-F13-STACK" -> "RPT-STRESS-AF-DT-1000" [label="reported_in"];
+  "ANL-F16-PLASTIC" -> "MARGIN-AF-DT-1000" [label="corrects"];
+  "ANL-F16-PLASTIC" -> "RPT-STRESS-AF-DT-1000" [label="reported_in"];
+  "ANL-F17-MODALBUCK" -> "RPT-STRESS-AF-DT-1000" [label="reported_in"];
   "ANL-F5-FE" -> "MARGIN-AF-DT-1000" [label="validates_assumptions_of"];
   "ANL-F6-PIN" -> "RPT-STRESS-AF-DT-1000" [label="reported_in"];
+  "ANL-F7-CONTACT" -> "ANL-F16-PLASTIC" [label="superseded_by"];
   "ANL-F7-CONTACT" -> "MARGIN-AF-DT-1000" [label="corrects"];
   "ANL-F9-DT" -> "ANL-F9B-SPECTRUM" [label="feeds"];
   "ANL-F9B-SPECTRUM" -> "INSP-PLAN-AF-DT-1000" [label="sets_ndi_threshold_of"];
@@ -87,6 +96,8 @@ digraph AeroFrameDT {
   "CAD-PARAMS" -> "CAD-BUILD-REVD" [label="parameterises"];
   "GEO-AF-DT-1000" -> "ANL-F10-DYNAMICS" [label="geometry_input"];
   "GEO-AF-DT-1000" -> "ANL-F11-OPT" [label="geometry_input"];
+  "GEO-AF-DT-1000" -> "ANL-F16-PLASTIC" [label="geometry_input"];
+  "GEO-AF-DT-1000" -> "ANL-F17-MODALBUCK" [label="geometry_input"];
   "GEO-AF-DT-1000" -> "ANL-F5-FE" [label="geometry_input"];
   "GEO-AF-DT-1000" -> "ANL-F6-PIN" [label="geometry_input"];
   "GEO-AF-DT-1000" -> "ANL-F7-CONTACT" [label="geometry_input"];
@@ -95,6 +106,8 @@ digraph AeroFrameDT {
   "INSP-PLAN-AF-DT-1000" -> "NCR-F15-001" [label="detects"];
   "LOAD-AF-DT-1000" -> "ANL-F10-DYNAMICS" [label="load_input"];
   "LOAD-AF-DT-1000" -> "ANL-F11-OPT" [label="load_input"];
+  "LOAD-AF-DT-1000" -> "ANL-F16-PLASTIC" [label="load_input"];
+  "LOAD-AF-DT-1000" -> "ANL-F17-MODALBUCK" [label="load_input"];
   "LOAD-AF-DT-1000" -> "ANL-F5-FE" [label="load_input"];
   "LOAD-AF-DT-1000" -> "ANL-F6-PIN" [label="load_input"];
   "LOAD-AF-DT-1000" -> "ANL-F7-CONTACT" [label="load_input"];
@@ -116,6 +129,7 @@ digraph AeroFrameDT {
   "PMI-AF-DT-1000" -> "AFDT-CHAR-010" [label="specifies"];
   "PMI-AF-DT-1000" -> "ANL-F13-STACK" [label="tolerances_stacked_by"];
   "PMI-AF-DT-1000" -> "INSP-PLAN-AF-DT-1000" [label="defines"];
+  "RPT-FE-VERIFICATION" -> "MARGIN-AF-DT-1000" [label="verifies_method_of"];
   "SRC-EKVALL-1986" -> "ANL-F12-CORR" [label="correlation_source"];
   "SRC-FAR-25" -> "LOAD-AF-DT-1000" [label="governs"];
   "SRC-MELCON-HOBLIT" -> "MARGIN-AF-DT-1000" [label="method_source"];
