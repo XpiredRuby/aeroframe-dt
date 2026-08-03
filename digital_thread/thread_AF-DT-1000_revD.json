@@ -250,7 +250,7 @@
         "status": "VERIFIED"
       },
       "revision": "1",
-      "sha256": "6583e80406f2511aba14b57e05707e96169a1e42127fe16240340b4491e5a545",
+      "sha256": "0abb858db6ac595df2d6a4f751759d27f9e311ad5befa55756e1f47fa93ffd55",
       "status": "CURRENT",
       "uri": "docs/PMI_GDT_DEFINITION.md"
     },
@@ -260,12 +260,12 @@
       "metadata": {
         "category": "verification",
         "method": "test",
-        "status": "OPEN"
+        "status": "VERIFIED"
       },
       "revision": "1",
-      "sha256": "8f17150a200a440618dcfd493dfe8074fd840b161b757170dadf23f664b293ae",
+      "sha256": "b638bdd1e8724df1b413ed29310e1bc726476741c493d6d8e85dc74ce70d9722",
       "status": "CURRENT",
-      "uri": "src/aeroframe_dt/solver_decks.py"
+      "uri": "reports/FE_VERIFICATION_REPORT.md"
     },
     {
       "id": "AFDT-REQ-010",
@@ -325,12 +325,12 @@
       "metadata": {
         "category": "dynamics",
         "method": "analysis",
-        "status": "IN_PROGRESS"
+        "status": "VERIFIED"
       },
       "revision": "1",
-      "sha256": "55e760d9b251aca44d7ebf88a5d5ce74214420866e54ddbb694883f842cd4a0b",
+      "sha256": "a4fa11e7d2c6728cec4873cb29ad2b95473e34b123e3d73d209d0c51eaca3e93",
       "status": "CURRENT",
-      "uri": "docs/F10_DYNAMICS_BUCKLING.md"
+      "uri": "docs/F17_MODAL_BUCKLING_FE.md"
     },
     {
       "id": "AFDT-REQ-015",
@@ -430,6 +430,35 @@
       "uri": "docs/F13_MANUFACTURING_INSPECTION.md"
     },
     {
+      "id": "ANL-F16-PLASTIC",
+      "kind": "analysis",
+      "metadata": {
+        "MS": 0.1562,
+        "basis": "elastic-plastic",
+        "max_plastic_strain": 0.06456,
+        "note": "supersedes the elastic F7 lower bound",
+        "t_eff_over_t": 0.73
+      },
+      "revision": "D",
+      "sha256": "92c66c6c7041e71afda5dab59fa5f5d05429f2e4a2147193b2cebe8285733818",
+      "status": "CURRENT",
+      "uri": "docs/F16_ELASTIC_PLASTIC_CONTACT.md"
+    },
+    {
+      "id": "ANL-F17-MODALBUCK",
+      "kind": "analysis",
+      "metadata": {
+        "buckling_multipliers": "all negative",
+        "critical_abs_multiplier": 25.068,
+        "f1_Hz": 1197.2,
+        "modes": 6
+      },
+      "revision": "D",
+      "sha256": "a4fa11e7d2c6728cec4873cb29ad2b95473e34b123e3d73d209d0c51eaca3e93",
+      "status": "CURRENT",
+      "uri": "docs/F17_MODAL_BUCKLING_FE.md"
+    },
+    {
       "id": "ANL-F5-FE",
       "kind": "analysis",
       "metadata": {
@@ -459,7 +488,7 @@
       "metadata": {
         "basis": "elastic only",
         "mesh_points": 3,
-        "note": "makes MS a lower bound",
+        "note": "elastic lower bound, superseded by F16",
         "t_eff_over_t": 0.681
       },
       "revision": "D",
@@ -578,12 +607,12 @@
       "id": "MARGIN-AF-DT-1000",
       "kind": "margin",
       "metadata": {
-        "MS": 0.078,
+        "MS": 0.156,
         "authoritative": true,
-        "basis": "A-basis, thick-lug corrected, fitting factor 1.15"
+        "basis": "A-basis, elastic-plastic thick-lug corrected, fitting factor 1.15"
       },
       "revision": "D",
-      "sha256": "baef304bbfdd8f46441d35c1fba9b5d1ea0012fbb023f8883d6dfc27f07e1d3c",
+      "sha256": "cab091e131721a857a2c068dd373ea806e52035c2c060ce5875875d1f8925563",
       "status": "CURRENT",
       "uri": "docs/MARGIN_SUMMARY.md"
     },
@@ -605,9 +634,21 @@
       "kind": "pmi_definition",
       "metadata": {},
       "revision": "D",
-      "sha256": "6583e80406f2511aba14b57e05707e96169a1e42127fe16240340b4491e5a545",
+      "sha256": "0abb858db6ac595df2d6a4f751759d27f9e311ad5befa55756e1f47fa93ffd55",
       "status": "CURRENT",
       "uri": "docs/PMI_GDT_DEFINITION.md"
+    },
+    {
+      "id": "RPT-FE-VERIFICATION",
+      "kind": "report",
+      "metadata": {
+        "benchmarks": 3,
+        "patch_error_m": 4.34e-19
+      },
+      "revision": "D",
+      "sha256": "b638bdd1e8724df1b413ed29310e1bc726476741c493d6d8e85dc74ce70d9722",
+      "status": "CURRENT",
+      "uri": "reports/FE_VERIFICATION_REPORT.md"
     },
     {
       "id": "RPT-STRESS-AF-DT-1000",
@@ -751,6 +792,11 @@
       "relation": "verified_by"
     },
     {
+      "child_id": "RPT-FE-VERIFICATION",
+      "parent_id": "AFDT-REQ-009",
+      "relation": "verified_by"
+    },
+    {
       "child_id": "ANL-F5-FE",
       "parent_id": "AFDT-REQ-010",
       "relation": "verified_by"
@@ -761,7 +807,7 @@
       "relation": "verified_by"
     },
     {
-      "child_id": "ANL-F10-DYNAMICS",
+      "child_id": "ANL-F17-MODALBUCK",
       "parent_id": "AFDT-REQ-014",
       "relation": "verified_by"
     },
@@ -774,6 +820,11 @@
       "child_id": "ANL-F12-CORR",
       "parent_id": "AFDT-REQ-018",
       "relation": "verified_by"
+    },
+    {
+      "child_id": "ANL-F17-MODALBUCK",
+      "parent_id": "ANL-F10-DYNAMICS",
+      "relation": "completed_by"
     },
     {
       "child_id": "RPT-STRESS-AF-DT-1000",
@@ -797,6 +848,21 @@
     },
     {
       "child_id": "MARGIN-AF-DT-1000",
+      "parent_id": "ANL-F16-PLASTIC",
+      "relation": "corrects"
+    },
+    {
+      "child_id": "RPT-STRESS-AF-DT-1000",
+      "parent_id": "ANL-F16-PLASTIC",
+      "relation": "reported_in"
+    },
+    {
+      "child_id": "RPT-STRESS-AF-DT-1000",
+      "parent_id": "ANL-F17-MODALBUCK",
+      "relation": "reported_in"
+    },
+    {
+      "child_id": "MARGIN-AF-DT-1000",
       "parent_id": "ANL-F5-FE",
       "relation": "validates_assumptions_of"
     },
@@ -804,6 +870,11 @@
       "child_id": "RPT-STRESS-AF-DT-1000",
       "parent_id": "ANL-F6-PIN",
       "relation": "reported_in"
+    },
+    {
+      "child_id": "ANL-F16-PLASTIC",
+      "parent_id": "ANL-F7-CONTACT",
+      "relation": "superseded_by"
     },
     {
       "child_id": "MARGIN-AF-DT-1000",
@@ -856,6 +927,16 @@
       "relation": "geometry_input"
     },
     {
+      "child_id": "ANL-F16-PLASTIC",
+      "parent_id": "GEO-AF-DT-1000",
+      "relation": "geometry_input"
+    },
+    {
+      "child_id": "ANL-F17-MODALBUCK",
+      "parent_id": "GEO-AF-DT-1000",
+      "relation": "geometry_input"
+    },
+    {
       "child_id": "ANL-F5-FE",
       "parent_id": "GEO-AF-DT-1000",
       "relation": "geometry_input"
@@ -892,6 +973,16 @@
     },
     {
       "child_id": "ANL-F11-OPT",
+      "parent_id": "LOAD-AF-DT-1000",
+      "relation": "load_input"
+    },
+    {
+      "child_id": "ANL-F16-PLASTIC",
+      "parent_id": "LOAD-AF-DT-1000",
+      "relation": "load_input"
+    },
+    {
+      "child_id": "ANL-F17-MODALBUCK",
       "parent_id": "LOAD-AF-DT-1000",
       "relation": "load_input"
     },
@@ -999,6 +1090,11 @@
       "child_id": "INSP-PLAN-AF-DT-1000",
       "parent_id": "PMI-AF-DT-1000",
       "relation": "defines"
+    },
+    {
+      "child_id": "MARGIN-AF-DT-1000",
+      "parent_id": "RPT-FE-VERIFICATION",
+      "relation": "verifies_method_of"
     },
     {
       "child_id": "ANL-F12-CORR",
