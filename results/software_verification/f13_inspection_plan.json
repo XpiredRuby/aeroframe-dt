@@ -129,12 +129,31 @@
   },
   "tolerance_stack": {
     "bore_position_basis": "extrapolated from the F15 anchor, not derived; see PMI section 4.2",
-    "ms_nominal": 0.07843,
-    "ms_rss": 0.06365,
-    "ms_worst_case": 0.05677,
-    "rss_delta": -0.01478,
+    "dms_de_per_in": 0.8013,
+    "ms_nominal": 0.15619,
+    "ms_rss": 0.14034,
+    "ms_worst_case": 0.13297,
+    "rss_delta": -0.01585,
+    "t_eff_over_t": 0.73,
     "terms": {
-      "bore_position": -0.01195,
+      "bore_position": -0.01282,
+      "bore_size": -0.00116,
+      "thickness": -0.00925
+    },
+    "tolerance_scale_factor_to_zero_margin": 6.72,
+    "worst_case_consumption_percent": 14.9,
+    "worst_case_delta": -0.02323
+  },
+  "tolerance_stack_elastic_basis": {
+    "bore_position_basis": "extrapolated from the F15 anchor, not derived; see PMI section 4.2",
+    "dms_de_per_in": 0.7474,
+    "ms_nominal": 0.07843,
+    "ms_rss": 0.06364,
+    "ms_worst_case": 0.05676,
+    "rss_delta": -0.01478,
+    "t_eff_over_t": 0.6809,
+    "terms": {
+      "bore_position": -0.01196,
       "bore_size": -0.00108,
       "thickness": -0.00863
     },
