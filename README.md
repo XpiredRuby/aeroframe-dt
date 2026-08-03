@@ -21,42 +21,49 @@ toolchain and a revision-aware digital thread.
 
 | | |
 |---|---|
-| **Governing margin** | **`MS = +0.078`** — passes |
-| **With all released tolerances at their adverse limit** | **`MS = +0.057`** — still passes |
+| **Governing margin** | **`MS = +0.156`** — passes |
+| At Ekvall worst-case method scatter | `-0.028` — negative, and stated rather than buried |
 | Failure mode | combined bearing / transverse at the lug bore |
 | Pin | high-strength steel mandatory, bending governs at 780 MPa |
 | Damage tolerance | critical crack **3.07 mm**, NDI at 4,500-flight intervals |
+| First natural frequency | **1197 Hz** — inside the plausible blade-passing band |
 
-### The margin moved by a factor of 9
+### The margin moved by a factor of 9, then came halfway back
 
-| Stage | MS | What was wrong |
+| Stage | MS | What changed |
 |---|---|---|
 | Initial hand analysis | +0.710 | — |
-| Thick-lug correction | +0.165 | the method assumes uniform bearing; at `t/D = 1.25` it isn't |
-| Real A-basis allowables | **+0.078** | the assumed `Ftu` was 9% optimistic |
+| Thick-lug correction, elastic | +0.165 | the method assumes uniform bearing; at `t/D = 1.25` it isn't |
+| Real A-basis allowables | +0.078 | the assumed `Ftu` was 9% optimistic |
+| **Elastic-plastic contact measurement** | **+0.156** | yielding redistributes the bearing peak |
 
-Neither correction refined the arithmetic. Each removed an assumption that did not hold. **The most
-useful thing this project produced was finding out its own headline number was wrong.**
+The first two corrections refined nothing — each removed an assumption that did not hold. **The most
+useful thing this project produced was finding out its own headline number was wrong.** The third
+is the only correction that moved the margin favourably, and it did so by replacing a conservative
+bound with a measurement.
 
 ---
 
 ## What's distinctive
 
-**Predictions were committed to git before the runs that tested them.** Eight in total. Four held,
-four failed — including a bracketed deflection that came in 3× high, and a hypothesis about nodal
-averaging that a targeted test falsified outright. **The failures are still in the repository**,
+**Predictions were committed to git before the runs that tested them.** Eight in the FE correlation
+work, plus two more closed this month: that the analytical 2133 Hz first mode would prove **high**
+(it did, by 44%), and that a rectangular beam section might be entered 90° out and would then read
+**exactly 4× the correct deflection** (it did). **The failures are still in the repository**,
 because removing them would misrepresent how the conclusions were reached.
 
 **A measurement designed around a divergent quantity.** Contact pressure at a clearance-fit bore is
 mesh-singular — it rose 134% across a three-point convergence study and never settled. The needed
 quantity was extracted as a *ratio* of two runs sharing that singularity, which converged to 8.2%.
-Predicted to work, then demonstrated to work.
-[`docs/F7_CONTACT_THICK_LUG.md`](docs/F7_CONTACT_THICK_LUG.md)
+Predicted to work, then demonstrated to work — and the same construction carried cleanly into the
+elastic-plastic run.
+[`docs/F7_CONTACT_THICK_LUG.md`](docs/F7_CONTACT_THICK_LUG.md) ·
+[`docs/F16_ELASTIC_PLASTIC_CONTACT.md`](docs/F16_ELASTIC_PLASTIC_CONTACT.md)
 
 **A configuration-management tool tested against a rework cycle that actually happened.** The
 evidence graph was registered as it stood at load revision B, then the real correction was applied —
 a lug-axis mapping error where 30.96° had been measured from the wrong reference. The graph flagged
-24 artifacts stale, reproducing a blast radius that had been worked out by hand. The one place it
+26 artifacts stale, reproducing a blast radius that had been worked out by hand. The one place it
 over-flags is named and explained rather than hidden.
 [`docs/F14_DIGITAL_THREAD.md`](docs/F14_DIGITAL_THREAD.md)
 
@@ -69,6 +76,11 @@ to 0.1%. [`docs/F13_MANUFACTURING_INSPECTION.md`](docs/F13_MANUFACTURING_INSPECT
 initially set up as a check on an allowable-based margin. It isn't one — empirical allowables already
 contain the concentration and local plasticity. The setup was wrong, and the write-up says so.
 [`docs/F5_MARGIN_CROSSCHECK.md`](docs/F5_MARGIN_CROSSCHECK.md)
+
+**A claim retracted after the run that was supposed to prove it.** The elastic-plastic analysis was
+described in progress as settling whether the thick-lug correction and the Ekvall scatter band
+double-count. It does not — that question is about the composition of a 1986 test dataset, and no FE
+run on this fitting can answer it. §6 of F16 says so and the open item stays open.
 
 **Three separate two-point convergence studies gave misleading answers.** The third would have
 changed the engineering conclusion: a two-point trend extrapolated to a margin of +0.03, and the
@@ -83,14 +95,16 @@ third point showed it rebounding to +0.165.
 | Loads | 9g emergency landing, 617,776 N at 59.04° | complete |
 | F5 | Melcon-Hoblit lug analysis + Rev D linear elastic FE | complete |
 | F6 | Pin bending, thick-lug sensitivity | complete |
-| F7 | Two-body contact FE, `t_eff/t = 0.681` measured | complete, converged |
+| F7 | Two-body contact FE, elastic `t_eff/t = 0.681` | complete, converged |
 | F9 | Damage tolerance, critical crack + inspection interval | complete |
-| F10 | Dynamics and buckling | **analytical only** — FE outstanding |
+| F10 | Dynamics and buckling, analytical | complete |
 | F11 | Geometric optimization | complete |
 | F12 | Correlation against 243 published lug tests | complete |
 | F13 | Manufacturing, inspection, and tolerance stack | complete |
-| F14 | Populated digital thread, 53 artifacts, 68 links | complete |
+| F14 | Populated digital thread, 56 artifacts, 79 links | complete |
 | F15 | Nonconformance RCCA, mis-drilled bore | complete |
+| **F16** | **Elastic-plastic contact, `t_eff/t = 0.730`** | **complete** |
+| **F17** | **Modal + eigenvalue buckling FE** | **complete** |
 | F8 | Safe-life fatigue | **not supportable** — no S-N data exists for 7075-T7351 |
 
 ### Verification
@@ -99,12 +113,15 @@ third point showed it rebounding to +0.165.
 |---|---|
 | Hand method reconstructed independently on a stress basis | agrees to **0.06%** |
 | FE equilibrium after mesh refinement | **0.006%** |
+| Contact-model equilibrium, both elastic-plastic runs | **10 ppm** |
 | Geometry mass vs FE model | **0.01%** |
 | Correlation allowables vs MIL-HDBK-5J | Fsu matches to **0.1%** |
-| Mesh convergence | 3-point, repeated, singularities ruled out |
+| Constant-strain patch test on a distorted mesh | error **4.3e-19 m**, strains exact |
+| Cantilever, continuum model | **0.20%**, converged over 4× refinement |
+| Plate bending vs Navier series | **0.62%** |
 | Damage tolerance, two independent implementations | agree to **7%** on critical crack, **10%** on life |
 | Tolerance stack, exact vs linearised sensitivity | agree to **0.1%** |
-| Evidence graph audit | **0 issues** across 53 artifacts and 68 links |
+| Evidence graph audit | **0 issues** across 56 artifacts and 79 links |
 
 The damage-tolerance cross-check compared a hand calculation against `src/aeroframe_dt/fatigue.py`,
 written independently of the analysis. The hand calculation's own stated limitation — that its
@@ -182,7 +199,9 @@ aeroframe-dt report examples/synthetic_report.json report.md report.html
 
 ## Tools and sources
 
-**Ansys Mechanical 2025 R2** — linear elastic and nonlinear frictional contact
+**Ansys Mechanical 2025 R2** — linear elastic, nonlinear frictional contact, elastic-plastic, modal
+and eigenvalue buckling
+**Ansys Mechanical APDL 2025 R2** — analytical verification benchmarks
 **cadquery** — parametric geometry; all models rebuildable from `cad/`
 **MIL-HDBK-5J** — material allowables, fracture toughness, crack growth data
 **Abbott Aerospace AA-SM-009** — Melcon-Hoblit lug method, validated line-for-line against the
@@ -197,14 +216,16 @@ source's own worked example before use
 docs/               STRESS_REPORT_AF-DT-1000.md   <- start here
                     MARGIN_SUMMARY.md             <- authoritative margin figure
                     HANDOFF.md                    <- full project state
-                    F5/F6/F7/F9/F12/F13/F14/F15 analysis records
+                    F5/F6/F7/F9/F12/F13/F14/F15/F16/F17 analysis records
                     PMI_GDT_DEFINITION.md
                     SOFTWARE_COMPLETION_MATRIX.md
+benchmarks/         locked acceptance criteria and APDL verification decks
 cad/                parametric generators (cadquery)
 digital_thread/     populated evidence graph, JSON/DOT, impact analyses
 figures/            generated from recorded data by make_figures.py
 inspection_quality/ inspection plan for Rev D
 loads/              load basis revisions
+reports/            FE_VERIFICATION_REPORT.md
 src/                aeroframe_dt package
 tests/              unit tests for the analysis toolchain
 tools/              traceability, inspection, digital thread, evidence generation
@@ -218,16 +239,17 @@ rejects common ANSYS/NASTRAN/OptiStruct database formats.
 
 ## Status
 
-The analysis chain is complete through the formal stress report, the manufacturing and inspection
-package, and the digital thread. **Three items remain open**, all requiring solver time:
-
-- **elastic-plastic contact run** — tightens the `+0.078` lower bound and settles whether the
-  thick-lug correction and the Ekvall scatter band double-count the same effect;
-- **REQ-009 FE benchmarks** — patch, cantilever, plate;
-- **REQ-014 modal and buckling FE** — the analytical half is done.
+**17 of 18 formal requirements verified.** `tools/check_traceability.py` passes at 18 requirements
+and 38 verification rows. The analysis chain is complete from load basis through stress report,
+manufacturing and inspection package, digital thread, and FE verification.
 
 **REQ-012 safe-life fatigue cannot close honestly**: MIL-HDBK-5J provides no S-N curves for the
-T7351 temper. Damage tolerance is the appropriate route and is complete.
+T7351 temper. Damage tolerance is the appropriate route and is complete. **17 of 18 is the ceiling**,
+not a gap left unfilled.
+
+Open technical items, all stated in `MARGIN_SUMMARY.md` §11 rather than left implicit — the
+Ekvall specimen `t/D` range, an exact re-derivation of the F15 margin at `e = 1.900 in`, mesh
+convergence of the elastic-plastic ratio, and blade-passing separation against a defined engine.
 
 Not checked or approved by a licensed stress engineer. This demonstrates method, traceability and
 self-verification — it does not substantiate a flight article.
