@@ -115,33 +115,49 @@ the margin improves accordingly.
 
 **The fitting passes by 15.6%.**
 
-## 5. Ekvall correlation band, re-propagated
+## 5. Ekvall method scatter — on tolerance limits, not observed extremes
 
-Ekvall's 243 lug tests give predicted/test ratios of 0.85 to 1.19, mean 1.003. Allowable scales as
-`1/r`, so `(1 + MS)` scales as `1/r`.
+**Restated 2026-08-04 from the source paper.** See `F18_EKVALL_SPECIMEN_BASIS.md`.
 
-| Ekvall ratio | On +0.710 (original) | On +0.078 (elastic) | **On +0.156 (current)** |
+Ekvall's 243 correlated lug tests give a mean test/predicted ratio of **1.003** with a standard
+deviation of **0.065** over 224 predictions, approximately normally distributed. The source
+provides one-sided tolerance limit factors on predicted load:
+
+| Basis | factor | pred/test | **MS** |
 |---|---|---|---|
-| Best, r = 0.85 | +1.012 | +0.269 | **+0.360** |
-| Mean, r = 1.003 | +0.705 | +0.075 | **+0.153** |
-| **Worst, r = 1.19** | +0.437 | -0.094 | **-0.028** |
+| Mean | 1.003 | 1.003 | +0.153 |
+| 90% probability, 95% confidence | 0.910 | <= 1.099 | **+0.052** |
+| **99% probability, 95% confidence** | **0.837** | **<= 1.195** | **-0.032** |
 
-**At Ekvall's worst-case method scatter the margin is still negative**, but far less so than the
-elastic case suggested. The breakeven is `t_eff/t = 0.7513`; the elastic-plastic run measured
-**0.7300, just short of clearing the band.**
+**99% probability at 95% confidence is the definition of A-basis.** This project uses A-basis
+allowables, so **1.195 is the statistically consistent scatter pairing** and -0.032 is the correct
+worst case to quote. The project previously used the observed extreme ratio of 1.19, giving -0.028;
+the difference is small and the tolerance limit is the better-founded number.
 
-### Caveat — possible double-counting
+**At the B-basis-consistent pairing (90%/95%) the margin is positive at +0.052.** If a redundant
+load path is ever demonstrated, B-basis allowables and the 90%/95% scatter limit pair correctly and
+the margin is positive on both counts.
 
-Ekvall's band came from 243 physical lug tests. If any specimens were thick lugs, the thick-lug
-effect is **already partly inside the measured scatter**, and applying the full correction plus the
-full worst-case scatter penalises the same physical effect twice. Resolving this needs the Ekvall
-paper to establish the t/D range of his specimen set.
+### Double-counting — RESOLVED, directionally
 
-**The elastic-plastic run did not resolve this.** F16 measured `t_eff/t`; the double-counting
-question is about the composition of a 1986 test dataset and no FE run on this fitting can answer
-it. See `F16_ELASTIC_PLASTIC_CONTACT.md` §6, which corrects an overstatement made during execution.
+**Previously open:** if Ekvall's specimens included thick lugs, the thick-lug effect is already
+inside the measured scatter and applying both penalises the same physics twice.
 
-**Best estimate +0.156. Worst-case stack -0.028, possibly conservative.**
+**The source confirms it does.** Specimen `D/t` ranges 0.76 to 10.2, i.e. **`t/D` from 0.098 to
+1.316**. This fitting is at **`t/D` = 1.250, inside that range at 95% of the thickest specimen.**
+The method contains **no thickness-dependent term** — `P = D t K_BR F_tu` with `K_BR` a function of
+`W/D` and eccentricity only — so any real through-thickness bearing effect in those tests was
+absorbed into the empirically fitted `K_BR` and its scatter.
+
+**The overlap cannot be quantified.** The source reports the `t/D` range but never its
+distribution; Table 2 breaks the set down by `2a/W` and loading angle only. **No numerical credit
+is therefore taken** — both the full thick-lug correction and the full scatter band continue to be
+applied.
+
+**What changes is that this is now known to be conservative, with a stated reason, rather than of
+unknown direction.**
+
+**Best estimate +0.156. A-basis-consistent worst case -0.032, established as conservative.**
 
 ## 6. Effect on the F15 nonconformance case
 
@@ -201,16 +217,20 @@ than discover:
    has been replaced by a measured +0.156. The remaining bias is that the 20x stiff-pin reference
    still bends slightly; the *change* from 0.6809 to 0.7300 is more robust than either absolute.
    F16 ran one mesh and inherits F7's convergence study rather than repeating it.
-2. **Worst-case method scatter is still negative** (-0.028), with the double-counting question
-   unresolved.
-3. **A-basis assumed.** If a redundant load path is demonstrated, B-basis applies.
+2. **The A-basis-consistent method scatter is negative** (-0.032), but this is now established as
+   **conservative**: the correlation set included lugs as thick as this one and the method has no
+   thickness term, so the thick-lug effect is applied twice. The overlap cannot be quantified.
+3. **A-basis assumed.** If a redundant load path is demonstrated, B-basis applies and the
+   B-basis-consistent scatter limit gives +0.052 — positive on both counts.
 4. **The margin remains thin enough that the fitting factor matters.** Removing the 1.15 factor
    would raise it substantially; it is retained because FAR 25.625 requires it.
 
 ## 11. Open
 
 - [ ] Re-run Melcon-Hoblit at e = 1.900 in for an exact F15 margin
-- [ ] Establish the t/D range of Ekvall's specimens to resolve double-counting
+- [x] ~~Establish the t/D range of Ekvall's specimens to resolve double-counting~~ — **CLOSED**,
+      F18. Range is t/D 0.098-1.316; this fitting at 1.250 is inside it. Double-counting is real
+      but not quantifiable, so no credit is taken and the worst case is a conservative bound.
 - [x] ~~Elastic-plastic contact run to tighten the lower bound~~ — **CLOSED**, F16, `t_eff/t = 0.7300`
 - [ ] Re-propagate the F13 tolerance stack exactly at the new +0.156 operating point
 - [ ] Mesh-converge the elastic-plastic ratio; F16 ran one mesh and inherits F7's convergence study
