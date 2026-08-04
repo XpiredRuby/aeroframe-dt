@@ -459,6 +459,22 @@
       "uri": "docs/F17_MODAL_BUCKLING_FE.md"
     },
     {
+      "id": "ANL-F18-EKVALL",
+      "kind": "analysis",
+      "metadata": {
+        "ms_at_A_basis_scatter": -0.032,
+        "note": "double-counting confirmed real but not quantifiable",
+        "scatter_basis": "one-sided tolerance limits 0.910 at 90/95 and 0.837 at 99/95",
+        "specimen_t_over_D_max": 1.316,
+        "specimen_t_over_D_min": 0.098,
+        "this_fitting_t_over_D": 1.25
+      },
+      "revision": "D",
+      "sha256": "43284757302990a5600cf19533551c36fd8d761f3814f712d61bfd0cf2acde80",
+      "status": "CURRENT",
+      "uri": "docs/F18_EKVALL_SPECIMEN_BASIS.md"
+    },
+    {
       "id": "ANL-F5-FE",
       "kind": "analysis",
       "metadata": {
@@ -612,7 +628,7 @@
         "basis": "A-basis, elastic-plastic thick-lug corrected, fitting factor 1.15"
       },
       "revision": "D",
-      "sha256": "cab091e131721a857a2c068dd373ea806e52035c2c060ce5875875d1f8925563",
+      "sha256": "44e076f979be6c832aa5e4f8457ff4eb6a7062331b32085f7c2b8917aa4aa47c",
       "status": "CURRENT",
       "uri": "docs/MARGIN_SUMMARY.md"
     },
@@ -655,7 +671,7 @@
       "kind": "report",
       "metadata": {},
       "revision": "D",
-      "sha256": "8d16ee3cac6e20fb8fd6a931c89f23694e8f371e4f2885eb4c8cdc314048b422",
+      "sha256": "3a701a347e3787067cf197df80920d3e9eacc2e6276ab2198076e4371bb9fa80",
       "status": "CURRENT",
       "uri": "docs/STRESS_REPORT_AF-DT-1000.md"
     },
@@ -837,6 +853,11 @@
       "relation": "reported_in"
     },
     {
+      "child_id": "ANL-F18-EKVALL",
+      "parent_id": "ANL-F12-CORR",
+      "relation": "scatter_basis_restated_by"
+    },
+    {
       "child_id": "MARGIN-AF-DT-1000",
       "parent_id": "ANL-F12-CORR",
       "relation": "bounds_scatter_of"
@@ -863,6 +884,16 @@
     },
     {
       "child_id": "MARGIN-AF-DT-1000",
+      "parent_id": "ANL-F18-EKVALL",
+      "relation": "bounds_scatter_of"
+    },
+    {
+      "child_id": "RPT-STRESS-AF-DT-1000",
+      "parent_id": "ANL-F18-EKVALL",
+      "relation": "reported_in"
+    },
+    {
+      "child_id": "MARGIN-AF-DT-1000",
       "parent_id": "ANL-F5-FE",
       "relation": "validates_assumptions_of"
     },
@@ -875,6 +906,11 @@
       "child_id": "ANL-F16-PLASTIC",
       "parent_id": "ANL-F7-CONTACT",
       "relation": "superseded_by"
+    },
+    {
+      "child_id": "ANL-F18-EKVALL",
+      "parent_id": "ANL-F7-CONTACT",
+      "relation": "double_count_assessed_by"
     },
     {
       "child_id": "MARGIN-AF-DT-1000",
@@ -1100,6 +1136,11 @@
       "child_id": "ANL-F12-CORR",
       "parent_id": "SRC-EKVALL-1986",
       "relation": "correlation_source"
+    },
+    {
+      "child_id": "ANL-F18-EKVALL",
+      "parent_id": "SRC-EKVALL-1986",
+      "relation": "specimen_basis_source"
     },
     {
       "child_id": "LOAD-AF-DT-1000",
