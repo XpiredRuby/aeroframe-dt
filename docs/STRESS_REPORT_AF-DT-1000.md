@@ -4,7 +4,7 @@
 | | |
 |---|---|
 | **Document** | AF-DT-1000-SR-001 |
-| **Revision** | E |
+| **Revision** | F |
 | **Geometry revision** | D (frozen) |
 | **Part** | AF-DT-1000, forward pylon-to-wingbox attachment fitting |
 | **Aircraft** | MD-11 class, representative |
@@ -18,9 +18,13 @@
 > This document has not been checked or approved by a licensed stress engineer. It demonstrates
 > method and traceability; it does not substantiate a flight article.
 
-**Revision E supersedes D.** The elastic-plastic contact measurement (§6.2), the FE verification
-benchmarks (§10), and the modal and buckling FE (§9) were all executed after Rev D was issued.
-The governing margin moves from `+0.078` to `+0.156`.
+**Revision F.** R4 was obtained and read in full. The method-scatter treatment in §6.4 is restated
+on the source's own tolerance limits, and the double-counting question — open since the thick-lug
+correction was applied — is resolved. See `F18_EKVALL_SPECIMEN_BASIS.md`. **The governing margin is
+unchanged.**
+
+**Revision E** added the elastic-plastic contact measurement (§6.2), the FE verification benchmarks
+(§10), and the modal and buckling FE (§9), moving the margin from `+0.078` to `+0.156`.
 
 ---
 
@@ -214,27 +218,48 @@ Nominal stresses on the reduced effective area, with the 1.15 fitting factor:
 
 Lug areas are linear in effective thickness, so both load ratios scale directly with `t_eff`.
 
-### 6.4 Sensitivities
+### 6.4 Method scatter and sensitivities
+
+R4 correlates its method against 243 lug tests. The full statistical characterisation, taken from
+the source rather than from its abstract's extremes: mean test/predicted **1.003**, standard
+deviation **0.065**, approximately normal, over 224 predictions. The source gives one-sided
+tolerance limit factors on predicted load of **0.910** (90% probability, 95% confidence) and
+**0.837** (99% probability, 95% confidence).
 
 | Case | MS |
 |---|---|
 | **Governing** | **+0.156** |
 | Elastic contact bound (Rev D) | +0.078 |
 | Thin-lug (uncorrected) | +0.584 |
-| Ekvall mean, r = 1.003 | +0.153 |
-| **Ekvall worst, r = 1.19** | **−0.028** |
+| Method scatter, mean r = 1.003 | +0.153 |
+| Method scatter, 90% probability / 95% confidence | **+0.052** |
+| **Method scatter, 99% probability / 95% confidence** | **−0.032** |
 
-**At Ekvall's worst-case method scatter the margin is still negative**, though far less so than at
-Rev D's −0.094. R4 correlates the method against 243 lug tests with predicted/test ratios 0.85–1.19.
+**99% probability at 95% confidence is the definition of A-basis.** This report uses A-basis
+allowables, so the statistically consistent scatter pairing is the 0.837 factor, and **−0.032 is
+the correct worst case to quote.** Earlier revisions used the worst observed ratio of 1.19, giving
+−0.028; the tolerance limit is marginally more severe and better founded.
 
-**The breakeven is `t_eff/t = 0.7513`** — the value at which the Ekvall worst case reaches zero. The
-measurement came in at **0.7300, just short of clearing the band.**
+**At the B-basis-consistent pairing the margin is positive, +0.052.** If a redundant load path is
+demonstrated, B-basis allowables and the 90%/95% scatter limit pair correctly and the margin is
+positive on both counts.
 
-**Possible double-counting:** if R4's specimen set included thick lugs, the thick-lug effect is
-partly inside the measured scatter already, and applying both penalises the same physics twice.
-**The elastic-plastic run did not resolve this** — it measured `t_eff/t`, whereas the question is
-about the composition of R4's specimen set and requires the paper. **Best estimate +0.156;
-worst-case stack −0.028, possibly conservative.**
+**Double-counting — resolved.** R4's specimens span `D/t` 0.76–10.2, i.e. **`t/D` 0.098 to 1.316**.
+This fitting at `t/D = 1.250` is **inside that range, at 95% of the thickest specimen**. R4's method
+contains no thickness-dependent term — predicted load is `D·t·K_BR·F_tu` with `K_BR` a function of
+`W/D` and eccentricity only — so real through-thickness bearing effects in those tests were absorbed
+into the empirically fitted `K_BR` and its scatter. **Applying our own thick-lug correction on top
+therefore penalises the same physics twice.**
+
+**The overlap cannot be quantified** — R4 reports the `t/D` range but never its distribution.
+**No credit is taken.** Both the full correction and the full scatter band continue to be applied.
+The −0.032 worst case is therefore a **conservative bound with a stated reason**, rather than a
+best estimate of unknown direction. Full treatment in `F18_EKVALL_SPECIMEN_BASIS.md`.
+
+**Two caveats cut the other way.** R4 excluded localized bearing failures from its correlation,
+while our governing mode is combined bearing / transverse — so the band was fitted on a dataset
+that omitted an adjacent failure mode. And our lug at 2.500 in is **thicker in absolute terms** than
+R4's thickest specimen at 2.125 in, even though `t/D` is inside range.
 
 ### 6.5 Manufacturing tolerance stack
 
@@ -423,17 +448,20 @@ values are adopted.
    F7's three meshes and inherits F7's convergence study rather than repeating it.
 2. **The 20× stiff pin still bends.** Both the elastic and elastic-plastic ratios share that bias,
    so the **change** from 0.681 to 0.730 is more robust than either absolute value.
-3. **Worst-case method scatter is negative** (−0.028), with an unresolved double-counting question.
+3. **A-basis-consistent method scatter is negative** (−0.032), though now established as
+   conservative — §6.4. The overlap with the thick-lug correction cannot be quantified.
 4. **A-basis assumed.** B-basis becomes defensible if a redundant load path is demonstrated.
-5. **Clevis undefined.** Pin bending and therefore `t_eff` both depend on it.
-6. **Spectrum constructed, not derived.** The interval is conditional on §8's assumptions.
-7. **Paris constants graph-read.** Order-of-magnitude life uncertainty.
-8. **Edge-crack K solution.** A lug has a *loaded* hole; Bowie or Newman-Raju would be correct and
+5. **R4's correlation excluded localized bearing failures**, a mode adjacent to our governing one,
+   and our absolute thickness exceeds its thickest specimen.
+6. **Clevis undefined.** Pin bending and therefore `t_eff` both depend on it.
+7. **Spectrum constructed, not derived.** The interval is conditional on §8's assumptions.
+8. **Paris constants graph-read.** Order-of-magnitude life uncertainty.
+9. **Edge-crack K solution.** A lug has a *loaded* hole; Bowie or Newman-Raju would be correct and
    would give a smaller `a_c` still.
-9. **Bore-position tolerance sensitivity is extrapolated**, not derived, and dominates the
-   tolerance stack.
-10. **Blade-passing separation is not established**, with two modes inside a plausible band.
-11. **No professional review.** Not checked or approved by a licensed stress engineer.
+10. **Bore-position tolerance sensitivity is extrapolated**, not derived, and dominates the
+    tolerance stack.
+11. **Blade-passing separation is not established**, with two modes inside a plausible band.
+12. **No professional review.** Not checked or approved by a licensed stress engineer.
 
 ---
 
@@ -443,8 +471,10 @@ values are adopted.
    thick-lug correction and the 1.15 fitting factor.
 2. **The margin survives manufacturing variation** — the full tolerance stack at adverse limits
    leaves +0.133, and tolerances would need to be 6.7× wider to exhaust it.
-3. **It does not survive worst-case method scatter** (−0.028), and whether that case is real depends
-   on the double-counting question in §6.4, which needs R4.
+3. **It does not survive A-basis-consistent method scatter** (−0.032) — but that case is now known
+   to double-count the thick-lug effect, because R4's specimen set included lugs as thick as this
+   one and its method has no thickness term. **The negative case is a conservative bound, not a
+   best estimate.** At the B-basis-consistent scatter limit the margin is positive at +0.052.
 4. **A high-strength steel pin is mandatory.** Aluminium is not viable.
 5. **NDI at 4,500-flight intervals**, conditional on the constructed spectrum. Visual inspection is
    inadequate at any interval.
@@ -464,12 +494,12 @@ values are adopted.
 | Item | Effect if resolved |
 |---|---|
 | Load spectrum for the pylon attachment | replaces the largest uncertainty in §8 |
-| R4 specimen `t/D` range | resolves the double-counting question on the worst case |
 | Blade-passing frequency for a defined engine | resolves §9.1, the most pressing dynamic question |
 | Clevis definition (AF-DT-2000) | fixes pin bending and `t_eff` |
-| Single vs redundant load path | fixes A-basis vs B-basis |
+| Single vs redundant load path | fixes A-basis vs B-basis; B-basis is positive under scatter |
 | Mesh convergence of the elastic-plastic ratio | removes the inherited convergence argument |
 | AFFDL K-factor curves digitised | replaces the extrapolated bore-position sensitivity |
 | Exact Melcon-Hoblit rerun at e = 1.900 in | exact F15 nonconformance margin |
 | Re-derive `a_c` at `t_eff/t = 0.730` | slightly larger critical flaw, longer interval |
 | Bowie / Newman-Raju K solution for a loaded hole | corrects the remaining `a_c` approximation |
+| ~~R4 specimen `t/D` range~~ | **CLOSED — F18.** Double-counting confirmed real, not quantifiable |
