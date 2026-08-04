@@ -120,6 +120,12 @@ ANALYSES = [
       "critical_abs_multiplier": 25.068}),
     ("RPT-FE-VERIFICATION", "report", "D", "reports/FE_VERIFICATION_REPORT.md",
      {"benchmarks": 3, "patch_error_m": 4.34e-19}),
+    ("ANL-F18-EKVALL", "analysis", "D", "docs/F18_EKVALL_SPECIMEN_BASIS.md",
+     {"specimen_t_over_D_min": 0.098, "specimen_t_over_D_max": 1.316,
+      "this_fitting_t_over_D": 1.250,
+      "scatter_basis": "one-sided tolerance limits 0.910 at 90/95 and 0.837 at 99/95",
+      "ms_at_A_basis_scatter": -0.032,
+      "note": "double-counting confirmed real but not quantifiable"}),
 ]
 
 RELEASED = [
@@ -190,6 +196,13 @@ LINKS = [
     ("ANL-F10-DYNAMICS", "ANL-F17-MODALBUCK", "completed_by"),
     ("ANL-F17-MODALBUCK", "RPT-STRESS-AF-DT-1000", "reported_in"),
     ("RPT-FE-VERIFICATION", "MARGIN-AF-DT-1000", "verifies_method_of"),
+    # F18 replaces the Ekvall band with the source tolerance limits and resolves
+    # the double-counting question against the F7/F16 thick-lug correction
+    ("SRC-EKVALL-1986", "ANL-F18-EKVALL", "specimen_basis_source"),
+    ("ANL-F12-CORR", "ANL-F18-EKVALL", "scatter_basis_restated_by"),
+    ("ANL-F7-CONTACT", "ANL-F18-EKVALL", "double_count_assessed_by"),
+    ("ANL-F18-EKVALL", "MARGIN-AF-DT-1000", "bounds_scatter_of"),
+    ("ANL-F18-EKVALL", "RPT-STRESS-AF-DT-1000", "reported_in"),
     ("ANL-F6-PIN", "RPT-STRESS-AF-DT-1000", "reported_in"),
     ("ANL-F10-DYNAMICS", "RPT-STRESS-AF-DT-1000", "reported_in"),
     ("ANL-F11-OPT", "RPT-STRESS-AF-DT-1000", "reported_in"),
