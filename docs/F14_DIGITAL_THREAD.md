@@ -16,7 +16,7 @@ plus two impact analyses run on it.
 `AFDT-REQ-016` was already closed by the engine and a generic synthetic graph. **The engine was
 never pointed at this project.** F14 populates it with the real thing:
 
-    56 artifacts, 79 links, 0 audit issues
+    57 artifacts, 84 links, 0 audit issues
 
 Every artifact backed by a file carries the **SHA-256 of that file computed at build time**, not a
 recorded string. Re-running the build after any edit changes the hash. The graph is regenerable
@@ -42,7 +42,9 @@ which is the only question the graph exists to answer.
 
 The same principle handles supersession. When F16 replaced F7's elastic contact measurement, F7 was
 **not** deleted or overwritten — it remains a node, linked to F16 by a `superseded_by` relation.
-The elastic result is still evidence; it is just no longer the governing one.
+The elastic result is still evidence; it is just no longer the governing one. F18 is linked to the
+same F7 node by `double_count_assessed_by`, because it assesses that correction against the source
+test data rather than replacing it.
 
 ## 3. Impact analysis A — historical replay
 
@@ -51,12 +53,12 @@ real correction — the lug-axis mapping error, where 30.96° had been measured 
 than from the lug axis, and the correct 59.04° is transverse-dominant. Compare what the graph
 flags against the rework that actually happened.
 
-**Result: 26 artifacts marked STALE.**
+**Result: 27 artifacts marked STALE.**
 
 | Group | Flagged |
 |---|---|
 | The load basis itself | LOAD-AF-DT-1000 |
-| Analyses | F5 FE, F6 pin, F7 contact, F9 DT, F9b spectrum, F10 dynamics, F11 optimisation, F13 stack, F16 elastic-plastic, F17 modal/buckling |
+| Analyses | F5 FE, F6 pin, F7 contact, F9 DT, F9b spectrum, F10 dynamics, F11 optimisation, F13 stack, F16 elastic-plastic, F17 modal/buckling, F18 Ekvall basis |
 | Released | MARGIN-AF-DT-1000, PMI-AF-DT-1000, INSP-PLAN, NCR-F15-001, RPT-STRESS |
 | PMI characteristics | all 10 |
 
@@ -84,7 +86,7 @@ direction to be wrong in, but a reviewer should know that a STALE flag means "re
 
 **The question:** if the contact measurement changes again, what does it invalidate?
 
-**Result: 18 artifacts, including all 10 PMI characteristics, the inspection plan, the F13
+**Result: 19 artifacts, including all 10 PMI characteristics, the inspection plan, the F13
 tolerance stack, the NCR assessment and the stress report.**
 
 **This is a sequencing finding, not a bookkeeping one**, and it was acted on. Before F16 was run,
@@ -93,8 +95,8 @@ margin — because `PMI_GDT_DEFINITION.md` derives every tolerance from margin s
 stacks those tolerances back onto the margin.
 
 **That is why the elastic-plastic run was executed before any further downstream work was treated
-as final.** The prediction held: F16 moved the margin from +0.078 to +0.156, and the F13 stack now
-carries an open item to re-propagate at the new operating point.
+as final.** The prediction held: F16 moved the margin from +0.078 to +0.156, and the F13 stack was
+re-propagated at the new operating point.
 
 ## 5. Audit
 
@@ -103,6 +105,17 @@ the released graph.** The build script exits non-zero on any audit issue, or if 
 declares a file that does not exist — so a deleted or renamed file breaks the build rather than
 producing a graph with a hole in it.
 
+### 5.1 The mechanism has been exercised on real drift
+
+On 2026-08-03 the stress report was reissued at Rev E **after** a graph build. The next build
+flagged exactly one node, `RPT-STRESS-AF-DT-1000`, with a changed hash — one node predicted, one
+node found. The same happened again when Rev F and the F18 update landed, flagging the stress
+report and the margin summary.
+
+**That is the tool doing its job on live changes rather than on a demonstration case.** The export
+is a snapshot at build time; editing a registered document is expected to make it drift, and the
+correct response is to rebuild.
+
 ## 6. Limitations
 
 1. **Hashes detect change, not significance.** A typo fix and a corrected number produce the same
@@ -110,8 +123,9 @@ producing a graph with a hole in it.
 2. **Invalidation is unconditional and transitive** — see §3.1. Conservative by design.
 3. **Node granularity is document granularity.** Where a document contains load-dependent and
    load-independent content, the graph cannot distinguish them. F10 and F17 both show this.
-4. **Link relations are labels, not semantics.** `corrects`, `superseded_by` and `load_input` are
-   recorded and displayed but the engine treats every link identically when propagating staleness.
+4. **Link relations are labels, not semantics.** `corrects`, `superseded_by`,
+   `double_count_assessed_by` and `load_input` are recorded and displayed but the engine treats
+   every link identically when propagating staleness.
 5. **The graph is rebuilt, not maintained.** There is no persistent database under version control
    and no history across builds beyond what the revision events record within a single run.
 6. **Requirement-to-evidence links come from a single `evidence_path` column**, so a requirement
