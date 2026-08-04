@@ -6,7 +6,7 @@ populated by `tools/build_f14_thread.py`.
     requirement -> source -> load case -> geometry -> CAD script -> PMI characteristic
     -> analysis -> margin -> inspection plan -> nonconformance -> report
 
-**53 artifacts, 68 links, 0 audit issues.** Every file-backed artifact carries the SHA-256 of that
+**57 artifacts, 84 links, 0 audit issues.** Every file-backed artifact carries the SHA-256 of that
 file computed at build time, so the graph cannot drift from the repository.
 
 | File | Content |
@@ -17,10 +17,13 @@ file computed at build time, so the graph cannot drift from the repository.
 
 Two impact analyses are recorded:
 
-- **Historical replay** — revising the load basis B to C marks **24 artifacts stale**, reproducing
+- **Historical replay** — revising the load basis B to C marks **27 artifacts stale**, reproducing
   the blast radius of a rework cycle that was found by hand.
-- **Forward query** — the pending elastic-plastic contact run would mark **17 stale**, including
-  the entire PMI tolerance scheme. It should therefore be run before anything downstream of the
-  margin is treated as final.
+- **Forward query** — a further revision of the contact measurement would mark **19 stale**,
+  including the entire PMI tolerance scheme. That prediction is why the elastic-plastic run was
+  executed before any downstream work was treated as final.
 
-Rebuild: `python tools/build_f14_thread.py`
+**Rebuild after any document change:** `python tools/build_f14_thread.py`
+
+The export is a snapshot taken at build time. Editing a registered document changes its hash, and
+the graph will report the drift on the next build — that is the mechanism working, not a fault.
