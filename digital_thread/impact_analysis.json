@@ -14,6 +14,7 @@
       "AFDT-CHAR-010",
       "ANL-F13-STACK",
       "ANL-F16-PLASTIC",
+      "ANL-F18-EKVALL",
       "ANL-F7-CONTACT",
       "INSP-PLAN-AF-DT-1000",
       "MARGIN-AF-DT-1000",
@@ -21,7 +22,7 @@
       "PMI-AF-DT-1000",
       "RPT-STRESS-AF-DT-1000"
     ],
-    "count": 18,
+    "count": 19,
     "trigger": "ANL-F7-CONTACT revised D -> E (planned)"
   },
   "geometry_revision": "D",
@@ -42,6 +43,7 @@
       "ANL-F13-STACK",
       "ANL-F16-PLASTIC",
       "ANL-F17-MODALBUCK",
+      "ANL-F18-EKVALL",
       "ANL-F5-FE",
       "ANL-F6-PIN",
       "ANL-F7-CONTACT",
@@ -55,7 +57,7 @@
       "RPT-STRESS-AF-DT-1000"
     ],
     "audit_issues": [],
-    "count": 26,
+    "count": 27,
     "trigger": "LOAD-AF-DT-1000 revised B -> C"
   }
 }
