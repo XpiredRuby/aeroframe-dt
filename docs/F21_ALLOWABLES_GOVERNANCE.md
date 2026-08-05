@@ -14,16 +14,17 @@ what has to be done to close it.
 ## 1. The finding
 
 `MIL-HDBK-5J`, dated 31 January 2003, was the last edition of a handbook lineage that began as
-ANC-5 in 1937. It was **cancelled**, and superseded by the **MMPDS Handbook** — *Metallic Materials
-Properties Development and Standardization* — which is maintained by Battelle under FAA oversight
-and reissued periodically.
+ANC-5 in 1937. It was **cancelled** — by a notice issued in 2004 and restated in 2006; sources
+differ on which date to treat as the operative one, and this document does not need to resolve
+that — and superseded by the **MMPDS Handbook** — *Metallic Materials Properties Development and
+Standardization* — which is maintained by Battelle under FAA oversight and reissued periodically.
 
 The regulatory consequence matters more than the bibliographic one. **The specific reference to
 MIL-HDBK-5 was removed from 14 CFR 23.613 and 25.613** as a means of showing compliance. The FAA
 accepts MMPDS as the source for metallic design allowables and **encourages the latest revision for
 the certification of new products**.
 
-This project cites MIL-HDBK-5J **58 times across 19 files**, invoking six distinct locators:
+This project cites MIL-HDBK-5J **51 times across 18 files**, invoking six distinct locators:
 
 | Locator | Citations | What it supplies |
 |---|---|---|
@@ -85,10 +86,19 @@ handbook has not been searched.*
 
 | | |
 |---|---|
-| Citations inventoried | **58** |
+| Substantive citations inventoried | **51** across 18 files |
+| Self-referential (this document and the tool) | 14, counted separately |
 | Tied to a specific locator | **25** |
 | MMPDS equivalent confirmed | **0** |
-| MMPDS equivalent to verify | **58** |
+| MMPDS equivalent to verify | **51** |
+
+**The first published version of this document got this count wrong, and got it wrong by existing.**
+It reported 58 citations across 19 files — a figure taken before the document itself was committed.
+Publishing it added seven more citations, and the inventory tool added seven of its own, so the
+total moved to 65 the moment the finding was written down. The tool now separates files that are
+*about* the citation problem from files that are *instances* of it. Counting a governance document
+as evidence of the defect it documents is a small error, but it is the same class of error as
+citing a cancelled handbook: **a number that looks sourced and is not.**
 
 **No MMPDS locator appears anywhere in this document or in the inventory tool, and none will until
 the handbook has been opened.** MMPDS largely preserves the MIL-HDBK-5 numbering conventions, which
