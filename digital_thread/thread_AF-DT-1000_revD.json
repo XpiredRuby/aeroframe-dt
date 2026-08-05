@@ -509,6 +509,36 @@
       "uri": "docs/F20_COST_TRADE.md"
     },
     {
+      "id": "ANL-F21-GOVERNANCE",
+      "kind": "analysis",
+      "metadata": {
+        "files": 18,
+        "finding": "every allowable is cited from MIL-HDBK-5J, cancelled and superseded by MMPDS",
+        "locators": 6,
+        "state": "OPEN - mapping unverified; reopens REQ-012 as a question",
+        "substantive_citations": 51,
+        "values_affected": "none - MMPDS-01 and MIL-HDBK-5J were technically equivalent in 2003"
+      },
+      "revision": "D",
+      "sha256": "bd6beb36526fb69b8737fbddab35848925a3045d4247265784dedf1242ed8f57",
+      "status": "CURRENT",
+      "uri": "docs/F21_ALLOWABLES_GOVERNANCE.md"
+    },
+    {
+      "id": "ANL-F22-COMPOSITE",
+      "kind": "analysis",
+      "metadata": {
+        "answer": "no - retain 7075-T7351",
+        "class": "screening trade, not a sizing - no laminate allowables were available",
+        "governing_reason": "the joint survives by plastic redistribution (F16), which a laminate cannot do",
+        "question": "should AF-DT-1000 be a composite part"
+      },
+      "revision": "D",
+      "sha256": "51e5ae6e5d09b7d704dc18c91564fd5614d622a0a6dbf926acb5b9402cd7c15f",
+      "status": "CURRENT",
+      "uri": "docs/F22_COMPOSITE_TRADE.md"
+    },
+    {
       "id": "ANL-F5-FE",
       "kind": "analysis",
       "metadata": {
@@ -699,6 +729,20 @@
       "sha256": "b638bdd1e8724df1b413ed29310e1bc726476741c493d6d8e85dc74ce70d9722",
       "status": "CURRENT",
       "uri": "reports/FE_VERIFICATION_REPORT.md"
+    },
+    {
+      "id": "RPT-NASTRAN-CROSSCHECK",
+      "kind": "report",
+      "metadata": {
+        "decks": 3,
+        "defect_found": "PBEAM wrote J into the I12 field",
+        "predictions_frozen": 4,
+        "state": "NOT RUN - no NASTRAN licence confirmed"
+      },
+      "revision": "D",
+      "sha256": "e2f9d11a5fe54543811d2e8d6f61d463e6f63402e6712e9724ec83233ba7f3a6",
+      "status": "CURRENT",
+      "uri": "benchmarks/NASTRAN_CROSSCHECK.md"
     },
     {
       "id": "RPT-STRESS-AF-DT-1000",
@@ -912,6 +956,11 @@
       "relation": "reported_in"
     },
     {
+      "child_id": "ANL-F22-COMPOSITE",
+      "parent_id": "ANL-F16-PLASTIC",
+      "relation": "mechanism_basis_for"
+    },
+    {
       "child_id": "MARGIN-AF-DT-1000",
       "parent_id": "ANL-F16-PLASTIC",
       "relation": "corrects"
@@ -952,8 +1001,23 @@
       "relation": "reported_in"
     },
     {
+      "child_id": "ANL-F22-COMPOSITE",
+      "parent_id": "ANL-F20-COST",
+      "relation": "cost_basis_for"
+    },
+    {
       "child_id": "RPT-STRESS-AF-DT-1000",
       "parent_id": "ANL-F20-COST",
+      "relation": "reported_in"
+    },
+    {
+      "child_id": "RPT-STRESS-AF-DT-1000",
+      "parent_id": "ANL-F21-GOVERNANCE",
+      "relation": "reported_in"
+    },
+    {
+      "child_id": "RPT-STRESS-AF-DT-1000",
+      "parent_id": "ANL-F22-COMPOSITE",
       "relation": "reported_in"
     },
     {
@@ -1043,6 +1107,11 @@
     },
     {
       "child_id": "ANL-F20-COST",
+      "parent_id": "GEO-AF-DT-1000",
+      "relation": "geometry_input"
+    },
+    {
+      "child_id": "ANL-F22-COMPOSITE",
       "parent_id": "GEO-AF-DT-1000",
       "relation": "geometry_input"
     },
@@ -1212,6 +1281,11 @@
       "relation": "verifies_method_of"
     },
     {
+      "child_id": "RPT-NASTRAN-CROSSCHECK",
+      "parent_id": "RPT-FE-VERIFICATION",
+      "relation": "extended_by"
+    },
+    {
       "child_id": "ANL-F12-CORR",
       "parent_id": "SRC-EKVALL-1986",
       "relation": "correlation_source"
@@ -1237,6 +1311,11 @@
       "relation": "method_source"
     },
     {
+      "child_id": "ANL-F21-GOVERNANCE",
+      "parent_id": "SRC-MILHDBK5J-3.1.2.1.6",
+      "relation": "currency_assessed_by"
+    },
+    {
       "child_id": "ANL-F9-DT",
       "parent_id": "SRC-MILHDBK5J-3.1.2.1.6",
       "relation": "allowable_source"
@@ -1245,6 +1324,11 @@
       "child_id": "ANL-F20-COST",
       "parent_id": "SRC-MILHDBK5J-3.7.6.0b3",
       "relation": "band_selection_challenged_by"
+    },
+    {
+      "child_id": "ANL-F21-GOVERNANCE",
+      "parent_id": "SRC-MILHDBK5J-3.7.6.0b3",
+      "relation": "currency_assessed_by"
     },
     {
       "child_id": "MARGIN-AF-DT-1000",
