@@ -1,0 +1,273 @@
+{
+  "assumed_rates_low_nominal_high": {
+    "bore_special_min_per_part": [
+      5.0,
+      10.0,
+      20.0
+    ],
+    "cmm_min_per_characteristic": [
+      3.0,
+      6.0,
+      12.0
+    ],
+    "finish_in2_per_min": [
+      2.0,
+      4.0,
+      8.0
+    ],
+    "fpi_min_per_part": [
+      8.0,
+      15.0,
+      25.0
+    ],
+    "inspect_rate_usd_per_hr": [
+      70.0,
+      95.0,
+      140.0
+    ],
+    "machine_rate_usd_per_hr": [
+      85.0,
+      120.0,
+      180.0
+    ],
+    "plate_usd_per_lb": [
+      4.0,
+      7.0,
+      12.0
+    ],
+    "rough_mrr_in3_per_min": [
+      6.0,
+      12.0,
+      20.0
+    ],
+    "scrap_credit_usd_per_lb": [
+      0.3,
+      0.5,
+      0.8
+    ],
+    "setup_hr_per_lot": [
+      3.0,
+      6.0,
+      12.0
+    ]
+  },
+  "class": "ASSUMED_COST_BASIS - rates are declared assumptions, not quotations",
+  "component": "AF-DT-1000",
+  "cost_by_lot": {
+    "high": [
+      {
+        "finish_hr": 0.7541482261981844,
+        "inspection_hr": 2.75,
+        "inspection_pct": 10.073603164541577,
+        "inspection_usd": 385.0,
+        "lot_size": 1,
+        "machining_pct": 62.941518416258866,
+        "machining_usd": 2405.542902023024,
+        "material_pct": 28.532381793108616,
+        "material_usd": 1090.470491136,
+        "rough_hr": 0.6099790072630609,
+        "scrap_credit_usd": -59.14356454422639,
+        "setup_hr_per_part": 12.0,
+        "total_usd": 3821.8698286147974
+      },
+      {
+        "finish_hr": 0.7541482261981844,
+        "inspection_hr": 2.75,
+        "inspection_pct": 18.38700738405965,
+        "inspection_usd": 385.0,
+        "lot_size": 5,
+        "machining_pct": 32.35840608445337,
+        "machining_usd": 677.5429020230241,
+        "material_pct": 52.07919213666697,
+        "material_usd": 1090.470491136,
+        "rough_hr": 0.6099790072630609,
+        "scrap_credit_usd": -59.14356454422639,
+        "setup_hr_per_part": 2.4,
+        "total_usd": 2093.869828614798
+      },
+      {
+        "finish_hr": 0.7541482261981844,
+        "inspection_hr": 2.75,
+        "inspection_pct": 22.021772251543464,
+        "inspection_usd": 385.0,
+        "lot_size": 25,
+        "machining_pct": 18.98693763342193,
+        "machining_usd": 331.94290202302415,
+        "material_pct": 62.374267020326585,
+        "material_usd": 1090.470491136,
+        "rough_hr": 0.6099790072630609,
+        "scrap_credit_usd": -59.14356454422639,
+        "setup_hr_per_part": 0.48,
+        "total_usd": 1748.2698286147977
+      },
+      {
+        "finish_hr": 0.7541482261981844,
+        "inspection_hr": 2.75,
+        "inspection_pct": 22.869432730896513,
+        "inspection_usd": 385.0,
+        "lot_size": 100,
+        "machining_pct": 15.868588642472805,
+        "machining_usd": 267.1429020230242,
+        "material_pct": 64.7751728365258,
+        "material_usd": 1090.470491136,
+        "rough_hr": 0.6099790072630609,
+        "scrap_credit_usd": -59.14356454422639,
+        "setup_hr_per_part": 0.12,
+        "total_usd": 1683.4698286147977
+      }
+    ],
+    "low": [
+      {
+        "finish_hr": 3.016592904792738,
+        "inspection_hr": 0.7166666666666667,
+        "inspection_pct": 4.663561489677188,
+        "inspection_usd": 50.166666666666664,
+        "lot_size": 1,
+        "machining_pct": 63.607673846706916,
+        "machining_usd": 684.2377822985833,
+        "material_pct": 33.790539455755614,
+        "material_usd": 363.490163712,
+        "rough_hr": 2.0332633575435364,
+        "scrap_credit_usd": -22.178836704084894,
+        "setup_hr_per_part": 3.0,
+        "total_usd": 1075.7157759731651
+      },
+      {
+        "finish_hr": 3.016592904792738,
+        "inspection_hr": 0.7166666666666667,
+        "inspection_pct": 5.754933895817322,
+        "inspection_usd": 50.166666666666664,
+        "lot_size": 5,
+        "machining_pct": 55.09109683858319,
+        "machining_usd": 480.2377822985832,
+        "material_pct": 41.69824313506398,
+        "material_usd": 363.490163712,
+        "rough_hr": 2.0332633575435364,
+        "scrap_credit_usd": -22.178836704084894,
+        "setup_hr_per_part": 0.6,
+        "total_usd": 871.715775973165
+      },
+      {
+        "finish_hr": 3.016592904792738,
+        "inspection_hr": 0.7166666666666667,
+        "inspection_pct": 6.037515247307908,
+        "inspection_usd": 50.166666666666664,
+        "lot_size": 25,
+        "machining_pct": 52.88595968513362,
+        "machining_usd": 439.4377822985833,
+        "material_pct": 43.74572901643152,
+        "material_usd": 363.490163712,
+        "rough_hr": 2.0332633575435364,
+        "scrap_credit_usd": -22.178836704084894,
+        "setup_hr_per_part": 0.12,
+        "total_usd": 830.9157759731651
+      },
+      {
+        "finish_hr": 3.016592904792738,
+        "inspection_hr": 0.7166666666666667,
+        "inspection_pct": 6.0936174113840345,
+        "inspection_usd": 50.166666666666664,
+        "lot_size": 100,
+        "machining_pct": 52.448163752243445,
+        "machining_usd": 431.7877822985833,
+        "material_pct": 44.15222572350053,
+        "material_usd": 363.490163712,
+        "rough_hr": 2.0332633575435364,
+        "scrap_credit_usd": -22.178836704084894,
+        "setup_hr_per_part": 0.03,
+        "total_usd": 823.265775973165
+      }
+    ],
+    "nominal": [
+      {
+        "finish_hr": 1.508296452396369,
+        "inspection_hr": 1.4166666666666667,
+        "inspection_pct": 7.6610674637445015,
+        "inspection_usd": 134.58333333333334,
+        "lot_size": 1,
+        "machining_pct": 58.23310918420526,
+        "machining_usd": 1022.9913757401764,
+        "material_pct": 36.2100160982715,
+        "material_usd": 636.107786496,
+        "rough_hr": 1.0166316787717682,
+        "scrap_credit_usd": -36.96472784014149,
+        "setup_hr_per_part": 6.0,
+        "total_usd": 1756.7177677293682
+      },
+      {
+        "finish_hr": 1.508296452396369,
+        "inspection_hr": 1.4166666666666667,
+        "inspection_pct": 11.398433818113011,
+        "inspection_usd": 134.58333333333334,
+        "lot_size": 5,
+        "machining_pct": 37.85759712922616,
+        "machining_usd": 446.99137574017647,
+        "material_pct": 53.874668771970406,
+        "material_usd": 636.107786496,
+        "rough_hr": 1.0166316787717682,
+        "scrap_credit_usd": -36.96472784014149,
+        "setup_hr_per_part": 1.2,
+        "total_usd": 1180.7177677293682
+      },
+      {
+        "finish_hr": 1.508296452396369,
+        "inspection_hr": 1.4166666666666667,
+        "inspection_pct": 12.630792034574148,
+        "inspection_usd": 134.58333333333334,
+        "lot_size": 25,
+        "machining_pct": 31.138981046484844,
+        "machining_usd": 331.7913757401765,
+        "material_pct": 59.69940678244659,
+        "material_usd": 636.107786496,
+        "rough_hr": 1.0166316787717682,
+        "scrap_credit_usd": -36.96472784014149,
+        "setup_hr_per_part": 0.24,
+        "total_usd": 1065.5177677293684
+      },
+      {
+        "finish_hr": 1.508296452396369,
+        "inspection_hr": 1.4166666666666667,
+        "inspection_pct": 12.892139351748591,
+        "inspection_usd": 134.58333333333334,
+        "lot_size": 100,
+        "machining_pct": 29.714158081136556,
+        "machining_usd": 310.19137574017645,
+        "material_pct": 60.93466421973082,
+        "material_usd": 636.107786496,
+        "rough_hr": 1.0166316787717682,
+        "scrap_credit_usd": -36.96472784014149,
+        "setup_hr_per_part": 0.06,
+        "total_usd": 1043.9177677293683
+      }
+    ]
+  },
+  "envelope_vs_mass": {
+    "baseline_usd": 1065.5177677293684,
+    "envelope_10pct_usd": 993.4038817185213,
+    "envelope_delta_pct": -6.767966541235878,
+    "pocketing_10pct_mass_usd": 1067.4665021217213,
+    "pocketing_delta_pct": 0.1828908396812253
+  },
+  "geometry": {
+    "billet": {
+      "volume_in3": 899.728128,
+      "x_in": 16.12,
+      "y_in": 6.12,
+      "z_in": 9.12
+    },
+    "buy_to_fly": 5.363399853060682,
+    "envelope": {
+      "volume_in3": 864.0,
+      "x_in": 16.0,
+      "y_in": 6.0,
+      "z_in": 9.0
+    },
+    "material_utilisation_pct": 18.644889946613606,
+    "min_stock_thickness_in": 6.0,
+    "part_mass_kg": 7.685247923682451,
+    "part_mass_lb": 16.943085247717004,
+    "part_volume_in3": 167.75331928432678,
+    "removed_volume_in3": 731.9748087156731
+  },
+  "geometry_revision": "D"
+}
