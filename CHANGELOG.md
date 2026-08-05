@@ -1,5 +1,44 @@
 # Changelog
 
+## 0.6.0 — 2026-08-04
+
+**First cost analysis in the project — and it found a material-allowables problem, not a price
+problem.**
+
+### Added
+- **F20 recurring cost trade** (`docs/F20_COST_TRADE.md`, `tools/run_f20_cost_model.py`):
+  buy-to-fly **5.36**, material utilisation **18.6%**. Cost rates are declared
+  `ASSUMED_COST_BASIS` low/nominal/high, never quoted as sourced; only conclusions that survive the
+  full range are drawn.
+- **OPEN finding, material band.** The Rev D envelope is 16.000 x 6.000 x 9.000 in, so the part
+  cannot be cut from stock thinner than **6.000 in**, but every allowable in the project comes from
+  the **2.001–2.500 in** band of MIL-HDBK-5J Table 3.7.6.0(b3). The band was selected on `t_lug`
+  rather than on stock thickness. Expected direction is **non-conservative**; magnitude is not
+  stated because the table has not been read. Registered in the thread as `ANL-F20-COST`, state
+  OPEN.
+- **F20 answers the question F11 never asked.** Pocketing 10% of finished mass out at fixed envelope
+  costs **+0.2%**; removing the same mass by shrinking the envelope 10% costs **−6.8%**. Envelope,
+  not mass, is what is purchased — which makes the orientation lever free and the Rev D thickness
+  growth paid for in plate.
+- Regression test `test_digital_thread_cycle_is_reported_not_hung` in `tests/test_advanced.py`.
+
+### Fixed
+- **`EvidenceGraph.audit()` did not terminate on a cycle reached from outside that cycle.** The
+  recursive walk used `UNION ALL` and only guarded re-entry to its own start node. Changed to
+  `UNION`, which bounds the walk and reports the cycle instead of hanging. Found by registering
+  F20 with a back-edge to the margin, which closed the loop `MARGIN -> F13 -> F20 -> MARGIN`.
+  The back-edge was then removed on its merits: F20 sits downstream of the margin, and the finding
+  it raises is carried in artifact metadata. Written up in `docs/F14_DIGITAL_THREAD.md` §5.2.
+
+### Changed
+- **F19 registered in the digital thread** as `ANL-F19-CROSSCHECK`, linked to the margin as
+  `cross_checks` — a finding, not a correction. The released margin remains unamended.
+- Digital thread rebuilt to **59 artifacts, 95 links, 0 audit issues**. Historical replay now marks
+  29 stale, forward query 21. Counts updated in `README.md`, `digital_thread/README.md` and
+  `docs/F14_DIGITAL_THREAD.md`, which had drifted (56/79 and 57/84 were both still quoted).
+- `README.md` status corrected from 38 to **41 verification rows**, matching
+  `tools/check_traceability.py`.
+
 ## 0.5.0 — 2026-08-03
 
 **Governing margin moves from `+0.078` to `+0.156`.** Three Ansys sessions closed every
