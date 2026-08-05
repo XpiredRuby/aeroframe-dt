@@ -49,7 +49,11 @@ class EvidenceGraph:
         for row in self.db.execute('SELECT * FROM link'):
             for key in ('parent_id','child_id'):
                 if self.db.execute('SELECT 1 FROM artifact WHERE id=?',(row[key],)).fetchone() is None: issues.append(f"missing artifact {row[key]}")
-        cycles=self.db.execute('''WITH RECURSIVE walk(start,id) AS (SELECT parent_id,child_id FROM link UNION ALL SELECT walk.start,link.child_id FROM walk JOIN link ON walk.id=link.parent_id WHERE link.child_id!=walk.start) SELECT DISTINCT start FROM walk WHERE start=id''').fetchall()
+        # UNION, not UNION ALL. The earlier form guarded only re-entry to the walk's own
+        # start node, so a cycle reached from OUTSIDE that cycle never terminated and
+        # audit() hung instead of reporting it. UNION dedupes (start,id) and bounds the
+        # walk. Found while registering F20; see tests/test_advanced.py.
+        cycles=self.db.execute('''WITH RECURSIVE walk(start,id) AS (SELECT parent_id,child_id FROM link UNION SELECT walk.start,link.child_id FROM walk JOIN link ON walk.id=link.parent_id) SELECT DISTINCT start FROM walk WHERE start=id''').fetchall()
         issues.extend(f"dependency cycle involving {row[0]}" for row in cycles)
         return issues
     def export_json(self):
