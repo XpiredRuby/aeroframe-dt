@@ -16,7 +16,7 @@ plus two impact analyses run on it.
 `AFDT-REQ-016` was already closed by the engine and a generic synthetic graph. **The engine was
 never pointed at this project.** F14 populates it with the real thing:
 
-    57 artifacts, 84 links, 0 audit issues
+    59 artifacts, 95 links, 0 audit issues
 
 Every artifact backed by a file carries the **SHA-256 of that file computed at build time**, not a
 recorded string. Re-running the build after any edit changes the hash. The graph is regenerable
@@ -53,18 +53,22 @@ real correction — the lug-axis mapping error, where 30.96° had been measured 
 than from the lug axis, and the correct 59.04° is transverse-dominant. Compare what the graph
 flags against the rework that actually happened.
 
-**Result: 27 artifacts marked STALE.**
+**Result: 29 artifacts marked STALE.**
 
 | Group | Flagged |
 |---|---|
 | The load basis itself | LOAD-AF-DT-1000 |
-| Analyses | F5 FE, F6 pin, F7 contact, F9 DT, F9b spectrum, F10 dynamics, F11 optimisation, F13 stack, F16 elastic-plastic, F17 modal/buckling, F18 Ekvall basis |
+| Analyses | F5 FE, F6 pin, F7 contact, F9 DT, F9b spectrum, F10 dynamics, F11 optimisation, F13 stack, F16 elastic-plastic, F17 modal/buckling, F18 Ekvall basis, F19 method cross-check, F20 cost trade |
 | Released | MARGIN-AF-DT-1000, PMI-AF-DT-1000, INSP-PLAN, NCR-F15-001, RPT-STRESS |
 | PMI characteristics | all 10 |
 
 **This matches what actually happened.** Every rev B margin was voided by that correction. The
 graph, given only the dependency structure, reproduces the blast radius of a rework cycle that was
 discovered by hand.
+
+*The count has grown with the project — 24 when the rework was worked out by hand, 29 now — because
+the graph has more nodes downstream of the load basis than it had then. The set, not the number, is
+what reproduces.*
 
 ### 3.1 Where it over-flags — stated, not hidden
 
@@ -86,7 +90,7 @@ direction to be wrong in, but a reviewer should know that a STALE flag means "re
 
 **The question:** if the contact measurement changes again, what does it invalidate?
 
-**Result: 19 artifacts, including all 10 PMI characteristics, the inspection plan, the F13
+**Result: 21 artifacts, including all 10 PMI characteristics, the inspection plan, the F13
 tolerance stack, the NCR assessment and the stress report.**
 
 **This is a sequencing finding, not a bookkeeping one**, and it was acted on. Before F16 was run,
@@ -115,6 +119,15 @@ report and the margin summary.
 **That is the tool doing its job on live changes rather than on a demonstration case.** The export
 is a snapshot at build time; editing a registered document is expected to make it drift, and the
 correct response is to rebuild.
+
+### 5.2 The cycle check was itself defective, and the graph found it
+
+Registering F20 with a back-edge to the margin closed the loop `MARGIN -> F13 -> F20 -> MARGIN`.
+`audit()` did not report the cycle — **it hung.** The recursive walk used `UNION ALL` and guarded
+only re-entry to its own start node, so a cycle reached from outside that cycle never terminated.
+Changed to `UNION`, which bounds the walk; the cycle is now reported. Regression test in
+`tests/test_advanced.py`. **The back-edge was removed rather than kept:** F20 sits downstream of the
+margin, and the finding it raises against the margin is carried in its metadata instead.
 
 ## 6. Limitations
 
