@@ -6,7 +6,7 @@ populated by `tools/build_f14_thread.py`.
     requirement -> source -> load case -> geometry -> CAD script -> PMI characteristic
     -> analysis -> margin -> inspection plan -> nonconformance -> report
 
-**59 artifacts, 95 links, 0 audit issues.** Every file-backed artifact carries the SHA-256 of that
+**62 artifacts, 103 links, 0 audit issues.** Every file-backed artifact carries the SHA-256 of that
 file computed at build time, so the graph cannot drift from the repository.
 
 | File | Content |
@@ -17,9 +17,9 @@ file computed at build time, so the graph cannot drift from the repository.
 
 Two impact analyses are recorded:
 
-- **Historical replay** — revising the load basis B to C marks **29 artifacts stale**, reproducing
+- **Historical replay** — revising the load basis B to C marks **30 artifacts stale**, reproducing
   the blast radius of a rework cycle that was found by hand.
-- **Forward query** — a further revision of the contact measurement would mark **21 stale**,
+- **Forward query** — a further revision of the contact measurement would mark **22 stale**,
   including the entire PMI tolerance scheme. That prediction is why the elastic-plastic run was
   executed before any downstream work was treated as final.
 
