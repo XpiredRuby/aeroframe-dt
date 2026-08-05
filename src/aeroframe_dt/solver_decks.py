@@ -77,7 +77,14 @@ def nastran_cantilever_bdf(model: BeamBenchmark, solution: int = 101) -> str:
         "BEGIN BULK",
         "PARAM,POST,-1",
         f"MAT1,1,{model.elastic_modulus_Pa:.9E},,{model.poisson:.8f},{model.density_kg_m3:.9E}",
-        f"PBEAM,1,1,{area:.9E},{iz:.9E},{iy:.9E},{j:.9E}",
+        # PBEAM small-field order is PID, MID, A, I1, I2, I12, J. The torsional
+        # constant must go in the SEVENTH field. Writing it sixth puts it in I12,
+        # the product of inertia, which for a symmetric rectangular section must be
+        # zero - a non-zero I12 rotates the principal axes and silently couples the
+        # two bending planes, while J is left blank and torsional stiffness is lost.
+        # The static tip-load case would still return a plausible deflection, so this
+        # is the kind of error that does not announce itself. Found on review, 2026-08-05.
+        f"PBEAM,1,1,{area:.9E},{iz:.9E},{iy:.9E},0.,{j:.9E}",
     ]
     dx = model.length_m / model.elements
     for index in range(model.elements + 1):
