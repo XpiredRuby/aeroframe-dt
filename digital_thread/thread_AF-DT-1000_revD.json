@@ -354,7 +354,7 @@
         "status": "VERIFIED"
       },
       "revision": "1",
-      "sha256": "2bf305c47ee522c30e949dbed8db316b671181441ff7290990fe280be507bb57",
+      "sha256": "094994b4cbfe08a447061d850a8336fe154c8bfde8a5f599f7bcf54eeb3dd202",
       "status": "CURRENT",
       "uri": "src/aeroframe_dt/digital_thread.py"
     },
@@ -473,6 +473,40 @@
       "sha256": "43284757302990a5600cf19533551c36fd8d761f3814f712d61bfd0cf2acde80",
       "status": "CURRENT",
       "uri": "docs/F18_EKVALL_SPECIMEN_BASIS.md"
+    },
+    {
+      "id": "ANL-F19-CROSSCHECK",
+      "kind": "analysis",
+      "metadata": {
+        "P_tru_ekvall_lb": 230010,
+        "P_tru_melcon_hoblit_lb": 259875,
+        "method_a": "Melcon-Hoblit",
+        "method_b": "Ekvall 1986 closed form",
+        "ms_if_ekvall_substituted": 0.053,
+        "ratio_ekvall_over_melcon_hoblit": 0.885,
+        "state": "finding raised, NOT incorporated into the released margin"
+      },
+      "revision": "D",
+      "sha256": "b5d406bb37b82f40cdd13ea879dcd544571486400069c4094ed312995613b3e3",
+      "status": "CURRENT",
+      "uri": "docs/F19_METHOD_CROSSCHECK.md"
+    },
+    {
+      "id": "ANL-F20-COST",
+      "kind": "analysis",
+      "metadata": {
+        "allowable_band_used_in": "2.001-2.500",
+        "buy_to_fly": 5.36,
+        "class": "ASSUMED_COST_BASIS",
+        "finding": "part envelope requires stock thicker than the allowable band cited; expected direction is non-conservative, magnitude unread",
+        "material_utilisation_pct": 18.6,
+        "min_stock_thickness_in": 6.0,
+        "state": "OPEN - needs the thick-band table read"
+      },
+      "revision": "D",
+      "sha256": "687be4ef522fb632f46bad21d0e87265360dbe1a74c9141732e42d4271251d66",
+      "status": "CURRENT",
+      "uri": "docs/F20_COST_TRADE.md"
     },
     {
       "id": "ANL-F5-FE",
@@ -848,6 +882,11 @@
       "relation": "reported_in"
     },
     {
+      "child_id": "ANL-F20-COST",
+      "parent_id": "ANL-F11-OPT",
+      "relation": "cost_ranked_by"
+    },
+    {
       "child_id": "RPT-STRESS-AF-DT-1000",
       "parent_id": "ANL-F11-OPT",
       "relation": "reported_in"
@@ -861,6 +900,11 @@
       "child_id": "MARGIN-AF-DT-1000",
       "parent_id": "ANL-F12-CORR",
       "relation": "bounds_scatter_of"
+    },
+    {
+      "child_id": "ANL-F20-COST",
+      "parent_id": "ANL-F13-STACK",
+      "relation": "inspection_burden_costed_by"
     },
     {
       "child_id": "RPT-STRESS-AF-DT-1000",
@@ -883,6 +927,11 @@
       "relation": "reported_in"
     },
     {
+      "child_id": "ANL-F19-CROSSCHECK",
+      "parent_id": "ANL-F18-EKVALL",
+      "relation": "specimen_basis_for"
+    },
+    {
       "child_id": "MARGIN-AF-DT-1000",
       "parent_id": "ANL-F18-EKVALL",
       "relation": "bounds_scatter_of"
@@ -890,6 +939,21 @@
     {
       "child_id": "RPT-STRESS-AF-DT-1000",
       "parent_id": "ANL-F18-EKVALL",
+      "relation": "reported_in"
+    },
+    {
+      "child_id": "MARGIN-AF-DT-1000",
+      "parent_id": "ANL-F19-CROSSCHECK",
+      "relation": "cross_checks"
+    },
+    {
+      "child_id": "RPT-STRESS-AF-DT-1000",
+      "parent_id": "ANL-F19-CROSSCHECK",
+      "relation": "reported_in"
+    },
+    {
+      "child_id": "RPT-STRESS-AF-DT-1000",
+      "parent_id": "ANL-F20-COST",
       "relation": "reported_in"
     },
     {
@@ -973,6 +1037,16 @@
       "relation": "geometry_input"
     },
     {
+      "child_id": "ANL-F19-CROSSCHECK",
+      "parent_id": "GEO-AF-DT-1000",
+      "relation": "geometry_input"
+    },
+    {
+      "child_id": "ANL-F20-COST",
+      "parent_id": "GEO-AF-DT-1000",
+      "relation": "geometry_input"
+    },
+    {
       "child_id": "ANL-F5-FE",
       "parent_id": "GEO-AF-DT-1000",
       "relation": "geometry_input"
@@ -1019,6 +1093,11 @@
     },
     {
       "child_id": "ANL-F17-MODALBUCK",
+      "parent_id": "LOAD-AF-DT-1000",
+      "relation": "load_input"
+    },
+    {
+      "child_id": "ANL-F19-CROSSCHECK",
       "parent_id": "LOAD-AF-DT-1000",
       "relation": "load_input"
     },
@@ -1143,6 +1222,11 @@
       "relation": "specimen_basis_source"
     },
     {
+      "child_id": "ANL-F19-CROSSCHECK",
+      "parent_id": "SRC-EKVALL-1986",
+      "relation": "method_source"
+    },
+    {
       "child_id": "LOAD-AF-DT-1000",
       "parent_id": "SRC-FAR-25",
       "relation": "governs"
@@ -1156,6 +1240,11 @@
       "child_id": "ANL-F9-DT",
       "parent_id": "SRC-MILHDBK5J-3.1.2.1.6",
       "relation": "allowable_source"
+    },
+    {
+      "child_id": "ANL-F20-COST",
+      "parent_id": "SRC-MILHDBK5J-3.7.6.0b3",
+      "relation": "band_selection_challenged_by"
     },
     {
       "child_id": "MARGIN-AF-DT-1000",
