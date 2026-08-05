@@ -24,13 +24,14 @@ MIL-HDBK-5 was removed from 14 CFR 23.613 and 25.613** as a means of showing com
 accepts MMPDS as the source for metallic design allowables and **encourages the latest revision for
 the certification of new products**.
 
-This project cites MIL-HDBK-5J **51 times across 18 files**, invoking six distinct locators:
+This project cites MIL-HDBK-5J **32 times across 13 evidence documents**, invoking six distinct
+locators:
 
 | Locator | Citations | What it supplies |
 |---|---|---|
-| Table 3.7.6.0(b3) | 15 | **the governing allowables** — 7075-T7351 plate, 2.001–2.500 in band |
-| Section 3.7.6.2 | 4 | the S-N fatigue section — **the REQ-012 blocker** |
-| Table 3.1.2.1.6 | 3 | `K_Ic`, information only |
+| Table 3.7.6.0(b3) | 11 | **the governing allowables** — 7075-T7351 plate, 2.001–2.500 in band |
+| Section 3.7.6.2 | 3 | the S-N fatigue section — **the REQ-012 blocker** |
+| Table 3.1.2.1.6 | 2 | `K_Ic`, information only |
 | Table 3.7.6.0(b1) | 1 | 7075-T7351 plate, 0.500–1.000 in band — F12 correlation basis |
 | Table 3.1.2.3.1(b) | 1 | short-transverse property and SCC guidance |
 | Figure 3.7.6.2.9(b) | 1 | `da/dN` crack growth data for F9 |
@@ -60,10 +61,10 @@ values re-read from the current edition to confirm they have not been revised in
 subsequent coordination meetings.
 
 **3.2 The values must be re-confirmed, not assumed.** Equivalence held in 2003. It does not
-automatically hold now. MMPDS has been revised annually since, and revisions exist precisely because
-values change as data accumulates. **The 2003 equivalence licenses the claim that the numbers were
-right when taken; it does not license the claim that they are current.** Anyone reading `+0.156`
-is entitled to know which edition it rests on.
+automatically hold now. MMPDS has been revised repeatedly since, and revisions exist precisely
+because values change as data accumulates. **The 2003 equivalence licenses the claim that the
+numbers were right when taken; it does not license the claim that they are current.** Anyone
+reading `+0.156` is entitled to know which edition it rests on.
 
 **3.3 REQ-012 has to be reopened as a question.** The safe-life fatigue requirement is closed as
 *permanently blocked* on the grounds that MIL-HDBK-5J Section 3.7.6.2 contains no S-N curves for the
@@ -82,23 +83,34 @@ The present wording claims more than the evidence supports. Until the current ha
 checked, the honest form is: *no S-N curves for this temper were found in MIL-HDBK-5J; the current
 handbook has not been searched.*
 
-## 4. Status of the mapping
+## 4. Status of the mapping, and how this count was got wrong twice
 
-| | |
-|---|---|
-| Substantive citations inventoried | **51** across 18 files |
-| Self-referential (this document and the tool) | 14, counted separately |
-| Tied to a specific locator | **25** |
-| MMPDS equivalent confirmed | **0** |
-| MMPDS equivalent to verify | **51** |
+| Population | Citations | Counted? |
+|---|---|---|
+| **Evidence** — documents that rely on the allowables | **32** across 13 files | **yes — this is the number that matters** |
+| Narrative — README, changelog, project state, handoff | 21 | no |
+| Meta — this document and the inventory tool | 14 | no |
+| MMPDS equivalent confirmed | **0** | — |
+| MMPDS equivalent to verify | **32** | — |
 
-**The first published version of this document got this count wrong, and got it wrong by existing.**
-It reported 58 citations across 19 files — a figure taken before the document itself was committed.
-Publishing it added seven more citations, and the inventory tool added seven of its own, so the
-total moved to 65 the moment the finding was written down. The tool now separates files that are
-*about* the citation problem from files that are *instances* of it. Counting a governance document
-as evidence of the defect it documents is a small error, but it is the same class of error as
-citing a cancelled handbook: **a number that looks sourced and is not.**
+**The headline count moved twice before it settled, and both moves were the metric's fault rather
+than the repository's.**
+
+The first published version of this document reported **58 citations across 19 files** — a figure
+taken before the document itself existed. Publishing it added seven citations, and the inventory
+tool added seven more, so the true total was **65** the moment the finding was written down.
+Excluding the document and the tool gave **51**.
+
+That held until the README, changelog and project state described the finding, at which point it
+became **53**. A count that rises every time you write about the thing you are counting is measuring
+the wrong population.
+
+**The fix is a classification, not a filter.** What a restatement actually has to repair is the set
+of documents that *rely* on the allowables — 32 citations across 13 files. Narrative documents that
+merely describe the situation change with every commit and are irrelevant to the work.
+
+This is a small error twice over, but it is the same class of error as the finding itself:
+**a number that looks sourced and is not.**
 
 **No MMPDS locator appears anywhere in this document or in the inventory tool, and none will until
 the handbook has been opened.** MMPDS largely preserves the MIL-HDBK-5 numbering conventions, which
@@ -106,17 +118,15 @@ makes it tempting to write the mapping by inference. That temptation is the reas
 an inferred citation is indistinguishable in print from a verified one, and this project's entire
 value rests on that distinction holding.
 
-`tools/check_allowables_citations.py` reports every entry as `TO_VERIFY` and is written so that the
-status can only advance by editing the locator registry — that is, by someone having looked.
-
 ## 5. Open — needs Ruby
 
 One library session. MMPDS is available through university and AIAA subscriptions.
 
 1. **7075-T7351 plate, the band containing 6.000 in** — `F_tu` (L, LT, ST), `F_ty`, `F_bru` at
    `e/D = 2.0`, A basis. *Closes F20.*
-2. **7075-T7351 plate, 2.001–2.500 in band** — the same properties at the current edition.
-   *Confirms or moves the released margin.*
+2. **7075-T7351 plate, 2.001–2.500 in band** — the same properties at the current edition. Also
+   note **whether that band still exists with the same boundaries**; if it was resplit, F20's
+   finding changes shape. *Confirms or moves the released margin.*
 3. **Does MMPDS contain S-N curves for 7075-T7351?** Yes or no, with the section number recorded
    either way. *Decides REQ-012.*
 4. **The MMPDS edition number and date**, for the citation itself.
@@ -132,5 +142,8 @@ they have not already changed underneath it.
   that any specific value is wrong. No value is withdrawn.
 - The inventory tool is a text scan. It finds citations that name the handbook; it cannot find a
   value that was taken from the handbook and then quoted without attribution.
+- The evidence/narrative/meta split is maintained by hand in the tool. A new analysis document is
+  classified as evidence by default, which is the conservative direction, but a new narrative
+  document would have to be added to the list explicitly.
 - MMPDS is a fee-based document. If access cannot be obtained, the correct disposition is to state
   the limitation explicitly rather than to continue citing a cancelled handbook silently.
