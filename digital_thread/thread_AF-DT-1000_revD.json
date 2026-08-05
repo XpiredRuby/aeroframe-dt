@@ -512,15 +512,14 @@
       "id": "ANL-F21-GOVERNANCE",
       "kind": "analysis",
       "metadata": {
-        "files": 18,
+        "citation_count": "not duplicated here - see results/f21_citation_inventory.csv; embedding a computed number in metadata makes the graph stale every time the count is recomputed",
         "finding": "every allowable is cited from MIL-HDBK-5J, cancelled and superseded by MMPDS",
         "locators": 6,
         "state": "OPEN - mapping unverified; reopens REQ-012 as a question",
-        "substantive_citations": 51,
         "values_affected": "none - MMPDS-01 and MIL-HDBK-5J were technically equivalent in 2003"
       },
       "revision": "D",
-      "sha256": "bd6beb36526fb69b8737fbddab35848925a3045d4247265784dedf1242ed8f57",
+      "sha256": "c8004d81478da6f8b0be366e9432fa5d77cb6264fe0b40fea699b8b26bd53840",
       "status": "CURRENT",
       "uri": "docs/F21_ALLOWABLES_GOVERNANCE.md"
     },
