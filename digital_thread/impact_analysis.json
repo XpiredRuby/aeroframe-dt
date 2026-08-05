@@ -17,6 +17,7 @@
       "ANL-F18-EKVALL",
       "ANL-F19-CROSSCHECK",
       "ANL-F20-COST",
+      "ANL-F22-COMPOSITE",
       "ANL-F7-CONTACT",
       "INSP-PLAN-AF-DT-1000",
       "MARGIN-AF-DT-1000",
@@ -24,7 +25,7 @@
       "PMI-AF-DT-1000",
       "RPT-STRESS-AF-DT-1000"
     ],
-    "count": 21,
+    "count": 22,
     "trigger": "ANL-F7-CONTACT revised D -> E (planned)"
   },
   "geometry_revision": "D",
@@ -48,6 +49,7 @@
       "ANL-F18-EKVALL",
       "ANL-F19-CROSSCHECK",
       "ANL-F20-COST",
+      "ANL-F22-COMPOSITE",
       "ANL-F5-FE",
       "ANL-F6-PIN",
       "ANL-F7-CONTACT",
@@ -61,7 +63,7 @@
       "RPT-STRESS-AF-DT-1000"
     ],
     "audit_issues": [],
-    "count": 29,
+    "count": 30,
     "trigger": "LOAD-AF-DT-1000 revised B -> C"
   }
 }
