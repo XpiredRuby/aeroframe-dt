@@ -126,6 +126,18 @@ ANALYSES = [
       "scatter_basis": "one-sided tolerance limits 0.910 at 90/95 and 0.837 at 99/95",
       "ms_at_A_basis_scatter": -0.032,
       "note": "double-counting confirmed real but not quantifiable"}),
+    ("ANL-F19-CROSSCHECK", "analysis", "D", "docs/F19_METHOD_CROSSCHECK.md",
+     {"method_a": "Melcon-Hoblit", "method_b": "Ekvall 1986 closed form",
+      "P_tru_melcon_hoblit_lb": 259875, "P_tru_ekvall_lb": 230010,
+      "ratio_ekvall_over_melcon_hoblit": 0.885, "ms_if_ekvall_substituted": 0.053,
+      "state": "finding raised, NOT incorporated into the released margin"}),
+    ("ANL-F20-COST", "analysis", "D", "docs/F20_COST_TRADE.md",
+     {"class": "ASSUMED_COST_BASIS", "buy_to_fly": 5.36,
+      "material_utilisation_pct": 18.6,
+      "min_stock_thickness_in": 6.000, "allowable_band_used_in": "2.001-2.500",
+      "finding": "part envelope requires stock thicker than the allowable band cited; "
+                 "expected direction is non-conservative, magnitude unread",
+      "state": "OPEN - needs the thick-band table read"}),
 ]
 
 RELEASED = [
@@ -203,6 +215,25 @@ LINKS = [
     ("ANL-F7-CONTACT", "ANL-F18-EKVALL", "double_count_assessed_by"),
     ("ANL-F18-EKVALL", "MARGIN-AF-DT-1000", "bounds_scatter_of"),
     ("ANL-F18-EKVALL", "RPT-STRESS-AF-DT-1000", "reported_in"),
+    # F19 evaluates the governing transverse allowable by a second independent method.
+    # It links to the margin as a cross-check, NOT as a correction: the released margin
+    # was deliberately not amended.
+    ("SRC-EKVALL-1986", "ANL-F19-CROSSCHECK", "method_source"),
+    ("GEO-AF-DT-1000", "ANL-F19-CROSSCHECK", "geometry_input"),
+    ("LOAD-AF-DT-1000", "ANL-F19-CROSSCHECK", "load_input"),
+    ("ANL-F18-EKVALL", "ANL-F19-CROSSCHECK", "specimen_basis_for"),
+    ("ANL-F19-CROSSCHECK", "MARGIN-AF-DT-1000", "cross_checks"),
+    ("ANL-F19-CROSSCHECK", "RPT-STRESS-AF-DT-1000", "reported_in"),
+    # F20 costs the part and, in doing so, challenges the plate band the allowables
+    # were taken from. It sits DOWNSTREAM of the margin: the margin sized the geometry
+    # that is being costed. The finding it raises against the margin is carried in the
+    # artifact metadata, not as a back-edge - a back-edge here creates a cycle
+    # (MARGIN -> F13 -> F20 -> MARGIN) and the descendant query does not terminate.
+    ("GEO-AF-DT-1000", "ANL-F20-COST", "geometry_input"),
+    ("ANL-F11-OPT", "ANL-F20-COST", "cost_ranked_by"),
+    ("ANL-F13-STACK", "ANL-F20-COST", "inspection_burden_costed_by"),
+    ("SRC-MILHDBK5J-3.7.6.0b3", "ANL-F20-COST", "band_selection_challenged_by"),
+    ("ANL-F20-COST", "RPT-STRESS-AF-DT-1000", "reported_in"),
     ("ANL-F6-PIN", "RPT-STRESS-AF-DT-1000", "reported_in"),
     ("ANL-F10-DYNAMICS", "RPT-STRESS-AF-DT-1000", "reported_in"),
     ("ANL-F11-OPT", "RPT-STRESS-AF-DT-1000", "reported_in"),
