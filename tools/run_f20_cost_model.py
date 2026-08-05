@@ -214,7 +214,7 @@ def main() -> int:
         json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
     with (OUT / "f20_cost_breakdown.csv").open("w", newline="", encoding="utf-8") as f:
-        w = csv.writer(f)
+        w = csv.writer(f, lineterminator="\n")
         w.writerow(["rate_case", "lot_size", "material_usd", "scrap_credit_usd",
                     "machining_usd", "inspection_usd", "total_usd",
                     "material_pct", "machining_pct", "inspection_pct"])
