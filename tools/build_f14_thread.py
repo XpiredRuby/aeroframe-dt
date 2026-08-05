@@ -138,6 +138,20 @@ ANALYSES = [
       "finding": "part envelope requires stock thicker than the allowable band cited; "
                  "expected direction is non-conservative, magnitude unread",
       "state": "OPEN - needs the thick-band table read"}),
+    ("ANL-F21-GOVERNANCE", "analysis", "D", "docs/F21_ALLOWABLES_GOVERNANCE.md",
+     {"finding": "every allowable is cited from MIL-HDBK-5J, cancelled and superseded by MMPDS",
+      "substantive_citations": 51, "files": 18, "locators": 6,
+      "values_affected": "none - MMPDS-01 and MIL-HDBK-5J were technically equivalent in 2003",
+      "state": "OPEN - mapping unverified; reopens REQ-012 as a question"}),
+    ("ANL-F22-COMPOSITE", "analysis", "D", "docs/F22_COMPOSITE_TRADE.md",
+     {"question": "should AF-DT-1000 be a composite part",
+      "answer": "no - retain 7075-T7351",
+      "governing_reason": "the joint survives by plastic redistribution (F16), "
+                          "which a laminate cannot do",
+      "class": "screening trade, not a sizing - no laminate allowables were available"}),
+    ("RPT-NASTRAN-CROSSCHECK", "report", "D", "benchmarks/NASTRAN_CROSSCHECK.md",
+     {"decks": 3, "predictions_frozen": 4, "state": "NOT RUN - no NASTRAN licence confirmed",
+      "defect_found": "PBEAM wrote J into the I12 field"}),
 ]
 
 RELEASED = [
@@ -234,6 +248,17 @@ LINKS = [
     ("ANL-F13-STACK", "ANL-F20-COST", "inspection_burden_costed_by"),
     ("SRC-MILHDBK5J-3.7.6.0b3", "ANL-F20-COST", "band_selection_challenged_by"),
     ("ANL-F20-COST", "RPT-STRESS-AF-DT-1000", "reported_in"),
+    # F21 assesses the CURRENCY of the allowable source, not its values.
+    ("SRC-MILHDBK5J-3.7.6.0b3", "ANL-F21-GOVERNANCE", "currency_assessed_by"),
+    ("SRC-MILHDBK5J-3.1.2.1.6", "ANL-F21-GOVERNANCE", "currency_assessed_by"),
+    ("ANL-F21-GOVERNANCE", "RPT-STRESS-AF-DT-1000", "reported_in"),
+    # F22 is a material trade that turns on F16's measured plasticity and F20's cost basis.
+    ("GEO-AF-DT-1000", "ANL-F22-COMPOSITE", "geometry_input"),
+    ("ANL-F16-PLASTIC", "ANL-F22-COMPOSITE", "mechanism_basis_for"),
+    ("ANL-F20-COST", "ANL-F22-COMPOSITE", "cost_basis_for"),
+    ("ANL-F22-COMPOSITE", "RPT-STRESS-AF-DT-1000", "reported_in"),
+    # Cross-solver verification extends the single-solver FE verification argument.
+    ("RPT-FE-VERIFICATION", "RPT-NASTRAN-CROSSCHECK", "extended_by"),
     ("ANL-F6-PIN", "RPT-STRESS-AF-DT-1000", "reported_in"),
     ("ANL-F10-DYNAMICS", "RPT-STRESS-AF-DT-1000", "reported_in"),
     ("ANL-F11-OPT", "RPT-STRESS-AF-DT-1000", "reported_in"),
