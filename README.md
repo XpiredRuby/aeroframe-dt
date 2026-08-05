@@ -27,6 +27,7 @@ toolchain and a revision-aware digital thread.
 | Pin | high-strength steel mandatory, bending governs at 780 MPa |
 | Damage tolerance | critical crack **3.07 mm**, NDI at 4,500-flight intervals |
 | First natural frequency | **1197 Hz** — inside the plausible blade-passing band |
+| **Open finding (F20)** | **the allowables band cited is not the plate the part can be cut from** |
 
 ### The margin moved by a factor of 9, then came halfway back
 
@@ -60,11 +61,20 @@ elastic-plastic run.
 [`docs/F7_CONTACT_THICK_LUG.md`](docs/F7_CONTACT_THICK_LUG.md) ·
 [`docs/F16_ELASTIC_PLASTIC_CONTACT.md`](docs/F16_ELASTIC_PLASTIC_CONTACT.md)
 
+**A cost analysis that found a materials problem instead of a price.** The first thing a cost model
+needs is the raw billet, and the billet is set by the part envelope: 16.000 × 6.000 × 9.000 in. So
+the part cannot be cut from stock thinner than **6.000 in** — while every allowable in the project
+is cited from the **2.001–2.500 in** plate band, selected on lug thickness rather than on stock
+thickness. Expected direction non-conservative; the magnitude is left unstated because the table has
+not been read. Buy-to-fly is **5.36**, and removing finished mass without shrinking the envelope
+costs nothing to make. [`docs/F20_COST_TRADE.md`](docs/F20_COST_TRADE.md)
+
 **A configuration-management tool tested against a rework cycle that actually happened.** The
 evidence graph was registered as it stood at load revision B, then the real correction was applied —
 a lug-axis mapping error where 30.96° had been measured from the wrong reference. The graph flagged
-26 artifacts stale, reproducing a blast radius that had been worked out by hand. The one place it
-over-flags is named and explained rather than hidden.
+29 artifacts stale, reproducing a blast radius that had been worked out by hand. The one place it
+over-flags is named and explained rather than hidden. Registering F20 then exposed a defect in the
+graph's own cycle check, which hung instead of reporting; that is fixed, tested, and written up.
 [`docs/F14_DIGITAL_THREAD.md`](docs/F14_DIGITAL_THREAD.md)
 
 **Tolerances derived from margin sensitivity, then stacked back onto the margin.** Every GD&T callout
@@ -101,10 +111,13 @@ third point showed it rebounding to +0.165.
 | F11 | Geometric optimization | complete |
 | F12 | Correlation against 243 published lug tests | complete |
 | F13 | Manufacturing, inspection, and tolerance stack | complete |
-| F14 | Populated digital thread, 56 artifacts, 79 links | complete |
+| F14 | Populated digital thread, 59 artifacts, 95 links | complete |
 | F15 | Nonconformance RCCA, mis-drilled bore | complete |
 | **F16** | **Elastic-plastic contact, `t_eff/t = 0.730`** | **complete** |
 | **F17** | **Modal + eigenvalue buckling FE** | **complete** |
+| F18 | Ekvall specimen basis, double-counting assessed | complete |
+| F19 | Independent method cross-check, Ekvall closed form | complete, raised as a finding |
+| **F20** | **Recurring cost trade and raw stock envelope** | **complete — raises an OPEN material-band finding** |
 | F8 | Safe-life fatigue | **not supportable** — no S-N data exists for 7075-T7351 |
 
 ### Verification
@@ -121,7 +134,7 @@ third point showed it rebounding to +0.165.
 | Plate bending vs Navier series | **0.62%** |
 | Damage tolerance, two independent implementations | agree to **7%** on critical crack, **10%** on life |
 | Tolerance stack, exact vs linearised sensitivity | agree to **0.1%** |
-| Evidence graph audit | **0 issues** across 56 artifacts and 79 links |
+| Evidence graph audit | **0 issues** across 59 artifacts and 95 links |
 
 The damage-tolerance cross-check compared a hand calculation against `src/aeroframe_dt/fatigue.py`,
 written independently of the analysis. The hand calculation's own stated limitation — that its
@@ -159,6 +172,7 @@ Alongside the analysis records, the repository contains tested implementations f
 - mesh convergence, solver comparison, stress linearization, and integrated contact resultants;
 - fatigue, Miner damage, Paris crack growth, critical flaw size, and AFGROW packaging;
 - Monte Carlo, Latin hypercube, DOE, Pareto, and robust optimization;
+- recurring cost modelling with declared assumption ranges and a buy-to-fly derivation;
 - blind public-data correlation records;
 - SolidWorks/FreeCAD parameter macros;
 - STEP AP242 inventory screening and QIF-style inspection linkage;
@@ -177,6 +191,7 @@ python -m unittest discover -s tests -v
 python tools/check_traceability.py
 python tools/run_f13_inspection_plan.py
 python tools/build_f14_thread.py
+python tools/run_f20_cost_model.py
 python tools/generate_all_software_evidence.py
 aeroframe-dt audit .
 ```
@@ -216,7 +231,7 @@ source's own worked example before use
 docs/               STRESS_REPORT_AF-DT-1000.md   <- start here
                     MARGIN_SUMMARY.md             <- authoritative margin figure
                     HANDOFF.md                    <- full project state
-                    F5/F6/F7/F9/F12/F13/F14/F15/F16/F17 analysis records
+                    F5/F6/F7/F9/F12/F13/F14/F15/F16/F17/F18/F19/F20 analysis records
                     PMI_GDT_DEFINITION.md
                     SOFTWARE_COMPLETION_MATRIX.md
 benchmarks/         locked acceptance criteria and APDL verification decks
@@ -226,9 +241,10 @@ figures/            generated from recorded data by make_figures.py
 inspection_quality/ inspection plan for Rev D
 loads/              load basis revisions
 reports/            FE_VERIFICATION_REPORT.md
+results/            recorded numerical outputs, including the F20 cost model
 src/                aeroframe_dt package
 tests/              unit tests for the analysis toolchain
-tools/              traceability, inspection, digital thread, evidence generation
+tools/              traceability, inspection, digital thread, cost, evidence generation
 ```
 
 ## Repository policy
@@ -240,7 +256,7 @@ rejects common ANSYS/NASTRAN/OptiStruct database formats.
 ## Status
 
 **17 of 18 formal requirements verified.** `tools/check_traceability.py` passes at 18 requirements
-and 38 verification rows. The analysis chain is complete from load basis through stress report,
+and 41 verification rows. The analysis chain is complete from load basis through stress report,
 manufacturing and inspection package, digital thread, and FE verification.
 
 **REQ-012 safe-life fatigue cannot close honestly**: MIL-HDBK-5J provides no S-N curves for the
@@ -250,6 +266,8 @@ not a gap left unfilled.
 Open technical items, all stated in `MARGIN_SUMMARY.md` §11 rather than left implicit — the
 Ekvall specimen `t/D` range, an exact re-derivation of the F15 margin at `e = 1.900 in`, mesh
 convergence of the elastic-plastic ratio, and blade-passing separation against a defined engine.
+**Added by F20 and not yet closed: the plate thickness band the allowables are cited from is not a
+band this part can be made from.**
 
 Not checked or approved by a licensed stress engineer. This demonstrates method, traceability and
 self-verification — it does not substantiate a flight article.
