@@ -32,14 +32,25 @@ OUT = ROOT / "results"
 SCAN_SUFFIXES = {".md", ".py", ".csv"}
 SKIP_DIRS = {".git", "__pycache__", "results"}
 
-# Files that are ABOUT the citation problem rather than instances of it. Counting
-# them inflates the inventory and makes the total drift every time the governance
-# document is edited - which is exactly what happened on the first run: F21 quoted
-# a total that its own publication invalidated. They are still scanned and reported,
-# just counted separately.
-SELF_REFERENTIAL = {
+# Three populations, not one. The headline number counts ONLY files that actually
+# rely on the allowables, because that is the population a restatement has to fix.
+#
+# This distinction was learned twice. F21 first reported 58 citations, a figure its
+# own publication invalidated (65). Excluding F21 and this tool fixed that and gave
+# 51 - which then moved to 53 the moment the README, changelog and project state
+# described the finding. A count that changes when you write about it is measuring
+# the wrong thing.
+META = {
     "docs/F21_ALLOWABLES_GOVERNANCE.md",
     "tools/check_allowables_citations.py",
+}
+
+NARRATIVE = {
+    "README.md",
+    "CHANGELOG.md",
+    "PROJECT_STATE.md",
+    "docs/HANDOFF.md",
+    "tools/build_f14_thread.py",
 }
 
 CITATION = re.compile(r"MIL-HDBK-5J?", re.IGNORECASE)
@@ -72,6 +83,14 @@ TRANSITION = {
 }
 
 
+def _population(relative: str) -> str:
+    if relative in META:
+        return "meta"
+    if relative in NARRATIVE:
+        return "narrative"
+    return "evidence"
+
+
 def scan() -> list[dict]:
     rows: list[dict] = []
     for path in sorted(ROOT.rglob("*")):
@@ -95,8 +114,7 @@ def scan() -> list[dict]:
                 "mmpds_equivalent": LOCATORS.get(locator, ("", ""))[1] or "TO_VERIFY",
                 "status": "CONFIRMED" if LOCATORS.get(locator, ("", ""))[1] else "TO_VERIFY",
                 "context": line.strip()[:160],
-                "self_referential": str(path.relative_to(ROOT)).replace("\\", "/")
-                                    in SELF_REFERENTIAL,
+                "population": _population(str(path.relative_to(ROOT)).replace("\\", "/")),
             })
     return rows
 
@@ -108,19 +126,21 @@ def main() -> int:
     with (OUT / "f21_citation_inventory.csv").open("w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=["file", "line", "locator", "supplies",
                                                "mmpds_equivalent", "status", "context",
-                                               "self_referential"],
+                                               "population"],
                                 lineterminator="\n")
         writer.writeheader()
         writer.writerows(rows)
 
-    substantive = [row for row in rows if not row["self_referential"]]
-    meta = [row for row in rows if row["self_referential"]]
+    substantive = [row for row in rows if row["population"] == "evidence"]
+    narrative = [row for row in rows if row["population"] == "narrative"]
+    meta = [row for row in rows if row["population"] == "meta"]
     files = sorted({row["file"] for row in substantive})
     located = [row for row in substantive if row["locator"]]
     confirmed = [row for row in substantive if row["status"] == "CONFIRMED"]
 
-    print(f"Substantive citations: {len(substantive)} across {len(files)} files")
-    print(f"Self-referential     : {len(meta)} in F21 and this tool - not counted above")
+    print(f"Evidence citations   : {len(substantive)} across {len(files)} files")
+    print(f"Narrative            : {len(narrative)} in README/changelog/state - excluded")
+    print(f"Meta                 : {len(meta)} in F21 and this tool - excluded")
     print(f"Tied to a locator    : {len(located)}")
     print(f"MMPDS mapping        : {len(confirmed)} confirmed, "
           f"{len(substantive) - len(confirmed)} to verify")
