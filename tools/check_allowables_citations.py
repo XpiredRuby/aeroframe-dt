@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """F21 - inventory every material-allowables citation in the repository.
 
-MIL-HDBK-5J was cancelled in March 2006 and superseded by MMPDS. This project cites
-it throughout. The numbers are not in question - MMPDS-01 and MIL-HDBK-5J were issued
-as technically equivalent documents for the 2003 transition year - but the citation
-is to a cancelled document, and for a report written in the shape of a certification
-substantiation that is a defect worth fixing.
+MIL-HDBK-5J was cancelled - notice issued 2004, restated 2006 - and superseded by MMPDS.
+This project cites it throughout. The numbers are not in question - MMPDS-01 and
+MIL-HDBK-5J were issued as technically equivalent documents for the 2003 transition
+year - but the citation is to a cancelled document, and for a report written in the
+shape of a certification substantiation that is a defect worth fixing.
 
 This tool finds every citation, classifies it by the specific table or figure invoked,
 and tracks the status of its MMPDS equivalent.
@@ -31,6 +31,16 @@ OUT = ROOT / "results"
 
 SCAN_SUFFIXES = {".md", ".py", ".csv"}
 SKIP_DIRS = {".git", "__pycache__", "results"}
+
+# Files that are ABOUT the citation problem rather than instances of it. Counting
+# them inflates the inventory and makes the total drift every time the governance
+# document is edited - which is exactly what happened on the first run: F21 quoted
+# a total that its own publication invalidated. They are still scanned and reported,
+# just counted separately.
+SELF_REFERENTIAL = {
+    "docs/F21_ALLOWABLES_GOVERNANCE.md",
+    "tools/check_allowables_citations.py",
+}
 
 CITATION = re.compile(r"MIL-HDBK-5J?", re.IGNORECASE)
 
@@ -85,6 +95,8 @@ def scan() -> list[dict]:
                 "mmpds_equivalent": LOCATORS.get(locator, ("", ""))[1] or "TO_VERIFY",
                 "status": "CONFIRMED" if LOCATORS.get(locator, ("", ""))[1] else "TO_VERIFY",
                 "context": line.strip()[:160],
+                "self_referential": str(path.relative_to(ROOT)).replace("\\", "/")
+                                    in SELF_REFERENTIAL,
             })
     return rows
 
@@ -95,23 +107,27 @@ def main() -> int:
 
     with (OUT / "f21_citation_inventory.csv").open("w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=["file", "line", "locator", "supplies",
-                                               "mmpds_equivalent", "status", "context"],
+                                               "mmpds_equivalent", "status", "context",
+                                               "self_referential"],
                                 lineterminator="\n")
         writer.writeheader()
         writer.writerows(rows)
 
-    files = sorted({row["file"] for row in rows})
-    located = [row for row in rows if row["locator"]]
-    confirmed = [row for row in rows if row["status"] == "CONFIRMED"]
+    substantive = [row for row in rows if not row["self_referential"]]
+    meta = [row for row in rows if row["self_referential"]]
+    files = sorted({row["file"] for row in substantive})
+    located = [row for row in substantive if row["locator"]]
+    confirmed = [row for row in substantive if row["status"] == "CONFIRMED"]
 
-    print(f"Citations found      : {len(rows)} across {len(files)} files")
+    print(f"Substantive citations: {len(substantive)} across {len(files)} files")
+    print(f"Self-referential     : {len(meta)} in F21 and this tool - not counted above")
     print(f"Tied to a locator    : {len(located)}")
     print(f"MMPDS mapping        : {len(confirmed)} confirmed, "
-          f"{len(rows) - len(confirmed)} to verify")
+          f"{len(substantive) - len(confirmed)} to verify")
     print()
     print("Locators invoked by this project:")
     for key, (supplies, mmpds) in LOCATORS.items():
-        hits = sum(1 for row in rows if row["locator"] == key)
+        hits = sum(1 for row in substantive if row["locator"] == key)
         state = mmpds if mmpds else "TO_VERIFY"
         print(f"  {key:16s} {hits:2d} citation(s)  [{state}]  {supplies}")
     print()
