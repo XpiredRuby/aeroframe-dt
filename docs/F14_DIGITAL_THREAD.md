@@ -16,7 +16,7 @@ plus two impact analyses run on it.
 `AFDT-REQ-016` was already closed by the engine and a generic synthetic graph. **The engine was
 never pointed at this project.** F14 populates it with the real thing:
 
-    59 artifacts, 95 links, 0 audit issues
+    62 artifacts, 103 links, 0 audit issues
 
 Every artifact backed by a file carries the **SHA-256 of that file computed at build time**, not a
 recorded string. Re-running the build after any edit changes the hash. The graph is regenerable
@@ -53,12 +53,12 @@ real correction — the lug-axis mapping error, where 30.96° had been measured 
 than from the lug axis, and the correct 59.04° is transverse-dominant. Compare what the graph
 flags against the rework that actually happened.
 
-**Result: 29 artifacts marked STALE.**
+**Result: 30 artifacts marked STALE.**
 
 | Group | Flagged |
 |---|---|
 | The load basis itself | LOAD-AF-DT-1000 |
-| Analyses | F5 FE, F6 pin, F7 contact, F9 DT, F9b spectrum, F10 dynamics, F11 optimisation, F13 stack, F16 elastic-plastic, F17 modal/buckling, F18 Ekvall basis, F19 method cross-check, F20 cost trade |
+| Analyses | F5 FE, F6 pin, F7 contact, F9 DT, F9b spectrum, F10 dynamics, F11 optimisation, F13 stack, F16 elastic-plastic, F17 modal/buckling, F18 Ekvall basis, F19 method cross-check, F20 cost trade, F22 composite trade |
 | Released | MARGIN-AF-DT-1000, PMI-AF-DT-1000, INSP-PLAN, NCR-F15-001, RPT-STRESS |
 | PMI characteristics | all 10 |
 
@@ -66,9 +66,13 @@ flags against the rework that actually happened.
 graph, given only the dependency structure, reproduces the blast radius of a rework cycle that was
 discovered by hand.
 
-*The count has grown with the project — 24 when the rework was worked out by hand, 29 now — because
+*The count has grown with the project — 24 when the rework was worked out by hand, 30 now — because
 the graph has more nodes downstream of the load basis than it had then. The set, not the number, is
 what reproduces.*
+
+**F21 is deliberately not in that set.** It assesses the *currency of the allowable source*, which
+no load revision can affect, so it hangs off the source nodes rather than off the load basis. That
+is the graph distinguishing a finding about a document from a finding about a structure.
 
 ### 3.1 Where it over-flags — stated, not hidden
 
@@ -90,7 +94,7 @@ direction to be wrong in, but a reviewer should know that a STALE flag means "re
 
 **The question:** if the contact measurement changes again, what does it invalidate?
 
-**Result: 21 artifacts, including all 10 PMI characteristics, the inspection plan, the F13
+**Result: 22 artifacts, including all 10 PMI characteristics, the inspection plan, the F13
 tolerance stack, the NCR assessment and the stress report.**
 
 **This is a sequencing finding, not a bookkeeping one**, and it was acted on. Before F16 was run,
