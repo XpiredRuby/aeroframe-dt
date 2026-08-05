@@ -35,6 +35,8 @@ digraph AeroFrameDT {
   "ANL-F16-PLASTIC" [label="ANL-F16-PLASTIC\nanalysis rev D\nCURRENT"];
   "ANL-F17-MODALBUCK" [label="ANL-F17-MODALBUCK\nanalysis rev D\nCURRENT"];
   "ANL-F18-EKVALL" [label="ANL-F18-EKVALL\nanalysis rev D\nCURRENT"];
+  "ANL-F19-CROSSCHECK" [label="ANL-F19-CROSSCHECK\nanalysis rev D\nCURRENT"];
+  "ANL-F20-COST" [label="ANL-F20-COST\nanalysis rev D\nCURRENT"];
   "ANL-F5-FE" [label="ANL-F5-FE\nanalysis rev D\nCURRENT"];
   "ANL-F6-PIN" [label="ANL-F6-PIN\nanalysis rev D\nCURRENT"];
   "ANL-F7-CONTACT" [label="ANL-F7-CONTACT\nanalysis rev D\nCURRENT"];
@@ -78,15 +80,21 @@ digraph AeroFrameDT {
   "AFDT-REQ-018" -> "ANL-F12-CORR" [label="verified_by"];
   "ANL-F10-DYNAMICS" -> "ANL-F17-MODALBUCK" [label="completed_by"];
   "ANL-F10-DYNAMICS" -> "RPT-STRESS-AF-DT-1000" [label="reported_in"];
+  "ANL-F11-OPT" -> "ANL-F20-COST" [label="cost_ranked_by"];
   "ANL-F11-OPT" -> "RPT-STRESS-AF-DT-1000" [label="reported_in"];
   "ANL-F12-CORR" -> "ANL-F18-EKVALL" [label="scatter_basis_restated_by"];
   "ANL-F12-CORR" -> "MARGIN-AF-DT-1000" [label="bounds_scatter_of"];
+  "ANL-F13-STACK" -> "ANL-F20-COST" [label="inspection_burden_costed_by"];
   "ANL-F13-STACK" -> "RPT-STRESS-AF-DT-1000" [label="reported_in"];
   "ANL-F16-PLASTIC" -> "MARGIN-AF-DT-1000" [label="corrects"];
   "ANL-F16-PLASTIC" -> "RPT-STRESS-AF-DT-1000" [label="reported_in"];
   "ANL-F17-MODALBUCK" -> "RPT-STRESS-AF-DT-1000" [label="reported_in"];
+  "ANL-F18-EKVALL" -> "ANL-F19-CROSSCHECK" [label="specimen_basis_for"];
   "ANL-F18-EKVALL" -> "MARGIN-AF-DT-1000" [label="bounds_scatter_of"];
   "ANL-F18-EKVALL" -> "RPT-STRESS-AF-DT-1000" [label="reported_in"];
+  "ANL-F19-CROSSCHECK" -> "MARGIN-AF-DT-1000" [label="cross_checks"];
+  "ANL-F19-CROSSCHECK" -> "RPT-STRESS-AF-DT-1000" [label="reported_in"];
+  "ANL-F20-COST" -> "RPT-STRESS-AF-DT-1000" [label="reported_in"];
   "ANL-F5-FE" -> "MARGIN-AF-DT-1000" [label="validates_assumptions_of"];
   "ANL-F6-PIN" -> "RPT-STRESS-AF-DT-1000" [label="reported_in"];
   "ANL-F7-CONTACT" -> "ANL-F16-PLASTIC" [label="superseded_by"];
@@ -103,6 +111,8 @@ digraph AeroFrameDT {
   "GEO-AF-DT-1000" -> "ANL-F11-OPT" [label="geometry_input"];
   "GEO-AF-DT-1000" -> "ANL-F16-PLASTIC" [label="geometry_input"];
   "GEO-AF-DT-1000" -> "ANL-F17-MODALBUCK" [label="geometry_input"];
+  "GEO-AF-DT-1000" -> "ANL-F19-CROSSCHECK" [label="geometry_input"];
+  "GEO-AF-DT-1000" -> "ANL-F20-COST" [label="geometry_input"];
   "GEO-AF-DT-1000" -> "ANL-F5-FE" [label="geometry_input"];
   "GEO-AF-DT-1000" -> "ANL-F6-PIN" [label="geometry_input"];
   "GEO-AF-DT-1000" -> "ANL-F7-CONTACT" [label="geometry_input"];
@@ -113,6 +123,7 @@ digraph AeroFrameDT {
   "LOAD-AF-DT-1000" -> "ANL-F11-OPT" [label="load_input"];
   "LOAD-AF-DT-1000" -> "ANL-F16-PLASTIC" [label="load_input"];
   "LOAD-AF-DT-1000" -> "ANL-F17-MODALBUCK" [label="load_input"];
+  "LOAD-AF-DT-1000" -> "ANL-F19-CROSSCHECK" [label="load_input"];
   "LOAD-AF-DT-1000" -> "ANL-F5-FE" [label="load_input"];
   "LOAD-AF-DT-1000" -> "ANL-F6-PIN" [label="load_input"];
   "LOAD-AF-DT-1000" -> "ANL-F7-CONTACT" [label="load_input"];
@@ -137,8 +148,10 @@ digraph AeroFrameDT {
   "RPT-FE-VERIFICATION" -> "MARGIN-AF-DT-1000" [label="verifies_method_of"];
   "SRC-EKVALL-1986" -> "ANL-F12-CORR" [label="correlation_source"];
   "SRC-EKVALL-1986" -> "ANL-F18-EKVALL" [label="specimen_basis_source"];
+  "SRC-EKVALL-1986" -> "ANL-F19-CROSSCHECK" [label="method_source"];
   "SRC-FAR-25" -> "LOAD-AF-DT-1000" [label="governs"];
   "SRC-MELCON-HOBLIT" -> "MARGIN-AF-DT-1000" [label="method_source"];
   "SRC-MILHDBK5J-3.1.2.1.6" -> "ANL-F9-DT" [label="allowable_source"];
+  "SRC-MILHDBK5J-3.7.6.0b3" -> "ANL-F20-COST" [label="band_selection_challenged_by"];
   "SRC-MILHDBK5J-3.7.6.0b3" -> "MARGIN-AF-DT-1000" [label="allowable_source"];
 }
