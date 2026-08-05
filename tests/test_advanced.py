@@ -36,6 +36,19 @@ class AdvancedTests(unittest.TestCase):
             g.link('R','C','allocated_to'); g.link('C','A','analyzed_by'); g.link('A','I','verified_by')
             self.assertEqual(g.invalidate_downstream('C','revision'),['C','A','I'])
             g.close()
+    def test_digital_thread_cycle_is_reported_not_hung(self):
+        # Regression, found while registering F20: audit() walked cycles with
+        # UNION ALL and only guarded re-entry to its own start node, so a cycle
+        # reached from outside never terminated. UNION bounds the walk.
+        with tempfile.TemporaryDirectory() as d:
+            g=EvidenceGraph(Path(d)/'cycle.db')
+            for i in ('A','B','C','D'): g.add_artifact(i,'analysis','A')
+            g.link('A','B','x'); g.link('B','C','x'); g.link('C','A','x')
+            g.link('D','B','x')
+            issues=g.audit()
+            self.assertEqual(len([i for i in issues if 'cycle' in i]),3)
+            self.assertEqual(g.descendants('D'),['A','B','C'])
+            g.close()
     def test_f06(self):
         rows=parse_grid_point_force_balance('  10 SPC 1.0D+02 -2.0 3.0 4.0 5.0 6.0\n')
         self.assertEqual(resultant(rows)['fx'],100.0)
