@@ -140,7 +140,10 @@ ANALYSES = [
       "state": "OPEN - needs the thick-band table read"}),
     ("ANL-F21-GOVERNANCE", "analysis", "D", "docs/F21_ALLOWABLES_GOVERNANCE.md",
      {"finding": "every allowable is cited from MIL-HDBK-5J, cancelled and superseded by MMPDS",
-      "substantive_citations": 51, "files": 18, "locators": 6,
+      "locators": 6,
+      "citation_count": "not duplicated here - see results/f21_citation_inventory.csv; "
+                        "embedding a computed number in metadata makes the graph stale "
+                        "every time the count is recomputed",
       "values_affected": "none - MMPDS-01 and MIL-HDBK-5J were technically equivalent in 2003",
       "state": "OPEN - mapping unverified; reopens REQ-012 as a question"}),
     ("ANL-F22-COMPOSITE", "analysis", "D", "docs/F22_COMPOSITE_TRADE.md",
@@ -248,7 +251,9 @@ LINKS = [
     ("ANL-F13-STACK", "ANL-F20-COST", "inspection_burden_costed_by"),
     ("SRC-MILHDBK5J-3.7.6.0b3", "ANL-F20-COST", "band_selection_challenged_by"),
     ("ANL-F20-COST", "RPT-STRESS-AF-DT-1000", "reported_in"),
-    # F21 assesses the CURRENCY of the allowable source, not its values.
+    # F21 assesses the CURRENCY of the allowable source, not its values. It therefore
+    # hangs off the SOURCE nodes, not off the load basis - which is why a load revision
+    # correctly leaves it CURRENT while it marks F22 stale.
     ("SRC-MILHDBK5J-3.7.6.0b3", "ANL-F21-GOVERNANCE", "currency_assessed_by"),
     ("SRC-MILHDBK5J-3.1.2.1.6", "ANL-F21-GOVERNANCE", "currency_assessed_by"),
     ("ANL-F21-GOVERNANCE", "RPT-STRESS-AF-DT-1000", "reported_in"),
