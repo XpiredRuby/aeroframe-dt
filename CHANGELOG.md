@@ -1,5 +1,59 @@
 # Changelog
 
+## 0.7.0 — 2026-08-05
+
+**A market review of the project turned into a defect report on its own sources.**
+
+### Added
+- **F21 allowables governance** (`docs/F21_ALLOWABLES_GOVERNANCE.md`,
+  `tools/check_allowables_citations.py`): every material allowable in this project is cited from
+  **MIL-HDBK-5J, a cancelled document**, superseded by MMPDS and removed from the 14 CFR 23.613 /
+  25.613 compliance path. **51 substantive citations across 18 files**, six distinct locators, all
+  `TO_VERIFY`. The values are not in question — MMPDS-01 and MIL-HDBK-5J were issued technically
+  equivalent for the 2003 transition year — but the currency of the citation is.
+- **REQ-012 reopened as a question.** "No S-N curves exist for the T7351 temper" is a statement
+  about a 2003 document. Whether the current handbook contains them is **unknown and must not be
+  assumed in either direction**. If it does, the project goes 17/18 → 18/18; if it does not, the
+  blocker is restated against the current handbook, which is stronger. Status changed from
+  *permanently blocked* to *open, under review*.
+- **F22 composite trade** (`docs/F22_COMPOSITE_TRADE.md`): retain 7075-T7351. The argument comes
+  from the project's own measurement — F16 recorded the margin nearly doubling **because the
+  aluminium yielded and redistributed the bearing peak**, and a laminate has no such mechanism. At
+  `t/D = 1.25` the pin flexure drives load through the thickness into the matrix-dominated
+  direction, and the 59.04° off-axis load forces quasi-isotropic. Composite wins on buy-to-fly,
+  mass and corrosion, and still loses. **Screening trade, not a sizing** — no laminate allowables
+  were available.
+- **NASTRAN cross-solver verification** (`benchmarks/NASTRAN_CROSSCHECK.md`, three `.bdf` decks):
+  every FE result in this project comes from one solver family. Four predictions frozen before
+  execution, including that `PBEAM` without shear factors will land within 0.05% of the
+  Euler-Bernoulli oracle and thereby **demonstrate** the shear-flexibility explanation previously
+  offered for the BEAM188 +0.57% exceedance. **Not yet run** — no licence confirmed.
+- `docs/README.md`: an index of all 36 documents grouped by purpose, with reading paths and every
+  superseded document labelled.
+
+### Fixed
+- **`PBEAM` wrote the torsional constant into the `I12` product-of-inertia field**, leaving `J`
+  blank. `I12` must be zero for a symmetric rectangular section; non-zero rotates the principal
+  axes and couples the bending planes. **The static tip-load case would still have returned a
+  plausible deflection and passed the 0.5% criterion.** Third deck-level defect found by inspection
+  rather than by result, after `NMODIF` and `SECDATA` — all three produce believable numbers.
+- **The F21 citation inventory counted itself.** The first published version reported 58 citations
+  across 19 files, a figure taken before the document existed; publishing it moved the total to 65.
+  Files that are *about* the citation problem are now counted separately from files that are
+  *instances* of it. Recorded in F21 §4 rather than silently corrected.
+- Cancellation date softened from an asserted "March 2006" to what the notices support — issued
+  2004, restated 2006, with sources differing on the operative date.
+
+### Changed
+- Digital thread rebuilt to **62 artifacts, 103 links, 0 audit issues**; replay marks 30 stale,
+  forward query 22. **F21 is deliberately outside the load-basis blast radius** — a finding about a
+  document's currency cannot be invalidated by a load revision — while F22 is inside it. Verified
+  against the generated impact analysis rather than asserted.
+- README rewritten as a front door: F21 and F22 surfaced, counts corrected, docs index linked.
+- Repository cleanup: internal instruction sheets, superseded planning documents and a
+  typo-duplicated parameter schema removed, each with zero remaining references. **Superseded
+  analysis records were deliberately retained** and are labelled as such in the docs index.
+
 ## 0.6.0 — 2026-08-04
 
 **First cost analysis in the project — and it found a material-allowables problem, not a price
@@ -33,7 +87,7 @@ problem.**
 ### Changed
 - **F19 registered in the digital thread** as `ANL-F19-CROSSCHECK`, linked to the margin as
   `cross_checks` — a finding, not a correction. The released margin remains unamended.
-- Digital thread rebuilt to **59 artifacts, 95 links, 0 audit issues**. Historical replay now marks
+- Digital thread rebuilt to **59 artifacts, 95 links, 0 audit issues**. Historical replay marks
   29 stale, forward query 21. Counts updated in `README.md`, `digital_thread/README.md` and
   `docs/F14_DIGITAL_THREAD.md`, which had drifted (56/79 and 57/84 were both still quoted).
 - `README.md` status corrected from 38 to **41 verification rows**, matching
