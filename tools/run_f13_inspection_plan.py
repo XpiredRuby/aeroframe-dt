@@ -10,9 +10,9 @@ Three things happen here, in order:
     sensitive to: lug thickness and bore position.  The measurement data is
     SYNTHETIC_TEST_ONLY.
 3.  A tolerance stack of the released tolerances onto the governing margin, evaluated
-    on the real Melcon-Hoblit interaction rather than a linearisation, at BOTH the
-    elastic contact ratio (the Rev D basis) and the elastic-plastic ratio measured in
-    F16 (the current basis).
+    on the real Melcon-Hoblit interaction rather than a linearisation, at the elastic
+    contact ratio (the Rev D basis), the elastic-plastic ratio measured in
+    F16, and the 7050-T7451 ratio measured in F24 (the released basis).
 
 Run:  python tools/run_f13_inspection_plan.py
 """
@@ -46,7 +46,19 @@ W_NOM = 4.000            # in, lug width
 D_NOM = 2.000            # in, bore diameter at MMC
 D_LMC = 2.002            # in, bore diameter at LMC
 T_EFF_ELASTIC = 0.6809   # F7 elastic contact ratio, the Rev D basis
-T_EFF_PLASTIC = 0.7300   # F16 elastic-plastic contact ratio, the current basis
+T_EFF_PLASTIC = 0.7300   # F16 elastic-plastic contact ratio, 7075-T7351
+T_EFF_7050 = 0.6828      # F24 elastic-plastic contact ratio, 7050-T7451
+
+# RA_NOM and RTR_NOM above are on the 7075-T7351 allowables the project originally
+# carried (Ftu 65 ksi L, 66 ksi LT). F23 re-selected the material to 7050-T7451,
+# whose MMPDS-2026 A-basis values at the 5.001-6.000 in band are 70 ksi in both
+# directions. Load ratios scale inversely with the allowable, so the reference
+# ratios rescale directly. Without this the stack returns a 7075 nominal against a
+# 7050 margin, which is what F24 section 4 had to flag rather than quote.
+FTU_L_7075, FTU_LT_7075 = 65.0, 66.0
+FTU_L_7050, FTU_LT_7050 = 70.0, 70.0
+RA_NOM_7050 = RA_NOM * FTU_L_7075 / FTU_L_7050
+RTR_NOM_7050 = RTR_NOM * FTU_LT_7075 / FTU_LT_7050
 F15_MS_AFTER = -0.370    # MS at e = 1.900 in on the elastic basis, F15
 F15_DE = 0.600           # in, edge-distance loss in the F15 nonconformance
 POS_TOL = 0.030          # in, diametral position zone at MMC
@@ -169,26 +181,23 @@ def process_capability() -> dict:
 
 
 def position_slope(ms_nom: float) -> float:
-    """Re-anchor dMS/de on the F15 case, which scales multiplicatively with (1 + MS).
-
-    F15 took e from 2.500 to 1.900 in and MS from +0.078 to -0.370, so (1 + MS) is
-    scaled by a fixed factor over that 0.600 in. Applying the same factor at whatever
-    the current nominal is gives the slope at that operating point. At the Rev D
-    nominal this reproduces the 0.747/in quoted in PMI section 4.2 to four figures,
-    which is an independent check on the re-anchoring.
-    """
+    """Bore-position sensitivity, anchored on the F15 nonconformance."""
     factor = (1.0 + F15_MS_AFTER) / (1.0 + margin(RA_NOM, RTR_NOM))
     ms_at_f15 = (1.0 + ms_nom) * factor - 1.0
     return (ms_nom - ms_at_f15) / F15_DE
 
 
-def tolerance_stack(t_eff: float = T_EFF_ELASTIC) -> dict:
+def tolerance_stack(t_eff: float = T_EFF_ELASTIC,
+                    ra_ref: float = RA_NOM,
+                    rtr_ref: float = RTR_NOM) -> dict:
     """Stack the released tolerances onto the margin at the given contact ratio.
 
     Lug areas are linear in effective thickness, so both load ratios scale by t_eff.
+    ``ra_ref``/``rtr_ref`` select the material basis; pass RA_NOM_7050/RTR_NOM_7050
+    for the released 7050-T7451 configuration.
     """
     scale = T_EFF_ELASTIC / t_eff
-    ra_nom, rtr_nom = RA_NOM * scale, RTR_NOM * scale
+    ra_nom, rtr_nom = ra_ref * scale, rtr_ref * scale
     ms_nom = margin(ra_nom, rtr_nom)
     dms_de = position_slope(ms_nom)
 
@@ -236,7 +245,8 @@ def main() -> int:
         "characteristics": screened,
         "measurement_system_analysis": measurement_system_analysis(),
         "process_capability": process_capability(),
-        "tolerance_stack": tolerance_stack(T_EFF_PLASTIC),
+        "tolerance_stack": tolerance_stack(T_EFF_7050, RA_NOM_7050, RTR_NOM_7050),
+        "tolerance_stack_7075_plastic": tolerance_stack(T_EFF_PLASTIC),
         "tolerance_stack_elastic_basis": tolerance_stack(T_EFF_ELASTIC),
         "errors": errors,
     }
@@ -247,8 +257,9 @@ def main() -> int:
         print(f"ERROR: {error}")
     print(f"Inspection plan OK: {len(screened)} characteristics, 0 validation errors"
           if not errors else "Inspection plan FAILED")
-    for label, key in (("elastic", "tolerance_stack_elastic_basis"),
-                       ("plastic", "tolerance_stack")):
+    for label, key in (("7075 elastic ", "tolerance_stack_elastic_basis"),
+                       ("7075 plastic ", "tolerance_stack_7075_plastic"),
+                       ("7050 RELEASED", "tolerance_stack")):
         st = payload[key]
         print(f"  {label}  t_eff/t {st['t_eff_over_t']:.4f}  dMS/de {st['dms_de_per_in']:.4f}  "
               f"MS {st['ms_nominal']:+.4f} -> {st['ms_worst_case']:+.4f}  "
