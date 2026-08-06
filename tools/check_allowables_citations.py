@@ -12,8 +12,13 @@ and tracks the status of its MMPDS equivalent.
 
 WHAT THIS TOOL DOES NOT DO. It does not invent MMPDS locators. Every entry starts at
 status TO_VERIFY and only moves to CONFIRMED when someone has opened MMPDS and checked
-the section number and the values. A tool that guessed the mapping would be worse than
-no tool, because the guesses would look like citations.
+the section number. A tool that guessed the mapping would be worse than no tool,
+because the guesses would look like citations.
+
+Six locators were confirmed against MMPDS-2026 on 2026-08-06; see F25 section 4. Three
+remain TO_VERIFY and are deliberately NOT filled in by analogy, even though the
+confirmed ones make the pattern look obvious: MMPDS section 3.7.6 is alloy 7056, not
+7075, so an inferred citation would point at the wrong material.
 
 Run:  python tools/check_allowables_citations.py
 Out:  results/f21_citation_inventory.csv
@@ -51,21 +56,35 @@ NARRATIVE = {
     "PROJECT_STATE.md",
     "docs/HANDOFF.md",
     "tools/build_f14_thread.py",
+    "docs/F23_MATERIAL_RESELECTION.md",
+    "docs/F25_DAMAGE_TOLERANCE_7050.md",
+    "docs/F26_PROCESS_CHANGE_NOTICE.md",
 }
 
 CITATION = re.compile(r"MIL-HDBK-5J?", re.IGNORECASE)
 
-# Locators the project actually invokes, with what each supplies. The MMPDS column is
-# deliberately empty: it is filled in by hand after the handbook has been opened.
+# Locators the project invokes. The MMPDS column is filled in only where the handbook
+# has actually been opened and the section number read.
 LOCATORS = {
     "3.7.6.0(b3)": ("7075-T7351 plate design mechanical properties, "
-                    "2.001-2.500 in band - the governing allowables", ""),
+                    "2.001-2.500 in band - superseded as the design basis by F23",
+                    "MMPDS-2026 Table 3.7.9.0(b2)"),
     "3.7.6.0(b1)": ("7075-T7351 plate, 0.500-1.000 in band - F12 correlation basis", ""),
     "3.1.2.3.1(b)": ("short-transverse property and SCC guidance", ""),
     "3.1.2.1.6": ("plane-strain fracture toughness K_Ic, information only", ""),
-    "3.7.6.2.9(b)": ("da/dN crack growth rate data, F9 damage tolerance", ""),
-    "3.7.6.2": ("S-N fatigue section - the REQ-012 blocker; "
-                "no curves for the T7351 temper in 5J", ""),
+    "3.7.6.2.9(b)": ("da/dN crack growth rate data, F9 damage tolerance",
+                     "MMPDS-2026 Figures 3.7.9.2.9(a)-(c)"),
+    "3.7.6.2": ("S-N fatigue section - the original REQ-012 blocker; no curves for the "
+                "T73/T7351 temper, confirmed still absent in MMPDS-2026",
+                "MMPDS-2026 Section 3.7.9.2"),
+}
+
+# The released material basis is no longer in this table at all. 7050-T7451 is cited
+# directly from MMPDS-2026 and has no MIL-HDBK-5J ancestry to map.
+RELEASED_BASIS = {
+    "allowables": "MMPDS-2026 Table 3.7.4.0(b1), 7050-T7451 plate, 5.001-6.000 in, A-basis",
+    "fatigue": "MMPDS-2026 Figures 3.7.4.2.8(a)-(h), incl. notched Kt = 3.0",
+    "crack_growth": "MMPDS-2026 Figures 3.7.4.2.9(a)-(c)",
 }
 
 # The transition facts, all verifiable from the cancellation notices themselves.
@@ -74,9 +93,11 @@ TRANSITION = {
     "superseding_document": "MMPDS (Metallic Materials Properties Development and "
                             "Standardization), maintained by Battelle for the FAA",
     "cancellation": "MIL-HDBK-5J cancelled; MMPDS named as replacement",
+    "edition_read": "MMPDS-2026, Volume I, 1 July 2026, accessed via Knovel",
     "equivalence_note": "MMPDS-01 and MIL-HDBK-5J were issued as technically equivalent "
-                        "for the 2003 transition year, so the VALUES used in this "
-                        "project are not in question - only the currency of the citation",
+                        "for the 2003 transition year. That equivalence did NOT hold to "
+                        "2026: Ftu(L) moved 65 -> 66 ksi and Fbru(e/D 2.0) 131 -> 132 in "
+                        "the 7075-T7351 2.001-2.500 in band",
     "regulatory_note": "specific reference to MIL-HDBK-5 was removed from 14 CFR 23.613 "
                        "and 25.613; the FAA accepts MMPDS for metallic design allowables "
                        "and encourages the latest revision for new certification",
@@ -106,13 +127,14 @@ def scan() -> list[dict]:
             if not CITATION.search(line):
                 continue
             locator = next((key for key in LOCATORS if key in line), "")
+            mmpds = LOCATORS.get(locator, ("", ""))[1]
             rows.append({
                 "file": str(path.relative_to(ROOT)),
                 "line": number,
                 "locator": locator,
                 "supplies": LOCATORS.get(locator, ("general reference", ""))[0],
-                "mmpds_equivalent": LOCATORS.get(locator, ("", ""))[1] or "TO_VERIFY",
-                "status": "CONFIRMED" if LOCATORS.get(locator, ("", ""))[1] else "TO_VERIFY",
+                "mmpds_equivalent": mmpds or "TO_VERIFY",
+                "status": "CONFIRMED" if mmpds else "TO_VERIFY",
                 "context": line.strip()[:160],
                 "population": _population(str(path.relative_to(ROOT)).replace("\\", "/")),
             })
@@ -149,7 +171,12 @@ def main() -> int:
     for key, (supplies, mmpds) in LOCATORS.items():
         hits = sum(1 for row in substantive if row["locator"] == key)
         state = mmpds if mmpds else "TO_VERIFY"
-        print(f"  {key:16s} {hits:2d} citation(s)  [{state}]  {supplies}")
+        print(f"  {key:16s} {hits:2d} citation(s)  [{state}]")
+        print(f"                     {supplies}")
+    print()
+    print("Released material basis - no MIL-HDBK-5J ancestry:")
+    for key, value in RELEASED_BASIS.items():
+        print(f"  {key}: {value}")
     print()
     print("Transition basis:")
     for key, value in TRANSITION.items():
