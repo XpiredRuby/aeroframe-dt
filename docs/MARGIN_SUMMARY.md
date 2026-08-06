@@ -2,17 +2,17 @@
 
 **This document supersedes the margin figure quoted anywhere else in the repository.**
 
-**Governing margin: `MS = +0.156`**
-(A-basis allowables, elastic-plastic thick-lug correction, 1.15 fitting factor)
+**Governing margin: `MS = +0.151`**
+(7050-T7451, A-basis allowables, elastic-plastic thick-lug correction, 1.15 fitting factor)
 
-**Superseded 2026-08-03.** The previous figure of `+0.078` was an elastic-only lower bound.
-`F16_ELASTIC_PLASTIC_CONTACT.md` measured `t_eff/t = 0.7300` against the elastic 0.6809, raising
-the margin to `+0.156`. The `+0.078` value remains valid as a conservative floor and appears
-throughout the F13 and F15 documents, which were built on it.
+**Superseded 2026-08-06.** The previous figure of `+0.156` was on 7075-T7351. F23 established that
+**7075-T7351 plate is not tabulated above 4.000 in** while this part requires 6.000 in stock, so the
+material was re-selected to **7050-T7451**. F24 re-measured the elastic-plastic contact ratio on the
+new material — `t_eff/t = 0.6828`, against 0.7300 for 7075 — and re-derived the margin at `+0.151`.
 
 **Claim boundary:** educational / representative / portfolio only. Non-OEM, non-certified.
-Load case and geometry are `SYNTHETIC_TEST_ONLY`. **Material allowables are now real**, taken from
-MIL-HDBK-5J.
+Load case and geometry are `SYNTHETIC_TEST_ONLY`. **Material allowables are real**, taken from
+**MMPDS-2026, Volume I, 1 July 2026**, Table 3.7.4.0(b1).
 
 ---
 
@@ -24,12 +24,13 @@ MIL-HDBK-5J.
 | Reconstructed on a stress basis | +0.7104 | verification only, 0.06% agreement |
 | Corrected for thick-lug bearing distribution | +0.165 | F7 contact measurement, elastic |
 | Real A-basis allowables from MIL-HDBK-5J | +0.078 | Ftu was 9% optimistic |
-| **Elastic-plastic contact measurement** | **+0.156** | F16, `t_eff/t` 0.6809 -> 0.7300 |
+| Elastic-plastic contact measurement, 7075 | +0.156 | F16, `t_eff/t` 0.6809 -> 0.7300 |
+| **Material re-selected to 7050-T7451** | **+0.151** | F23/F24 — 7075 plate does not exist at 6.000 in |
 
-**The originally reported margin was overstated by a factor of 4.6.** The first two corrections
-were not refinements — each removed an assumption that did not hold. The third, F16, is the only
-one that moved the margin favourably, and it did so by replacing a conservative bound with a
-measurement rather than by relaxing anything.
+**The originally reported margin was overstated by a factor of 4.7.** The first two corrections were
+not refinements — each removed an assumption that did not hold. F16 was the only stage that moved
+the margin favourably, and the final stage gave most of that back: **7050 does not yield as readily
+as 7075, so it earns its margin from strength rather than from plastic redistribution.**
 
 ## 2. Correction 1 — the thin-lug assumption
 
@@ -40,149 +41,158 @@ assessment.
 F7 measured the real distribution by contact FE, using a stiff-pin ratio that cancels the
 clearance-induced circumferential concentration and the contact-edge singularity:
 
-    t_eff / t = p_max(stiff pin) / p_max(real pin) = 0.681   (elastic)
-                                                   = 0.730   (elastic-plastic, F16)
+    t_eff / t = p_max(stiff pin) / p_max(real pin) = 0.6809   (elastic, 7075 and 7050)
+                                                   = 0.7300   (elastic-plastic, 7075, F16)
+                                                   = 0.6828   (elastic-plastic, 7050, F24)
 
-Converged over three mesh densities (21.7k / 58.8k / 203.5k nodes). The ratio moved 8.2% while the
-underlying absolute pressures diverged 134%. Full detail in `F7_CONTACT_THICK_LUG.md` and
-`F16_ELASTIC_PLASTIC_CONTACT.md`.
+Converged over three mesh densities (21.7k / 58.8k / 203.5k nodes) in the elastic case. The ratio
+moved 8.2% while the underlying absolute pressures diverged 134%. Full detail in
+`F7_CONTACT_THICK_LUG.md`, `F16_ELASTIC_PLASTIC_CONTACT.md` and `F24_MARGIN_REPROPAGATION.md`.
 
 ## 3. Correction 2 — real material allowables
 
-The project previously carried `Ftu = 71 ksi (representative)` and `Ftux = Ftu` as an admitted
-placeholder. Both are now replaced.
+**Source: MMPDS-2026, Volume I, Table 3.7.4.0(b1).** 7050-T7451 plate, AMS 4050,
+**thickness band 5.001-6.000 in**, which contains the 6.000 in minimum stock thickness this part's
+envelope requires.
 
-**Source: MIL-HDBK-5J, 31 January 2003, Table 3.7.6.0(b3), page 3-373.**
-7075-T7351 plate, AMS 4078 and AMS-QQ-A-250/12, **thickness band 2.001-2.500 in**, which contains
-the `t_lug = 2.500 in` of this part.
-
-| Property | A-basis | B-basis | Previously assumed |
+| Property | A-basis, L | A-basis, LT | A-basis, ST |
 |---|---|---|---|
-| Ftu, L | **65** | 67 | 71 (both directions) |
-| Ftu, LT | **66** | 68 | 71 |
-| Ftu, ST | 62 | 64 | — |
-| Fty, L | 52 | 55 | — |
-| Fty, LT | 52 | 55 | — |
-| Fty, ST | 49 | 52 | — |
-| Fcy, L | 50 | 53 | — |
-| Fsu | 39 | 40 | — |
-| Fbru, e/D = 1.5 | 102 | 105 | — |
-| Fbru, e/D = 2.0 | 131 | 135 | — |
-| Fbry, e/D = 1.5 | 79 | 83 | — |
-| Fbry, e/D = 2.0 | 93 | 99 | — |
+| Ftu, ksi | **70** | **70** | 66 |
+| Fty, ksi | 60 | 60 | 57 |
+| Fcy, ksi | 57 | 63 | 62 |
+| Fsu, ksi | 43 (L-S) | 43 (T-S) | 35 (S-L) |
+| Fbru, e/D = 2.0 | 137 | **138** | — |
+| Fbry, e/D = 2.0 | 105 | 106 | — |
 
-All values in ksi. Bearing values are "dry pin" per Section 1.4.7.1.
-`E = 10.3e3 ksi`, `Ec = 10.6e3 ksi`, `G = 3.9e3 ksi`, `mu = 0.33`, `density = 0.101 lb/in^3`.
+`E = 10.3e3 ksi`, `Ec = 10.6e3 ksi`, `G = 3.9e3 ksi`, `mu = 0.33`, `density = 0.102 lb/in^3`.
+Bearing values are "dry pin" per Section 1.4.7.1.
 
-**The assumed 71 ksi was 9% optimistic** against the A-basis L value of 65 ksi.
+**The elastic constants are identical to 7075-T7351 to tabulated precision**, which is why the FE
+stiffness model carried over without re-running.
+
+### 3.1 What was superseded
+
+The project previously used **MIL-HDBK-5J Table 3.7.6.0(b3)**, 7075-T7351, band 2.001-2.500 in:
+`Ftu` 65 (L) / 66 (LT), `Fbru` at e/D 2.0 of 131. Two independent problems retired that basis:
+
+- **F21** — MIL-HDBK-5J was cancelled and superseded by MMPDS, and removed from the 14 CFR 25.613
+  compliance path. The MMPDS locator is **3.7.9.0(b2)**, not 3.7.6.0(b3); §3.7.6 in MMPDS is alloy
+  7056. Re-reading it also showed the values had moved: `Ftu` L 65 -> 66, `Fbru` 131 -> 132.
+- **F23** — 7075-T7351 plate is tabulated only to 4.000 in. **There is no band containing 6.000 in.**
 
 ### Grain orientation — a stated design decision
 
-The part is taken from plate with the **lug axis along L** and the **transverse load direction
-along LT**. The short-transverse direction is therefore the bore axis, carrying no primary load.
+The part is taken from plate with the **lug axis along L** and the **transverse load direction along
+LT**. The short-transverse direction is the bore axis, carrying no primary load.
 
-This is deliberate. ST is always the weakest direction in thick 7xxx plate — 62 ksi here against 65
-and 66 — and MIL-HDBK-5J Table 3.1.2.3.1(b) additionally flags 7075-T7351 for
-**stress-corrosion susceptibility in the ST direction**, with a threshold of 39 ksi at this
-thickness. Keeping ST out of the load path avoids both.
-
-Consequently `Ftu = 65 ksi (L)` for net tension and `Ftux = 66 ksi (LT)` for the transverse and
-bearing terms. LT being marginally stronger than L is why the transverse-dominant load is oriented
-this way rather than the reverse.
+For 7050-T7451 the L and LT ultimate strengths are equal at 70 ksi, so the orientation no longer
+buys strength as it did with 7075. It is retained because **ST remains the weakest direction** (66
+ksi) and because 7050-T7451 carries a **stress-corrosion threshold of 35 ksi in ST** over
+0.750-6.000 in. Keeping ST out of the load path avoids both.
 
 ### A-basis, not B-basis
 
-**A-basis is used**, appropriate for a single-load-path fitting where failure would be
-catastrophic. B-basis applies to redundant structure and would give MS = +0.111 on the elastic
-basis. If the design is later shown to have a redundant load path, B-basis becomes defensible and
-the margin improves accordingly.
+**A-basis is used**, appropriate for a single-load-path fitting where failure would be catastrophic.
+If the design is later shown to have a redundant load path, B-basis becomes defensible and the
+margin improves.
 
 ## 4. Result
 
-    Elastic (F7, t_eff/t = 0.6809):
-    Ra  = 0.3909,  Rtr = 0.7740
-    MS  = 1/(Ra^1.6 + Rtr^1.6)^0.625 - 1 = +0.078
+    Allowable loads, Kt = 0.950, Ktru = 0.7875, Kbr = 1.240, Ftu = Ftux = 70 ksi:
+      P'tu  = 0.950  * 5.00 * 70,000 = 332,500 lb
+      P'tru = 0.7875 * 5.00 * 70,000 = 275,625 lb
+      P'bru = 1.240  * 5.00 * 70,000 = 434,000 lb
 
-    Elastic-plastic (F16, t_eff/t = 0.7300):
-    Ra  = 0.36463, Rtr = 0.72198
-    MS  = +0.156
+    Elastic-plastic, 7050, t_eff/t = 0.6828:
+      Ra = 0.36196,  Rtr = 0.72773
+      MS = 1/(Ra^1.6 + Rtr^1.6)^0.625 - 1 = +0.151
 
-| Basis | Thin-lug | Thick-lug, elastic | **Thick-lug, elastic-plastic** |
-|---|---|---|---|
-| Assumed 71 ksi | +0.710 | +0.165 | — |
-| **MIL-HDBK-5J A-basis** | +0.584 | +0.078 | **+0.156** |
-| MIL-HDBK-5J B-basis | +0.632 | +0.111 | — |
+| Basis | Thick-lug, elastic | **Thick-lug, elastic-plastic** |
+|---|---|---|
+| 7075-T7351, MIL-HDBK-5J A-basis | +0.078 | +0.156 |
+| **7050-T7451, MMPDS-2026 A-basis** | +0.148 | **+0.151** |
 
-**The fitting passes by 15.6%.**
+**The fitting passes by 15.1%.**
+
+Note that for 7050 the elastic and elastic-plastic values nearly coincide — 0.148 against 0.151 —
+because the measured contact ratio barely moved off the elastic bound. **Under 7050 the margin is
+essentially insensitive to the plasticity assumption**, which is a more robust position than 7075's
+was, even though the headline number is marginally lower.
 
 ## 5. Ekvall method scatter — on tolerance limits, not observed extremes
 
-**Restated 2026-08-04 from the source paper.** See `F18_EKVALL_SPECIMEN_BASIS.md`.
-
 Ekvall's 243 correlated lug tests give a mean test/predicted ratio of **1.003** with a standard
-deviation of **0.065** over 224 predictions, approximately normally distributed. The source
-provides one-sided tolerance limit factors on predicted load:
+deviation of **0.065** over 224 predictions, approximately normally distributed. See
+`F18_EKVALL_SPECIMEN_BASIS.md`.
 
 | Basis | factor | pred/test | **MS** |
 |---|---|---|---|
-| Mean | 1.003 | 1.003 | +0.153 |
-| 90% probability, 95% confidence | 0.910 | <= 1.099 | **+0.052** |
-| **99% probability, 95% confidence** | **0.837** | **<= 1.195** | **-0.032** |
+| Mean | 1.003 | 1.003 | +0.148 |
+| 90% probability, 95% confidence | 0.910 | <= 1.099 | **+0.048** |
+| **99% probability, 95% confidence** | **0.837** | **<= 1.195** | **-0.037** |
 
 **99% probability at 95% confidence is the definition of A-basis.** This project uses A-basis
-allowables, so **1.195 is the statistically consistent scatter pairing** and -0.032 is the correct
-worst case to quote. The project previously used the observed extreme ratio of 1.19, giving -0.028;
-the difference is small and the tolerance limit is the better-founded number.
+allowables, so **-0.037 is the statistically consistent worst case** and it is negative. It was
+-0.032 under 7075; the small worsening is the loss of the plasticity gain.
 
-**At the B-basis-consistent pairing (90%/95%) the margin is positive at +0.052.** If a redundant
-load path is ever demonstrated, B-basis allowables and the 90%/95% scatter limit pair correctly and
-the margin is positive on both counts.
+**At the B-basis-consistent pairing the margin is positive at +0.048.**
 
 ### Double-counting — RESOLVED, directionally
 
-**Previously open:** if Ekvall's specimens included thick lugs, the thick-lug effect is already
-inside the measured scatter and applying both penalises the same physics twice.
+If Ekvall's specimens included thick lugs, the thick-lug effect is already inside the measured
+scatter and applying both penalises the same physics twice.
 
-**The source confirms it does.** Specimen `D/t` ranges 0.76 to 10.2, i.e. **`t/D` from 0.098 to
-1.316**. This fitting is at **`t/D` = 1.250, inside that range at 95% of the thickest specimen.**
-The method contains **no thickness-dependent term** — `P = D t K_BR F_tu` with `K_BR` a function of
-`W/D` and eccentricity only — so any real through-thickness bearing effect in those tests was
-absorbed into the empirically fitted `K_BR` and its scatter.
+**The source confirms it does.** Specimen `t/D` ranges **0.098 to 1.316**. This fitting is at
+**1.250, inside that range at 95% of the thickest specimen.** The method contains **no
+thickness-dependent term** — `P = D t K_BR F_tu` with `K_BR` a function of `W/D` and eccentricity
+only — so any real through-thickness bearing effect in those tests was absorbed into the empirically
+fitted `K_BR` and its scatter.
 
-**The overlap cannot be quantified.** The source reports the `t/D` range but never its
-distribution; Table 2 breaks the set down by `2a/W` and loading angle only. **No numerical credit
-is therefore taken** — both the full thick-lug correction and the full scatter band continue to be
-applied.
+**The overlap cannot be quantified.** The source reports the `t/D` range but never its distribution.
+**No numerical credit is taken** — both the full thick-lug correction and the full scatter band
+continue to be applied.
 
-**What changes is that this is now known to be conservative, with a stated reason, rather than of
-unknown direction.**
+**A new limitation applies since F23.** Ekvall's population is a 1986 dataset whose **alloy
+coverage this project has not verified for 7050**. The correlation, the specimen basis and the
+method cross-check all now rest on an unverified assumption of applicability.
 
-**Best estimate +0.156. A-basis-consistent worst case -0.032, established as conservative.**
+**Best estimate +0.151. A-basis-consistent worst case -0.037, established as conservative.**
 
-## 6. Effect on the F15 nonconformance case
+## 6. Manufacturing tolerance stack
+
+`tools/run_f13_inspection_plan.py`, evaluated on the real Melcon-Hoblit interaction at the released
+7050 operating point:
+
+| | Value |
+|---|---|
+| Nominal | **+0.151** |
+| Worst case, all tolerances adverse | **+0.128** |
+| RSS | +0.136 |
+| Margin consumed, worst case | **15.3%** |
+| Tolerance scale factor to zero margin | **6.54x** |
+
+Bore position dominates at −0.0128 of the −0.0231 worst-case delta. **The bore-position sensitivity
+is extrapolated from the F15 anchor rather than independently derived** — see PMI §4.2.
+
+## 7. Effect on the F15 nonconformance case
 
 `F15_NONCONFORMANCE_RCCA_AF-DT-1000.md` assesses a mis-drilled bore, edge distance 2.500 -> 1.900
 in, originally recorded as +0.710 -> +0.220.
 
-Scaling by the same `(1 + MS)` factor gives approximately **-0.370** on the elastic basis, or
-approximately **-0.32** on the elastic-plastic basis.
+Scaling by the same `(1 + MS)` factor gives approximately **-0.370** on the elastic 7075 basis.
+**REWORK disposition stands and is unambiguous on every basis evaluated.** The figure is
+approximate, scaled rather than re-derived at e = 1.900 in; exact recomputation is an open item and
+has not been redone on 7050.
 
-**REWORK disposition stands and is now unambiguous** on either basis. The original justification —
-"only +0.025 at worst-case scatter" — substantially understated the severity. The figure is
-approximate, scaled rather than re-derived at e = 1.900 in; exact recomputation is an open item.
+## 8. What did not change
 
-## 7. What did not change
-
-- **Equilibrium verified** to 0.006% in the Rev D linear elastic run, and to 10 ppm in both F16 runs
+- **Equilibrium verified** to 0.006% in the Rev D linear elastic run, and to 10 ppm in the F16 runs
 - **Bore is the critical location**, confirmed by FE — where the lug method applies
 - **Pin bending governs the pin** at ~780 MPa, requiring a high-strength steel pin
 - **The hand method is internally consistent**, reconstructible from first principles to 0.06%
-- **Nominal stresses remain modest** — bearing 191.5 MPa, net section 98.5 MPa
+- **Geometry is unchanged** — Rev D stands, no Rev E was required by the material change
 
-The part is not grossly undersized. The methods used to substantiate it were optimistic, and
-correcting them consumed most of the reported margin; a better contact measurement returned some.
-
-## 8. F12 correlation allowables — independently verified
+## 9. F12 correlation allowables — independently verified
 
 The F12 lug sweep used a different alloy, 7075-T651 at t = 0.984 in. Checked against
 MIL-HDBK-5J Table 3.7.6.0(b1), thickness band 0.500-1.000 in:
@@ -192,49 +202,47 @@ MIL-HDBK-5J Table 3.7.6.0(b1), thickness band 0.500-1.000 in:
 | Fsu | 303 MPa | **44 ksi = 303.4 MPa** |
 | Ftu | 517 MPa (75.0 ksi) | 77 ksi |
 
-**Fsu matches to 0.1%.** Ftu was 2.6% conservative. The F12 correlation therefore rests on verified
-allowables and requires no revision.
+**Fsu matches to 0.1%.** Ftu was 2.6% conservative. **This check has not been repeated against
+MMPDS**, and the MIL-HDBK-5J locator used here is subject to the same cancellation finding as §3.1.
 
-## 9. Fracture toughness — now available
+## 10. Fracture toughness
 
-MIL-HDBK-5J Table 3.1.2.1.6, 7075-T7351 plate, `K_Ic` in ksi-sqrt(in):
+The `K_Ic` values previously quoted here are **MIL-HDBK-5J Table 3.1.2.1.6 for 7075-T7351** and no
+longer apply to the released material. MMPDS-2026 provides fatigue crack growth data for 7050-T7451
+plate at Figures **3.7.4.2.9(a) through (c)**, and the stress-corrosion threshold in ST is **35 ksi**
+over 0.750-6.000 in.
 
-| Orientation | Max | Avg | Min | Samples |
-|---|---|---|---|---|
-| L-T | 36 | 30 | 25 | 65 |
-| T-L | 47 | 27 | 21 | 56 |
-| S-L | 38 | 22 | 17 | 20 |
+**The 7050 fracture toughness values have not yet been read**, so `F9_DAMAGE_TOLERANCE.md` still
+rests on 7075 data and is stale pending re-derivation.
 
-Marked "for information only" in the handbook and must be cited as such. Sufficient to support a
-damage tolerance assessment.
+## 11. Bottom line
 
-## 10. Bottom line
-
-**The fitting passes at MS = +0.156**, with four qualifications a reviewer should see stated rather
+**The fitting passes at MS = +0.151**, with four qualifications a reviewer should see stated rather
 than discover:
 
-1. **The contact measurement is now elastic-plastic** (F16), so the elastic lower bound of +0.078
-   has been replaced by a measured +0.156. The remaining bias is that the 20x stiff-pin reference
-   still bends slightly; the *change* from 0.6809 to 0.7300 is more robust than either absolute.
-   F16 ran one mesh and inherits F7's convergence study rather than repeating it.
-2. **The A-basis-consistent method scatter is negative** (-0.032), but this is now established as
-   **conservative**: the correlation set included lugs as thick as this one and the method has no
-   thickness term, so the thick-lug effect is applied twice. The overlap cannot be quantified.
+1. **The contact measurement was re-made on the released material** (F24). One mesh was run; it
+   inherits F7's three-mesh convergence study rather than repeating it. The two alloys are
+   elastically identical, so that inheritance is stronger than it would otherwise be.
+2. **The A-basis-consistent method scatter is negative** (-0.037), established as conservative
+   because the correlation set included lugs as thick as this one and the method has no thickness
+   term. The overlap cannot be quantified. **Ekvall's applicability to 7050 is unverified.**
 3. **A-basis assumed.** If a redundant load path is demonstrated, B-basis applies and the
-   B-basis-consistent scatter limit gives +0.052 — positive on both counts.
-4. **The margin remains thin enough that the fitting factor matters.** Removing the 1.15 factor
-   would raise it substantially; it is retained because FAR 25.625 requires it.
+   B-basis-consistent scatter limit gives +0.048 — positive on both counts.
+4. **The margin remains thin enough that the fitting factor matters.** It is retained because
+   FAR 25.625 requires it.
 
-## 11. Open
+## 12. Open
 
-- [ ] Re-run Melcon-Hoblit at e = 1.900 in for an exact F15 margin
-- [x] ~~Establish the t/D range of Ekvall's specimens to resolve double-counting~~ — **CLOSED**,
-      F18. Range is t/D 0.098-1.316; this fitting at 1.250 is inside it. Double-counting is real
-      but not quantifiable, so no credit is taken and the worst case is a conservative bound.
-- [x] ~~Elastic-plastic contact run to tighten the lower bound~~ — **CLOSED**, F16, `t_eff/t = 0.7300`
-- [ ] Re-propagate the F13 tolerance stack exactly at the new +0.156 operating point
-- [ ] Mesh-converge the elastic-plastic ratio; F16 ran one mesh and inherits F7's convergence study
+- [x] ~~Establish the t/D range of Ekvall's specimens~~ — **CLOSED**, F18
+- [x] ~~Elastic-plastic contact run to tighten the lower bound~~ — **CLOSED**, F16
+- [x] ~~Re-propagate the F13 tolerance stack at the new operating point~~ — **CLOSED**, §6
+- [x] ~~Resolve the plate thickness band the part can be cut from~~ — **CLOSED**, F23
+- [ ] Re-derive `F9_DAMAGE_TOLERANCE.md` on 7050 `K_Ic` and `da/dN`
+- [ ] Verify Ekvall's alloy coverage includes 7050
+- [ ] Re-run Melcon-Hoblit at e = 1.900 in for an exact F15 margin, on 7050
+- [ ] Mesh-converge the elastic-plastic ratio
 - [ ] Confirm whether the installation is single or redundant load path, fixing A vs B basis
-- [ ] **F8 safe-life fatigue is not supportable from MIL-HDBK-5J** — Section 3.7.6.2 provides no
-      S-N curves for the T73/T7351 temper. Damage tolerance is the appropriate route and the data
-      exists: crack-propagation Figures 3.7.6.2.9(a) through (c), plus the K_Ic above.
+- [ ] **REQ-012 safe-life fatigue is now supportable and has not been built.** MMPDS-2026
+      §3.7.4.2.8 provides best-fit S/N curves for 7050-T7451 plate including **notched Kt = 3.0**.
+      The blocker was never the absence of fatigue data — it was 7075-T7351 specifically, which has
+      no S/N curves in any temper but T6.
